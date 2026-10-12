@@ -1,0 +1,59 @@
+<?php
+
+namespace App\Admin;
+
+/** Daftar menu backoffice. Kunci dipakai untuk hak akses per peran. */
+class Modules
+{
+    public const GROUPS = [
+        'Utama' => ['dashboard' => 'Dasbor', 'livechat' => 'Live chat'],
+        'Konten situs' => ['news' => 'Berita', 'categories' => 'Kategori berita', 'slides' => 'Slider beranda', 'info' => 'Kotak info & jam', 'services' => 'Layanan & fasilitas'],
+        'Pelayanan medis' => ['doctors' => 'Profil dokter', 'clinics' => 'Poliklinik', 'schedule' => 'Jadwal dokter'],
+        'Pendaftaran' => ['appointments' => 'Janji temu', 'appointment-form' => 'Formulir janji temu'],
+        'Tampilan situs' => ['menu' => 'Menu & tampilan', 'chatbot' => 'Chatbot Serena', 'profile' => 'Profil & kontak'],
+        'Sistem' => ['simrs' => 'Integrasi SIMRS', 'users' => 'Pengguna', 'roles' => 'Hak akses', 'logs' => 'Log aktivitas'],
+    ];
+
+    public const ICONS = [
+        'dashboard' => 'M4 4h7v7H4zM13 4h7v4h-7zM13 10h7v10h-7zM4 13h7v7H4z',
+        'livechat' => 'M4 5h12v8H9l-5 4zM20 9v9l-4-3h-6v-2',
+        'news' => 'M5 4h11v16H5zM16 8h3v10a2 2 0 0 1-2 2M8 8h5M8 12h5M8 16h3',
+        'categories' => 'M4 4h7l9 9-7 7-9-9zM8 8h.01',
+        'slides' => 'M3 5h18v12H3zM8 21h8M10 9l4 2-4 2z',
+        'info' => 'M4 4h16v16H4zM4 10h16M10 10v10',
+        'services' => 'M10 4h4v6h6v4h-6v6h-4v-6H4v-4h6z',
+        'doctors' => 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 4-6 8-6s8 2 8 6',
+        'clinics' => 'M4 21V8l8-5 8 5v13M9 21v-6h6v6',
+        'schedule' => 'M4 6h16v14H4zM4 10h16M8 3v5M16 3v5',
+        'appointments' => 'M4 6h16v14H4zM4 10h16M9 15l2 2 4-4',
+        'appointment-form' => 'M6 3h12v18H6zM9 8h6M9 12h6M9 16h3',
+        'menu' => 'M4 6h16M4 12h16M4 18h10',
+        'chatbot' => 'M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z',
+        'profile' => 'M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11zM12 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z',
+        'simrs' => 'M4 8h13M14 5l3 3-3 3M20 16H7M10 13l-3 3 3 3',
+        'users' => 'M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM3 20c0-3 3-5 6-5s6 2 6 5M16 5a3 3 0 0 1 0 6M21 20c0-2-1-4-3-4.5',
+        'roles' => 'M6 11V8a6 6 0 0 1 12 0v3M5 11h14v10H5z',
+        'logs' => 'M12 7v5l3 2M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5',
+    ];
+
+    public static function all(): array
+    {
+        return array_merge(...array_values(self::GROUPS));
+    }
+
+    public static function name(string $key): string
+    {
+        return self::all()[$key] ?? $key;
+    }
+
+    public static function group(string $key): string
+    {
+        foreach (self::GROUPS as $g => $mods) {
+            if (isset($mods[$key])) {
+                return $g;
+            }
+        }
+
+        return '';
+    }
+}

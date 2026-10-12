@@ -1,0 +1,56 @@
+<?php
+
+// Pesan validasi bahasa Indonesia untuk aturan yang dipakai aplikasi ini.
+return [
+    'accepted' => ':attribute wajib disetujui.',
+    'after' => ':attribute harus setelah :date.',
+    'alpha_dash' => ':attribute hanya boleh berisi huruf, angka, tanda hubung, dan garis bawah.',
+    'array' => ':attribute harus berupa daftar.',
+    'before' => ':attribute harus sebelum :date.',
+    'before_or_equal' => ':attribute paling lambat :date.',
+    'boolean' => ':attribute harus bernilai ya atau tidak.',
+    'date' => ':attribute bukan tanggal yang valid.',
+    'digits' => ':attribute harus :digits digit angka.',
+    'email' => ':attribute harus berupa alamat email yang valid.',
+    'exists' => ':attribute yang dipilih tidak valid.',
+    'file' => ':attribute harus berupa berkas.',
+    'image' => ':attribute harus berupa gambar.',
+    'in' => ':attribute yang dipilih tidak valid.',
+    'integer' => ':attribute harus berupa bilangan bulat.',
+    'max' => [
+        'array' => ':attribute maksimal :max item.',
+        'file' => ':attribute maksimal :max kilobita.',
+        'numeric' => ':attribute maksimal :max.',
+        'string' => ':attribute maksimal :max karakter.',
+    ],
+    'mimes' => ':attribute harus berupa berkas: :values.',
+    'min' => [
+        'array' => ':attribute minimal :min item.',
+        'file' => ':attribute minimal :min kilobita.',
+        'numeric' => ':attribute minimal :min.',
+        'string' => ':attribute minimal :min karakter.',
+    ],
+    'regex' => 'Format :attribute tidak valid.',
+    'required' => ':attribute wajib diisi.',
+    'size' => [
+        'array' => ':attribute harus berisi :size item.',
+        'string' => ':attribute harus :size karakter.',
+    ],
+    'string' => ':attribute harus berupa teks.',
+    'unique' => ':attribute sudah digunakan.',
+    'url' => 'Format :attribute tidak valid.',
+
+    'attributes' => [
+        'email' => 'email',
+        'password' => 'kata sandi',
+        'name' => 'nama',
+        'phone' => 'nomor HP',
+        'message' => 'pesan',
+        'street' => 'jalan',
+        'city' => 'kabupaten/kota',
+        'maps' => 'tautan Google Maps',
+        'logo' => 'logo',
+        'logo_dark' => 'logo gelap',
+        'consent' => 'persetujuan',
+    ],
+];
