@@ -1,6 +1,8 @@
 @extends('layouts.site')
 @section('title', $news->title)
 @section('description', $news->excerpt)
+@section('og_type', 'article')
+@if($news->image)@section('og_image', asset('storage/'.$news->image))@endif
 @section('content')
 <div class="page-head"><div class="wrap"><div class="crumb"><a href="{{ route('home') }}">Beranda</a> / <a href="{{ route('news.index') }}">Berita</a></div><h1>{{ $news->title }}</h1><p>{{ $news->published_at->translatedFormat('l, d F Y') }} · {{ $news->category?->name }}</p></div></div>
 <div class="section"><div class="wrap article">

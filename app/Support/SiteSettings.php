@@ -15,6 +15,7 @@ class SiteSettings
             'short' => 'Sidikalang, Dairi',
             'logo' => null,
             'logo_dark' => null,
+            'share_image' => null,
             'street' => 'Jl. Sisingamangaraja No.91',
             'district' => 'Kec. Sidikalang',
             'city' => 'Kabupaten Dairi',
@@ -118,6 +119,14 @@ class SiteSettings
         $path = $dark ? ($p['logo_dark'] ?: $p['logo']) : $p['logo'];
 
         return $path ? asset('storage/'.$path) : null;
+    }
+
+    /** Gambar pratinjau saat link dibagikan (WhatsApp, Facebook, dll). */
+    public static function shareImageUrl(): string
+    {
+        $p = self::profile();
+
+        return ! empty($p['share_image']) ? asset('storage/'.$p['share_image']) : asset('images/og-default.jpg');
     }
 
     /** @return Collection<int, Phone> */

@@ -1,6 +1,6 @@
 @extends('layouts.admin', ['current' => 'profile'])
 @section('title', 'Profil & kontak')
-@php $logo = $p['logo'] ? asset('storage/'.$p['logo']) : null; $logoDark = $p['logo_dark'] ? asset('storage/'.$p['logo_dark']) : null; $rows = old('phones', $phones->map(fn ($x) => $x->only(['label','number','kind','show_top','show_igd','show_contact','show_footer']))->all()); @endphp
+@php $logo = $p['logo'] ? asset('storage/'.$p['logo']) : null; $logoDark = $p['logo_dark'] ? asset('storage/'.$p['logo_dark']) : null; $share = \App\Support\SiteSettings::shareImageUrl(); $rows = old('phones', $phones->map(fn ($x) => $x->only(['label','number','kind','show_top','show_igd','show_contact','show_footer']))->all()); @endphp
 @section('content')
 <form method="post" enctype="multipart/form-data">
 @csrf
@@ -14,10 +14,10 @@
       <div class="fld half"><label for="short">Keterangan di bawah nama</label><input id="short" name="short" value="{{ old('short', $p['short']) }}"></div>
     </div>
     <div class="logo-slots">
-      @foreach([['logo', 'Logo utama', 'Untuk latar terang: header situs.', $logo, 'light'], ['logo_dark', 'Logo untuk latar gelap', 'Footer, sidebar backoffice, dan halaman masuk. Jika kosong memakai logo utama.', $logoDark, 'dark']] as [$k, $t, $d, $url, $tone])
+      @foreach([['logo', 'Logo utama', 'Untuk latar terang: header situs.', $logo, 'light'], ['logo_dark', 'Logo untuk latar gelap', 'Footer, sidebar backoffice, dan halaman masuk. Jika kosong memakai logo utama.', $logoDark, 'dark'], ['share_image', 'Gambar saat link dibagikan', 'Tampil di WhatsApp, Facebook, dan media sosial saat link situs dibagikan. Ukuran ideal 1200 × 630 px, JPG atau PNG, maksimal 600 KB.', $share, 'light']] as [$k, $t, $d, $url, $tone])
       <div class="logo-slot"><div class="logo-prev {{ $tone }}" id="prev_{{ $k }}">@if($url)<img src="{{ $url }}" alt="">@else @include('partials.logo-mark', ['size' => 54]) @endif</div>
-        <div><b>{{ $t }}</b><small>{{ $d }}</small><input type="file" name="{{ $k }}" accept="image/png,image/jpeg,image/webp,image/svg+xml" data-preview="#prev_{{ $k }}" aria-label="Unggah {{ $t }}">
-          @if($url)<label style="display:block;font-size:12px;margin-top:6px"><input type="checkbox" name="{{ $k }}_remove" value="1"> Pakai logo bawaan</label>@endif</div></div>
+        <div><b>{{ $t }}</b><small>{{ $d }}</small><input type="file" name="{{ $k }}" accept="{{ $k === 'share_image' ? 'image/png,image/jpeg' : 'image/png,image/jpeg,image/webp,image/svg+xml' }}" data-preview="#prev_{{ $k }}" aria-label="Unggah {{ $t }}">
+          @if(!empty($p[$k]))<label style="display:block;font-size:12px;margin-top:6px"><input type="checkbox" name="{{ $k }}_remove" value="1"> {{ $k === 'share_image' ? 'Pakai gambar bawaan' : 'Pakai logo bawaan' }}</label>@endif</div></div>
       @endforeach
     </div>
   </div></div>

@@ -123,6 +123,7 @@ class ContentController extends Controller
             'footer' => 'nullable|string|max:300',
             'logo' => 'nullable|file|mimes:png,jpg,jpeg,webp,svg|max:1024',
             'logo_dark' => 'nullable|file|mimes:png,jpg,jpeg,webp,svg|max:1024',
+            'share_image' => 'nullable|image|mimes:jpg,jpeg,png|max:600',
             'phones' => 'required|array|min:1|max:10',
             'phones.*.label' => 'required|string|max:40',
             'phones.*.number' => ['required', 'string', 'max:20', 'regex:/^[0-9+()\-\s.]{6,20}$/'],
@@ -137,19 +138,19 @@ class ContentController extends Controller
         }
 
         $p = SiteSettings::profile();
-        foreach (['logo', 'logo_dark'] as $k) {
-            if ($request->boolean($k.'_remove') && $p[$k]) {
+        foreach (['logo', 'logo_dark', 'share_image'] as $k) {
+            if ($request->boolean($k.'_remove') && ! empty($p[$k])) {
                 Storage::disk('public')->delete($p[$k]);
                 $p[$k] = null;
             }
             if ($request->hasFile($k)) {
-                if ($p[$k]) {
+                if (! empty($p[$k])) {
                     Storage::disk('public')->delete($p[$k]);
                 }
                 $p[$k] = $request->file($k)->store('branding', 'public');
             }
         }
-        unset($data['logo'], $data['logo_dark'], $data['phones']);
+        unset($data['logo'], $data['logo_dark'], $data['share_image'], $data['phones']);
         SiteSettings::put('profile', array_merge($p, $data));
 
         DB::transaction(function () use ($phones) {
