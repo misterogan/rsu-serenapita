@@ -26,7 +26,11 @@
   }
   function loop() { clearTimeout(S.feedTimer); S.feedTimer = setTimeout(async () => { if (!document.hidden) await feed(); loop(); }, Math.max(2000, C.pollMs * 1.5)); }
 
-  function renderList() {
+  let listSig = "";
+  function renderList(force) {
+    const sig = JSON.stringify([S.tab, S.q, S.sel, S.convs]);
+    if (!force && sig === listSig) return; // tidak ada perubahan, jangan gambar ulang
+    listSig = sig;
     const n = k => k === "semua" ? S.convs.length : S.convs.filter(c => c.status === k).length;
     $("#lcTabs").innerHTML = [["menunggu", "Menunggu"], ["aktif", "Aktif"], ["selesai", "Selesai"], ["semua", "Semua"]].map(t => `<button data-f="${t[0]}" aria-pressed="${S.tab === t[0]}">${t[1]} ${n(t[0])}</button>`).join("");
     const q = S.q.toLowerCase(), qd = S.q.replace(/\D/g, "");
@@ -56,12 +60,20 @@
     el.innerHTML = `<div class="lc-canned">${C.canned.map((t, i) => `<button type="button" data-canned="${i}" title="${esc(t)}">${esc(t)}</button>`).join("")}</div>
       <form class="lc-send" id="lcSend" data-noload><textarea id="lcIn" rows="2" placeholder="Tulis balasan. Enter untuk kirim, Shift+Enter untuk baris baru." aria-label="Balasan"></textarea><button class="btn pri" type="submit">Kirim</button></form>`;
   }
+  const msgHTML = m => m.from === "system" ? `<div class="lc-sys">${esc(m.text)} · ${esc(m.time)}</div>`
+    : `<div class="lc-m ${m.from === "visitor" ? "v" : "a"}">${esc(m.text)}<time>${m.from === "agent" ? esc(m.label || "Petugas") + " · " : ""}${esc(m.time)}</time></div>`;
   function renderMsgs() {
     const lg = $("#lcLog");
     if (!S.detail) { lg.innerHTML = '<div class="lc-empty"><p>Pilih percakapan di sebelah kiri untuk mulai membalas.</p></div>'; return; }
+    lg.classList.add("still");
+    lg.innerHTML = S.msgs.map(msgHTML).join("");
+    lg.scrollTop = lg.scrollHeight; S.forceBottom = false;
+    requestAnimationFrame(() => lg.classList.remove("still"));
+  }
+  function appendMsgs(list) {
+    const lg = $("#lcLog");
     const atBottom = lg.scrollHeight - lg.scrollTop - lg.clientHeight < 80;
-    lg.innerHTML = S.msgs.map(m => m.from === "system" ? `<div class="lc-sys">${esc(m.text)} · ${esc(m.time)}</div>`
-      : `<div class="lc-m ${m.from === "visitor" ? "v" : "a"}">${esc(m.text)}<time>${m.from === "agent" ? esc(m.label || "Petugas") + " · " : ""}${esc(m.time)}</time></div>`).join("");
+    list.forEach(m => lg.insertAdjacentHTML("beforeend", msgHTML(m)));
     if (atBottom || S.forceBottom) lg.scrollTop = lg.scrollHeight; S.forceBottom = false;
   }
   function renderInfo() {
@@ -85,8 +97,9 @@
       const prevStatus = S.detail?.status;
       S.detail = j.conversation;
       if (full) S.msgs = [];
-      j.messages.forEach(m => { if (m.id > S.last) { S.msgs.push(m); S.last = m.id; } });
-      if (full || j.messages.length) renderMsgs();
+      const fresh = j.messages.filter(m => m.id > S.last);
+      fresh.forEach(m => { S.msgs.push(m); S.last = m.id; });
+      if (full) renderMsgs(); else if (fresh.length) appendMsgs(fresh);
       if (full || prevStatus !== S.detail.status) { renderHead(); renderComposer(); }
       if (full) renderInfo();
     } catch (e) {}
@@ -103,7 +116,7 @@
   document.addEventListener("click", async e => {
     const t = e.target.closest("[data-conv],[data-f],[data-act],[data-canned],#lcBack"); if (!t) return;
     if (t.dataset.conv) return select(+t.dataset.conv);
-    if (t.dataset.f) { S.tab = t.dataset.f; return renderList(); }
+    if (t.dataset.f) { S.tab = t.dataset.f; return renderList(true); }
     if (t.dataset.canned) { const i = $("#lcIn"); i.value = C.canned[+t.dataset.canned]; return i.focus(); }
     if (t.id === "lcBack") return $("#lc").classList.remove("chatting");
     if (t.dataset.act) {
@@ -120,7 +133,7 @@
     i.focus();
   });
   document.addEventListener("keydown", e => { if (e.target.id === "lcIn" && e.key === "Enter" && !e.shiftKey) { e.preventDefault(); $("#lcSend").requestSubmit(); } });
-  $("#lcSearch").addEventListener("input", e => { S.q = e.target.value; renderList(); });
+  $("#lcSearch").addEventListener("input", e => { S.q = e.target.value; renderList(true); });
   document.addEventListener("focusout", async e => {
     if (e.target.id !== "lcNote" || !S.detail) return;
     const v = e.target.value.trim(); if (v === (S.detail.note || "")) return;

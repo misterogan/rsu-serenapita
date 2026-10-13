@@ -35,7 +35,7 @@ window.LC_CONFIG = {
   }
 };
 </script>
-<script src="{{ asset('js/livechat-admin.js') }}?v=1"></script>
+<script src="{{ asset('js/livechat-admin.js') }}?v=2"></script>
 @endpush
 @endif
 @endsection

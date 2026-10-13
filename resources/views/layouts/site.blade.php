@@ -10,10 +10,30 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <title>@hasSection('title')@yield('title') · @endif{{ $p['name'] }}</title>
 <meta name="description" content="@yield('description', $p['footer'])">
+@php
+  $ogTitle = trim($__env->yieldContent('title')) !== '' ? $__env->yieldContent('title').' · '.$p['name'] : $p['name'].' – '.$p['short'];
+  $ogDesc = trim($__env->yieldContent('description')) ?: $p['footer'];
+  $ogCustom = trim($__env->yieldContent('og_image'));
+  $ogImage = $ogCustom ?: \App\Support\SiteSettings::shareImageUrl();
+@endphp
+<link rel="canonical" href="{{ url()->current() }}">
+<meta property="og:type" content="@yield('og_type', 'website')">
+<meta property="og:site_name" content="{{ $p['name'] }}">
+<meta property="og:locale" content="id_ID">
+<meta property="og:title" content="{{ $ogTitle }}">
+<meta property="og:description" content="{{ $ogDesc }}">
+<meta property="og:url" content="{{ url()->current() }}">
+<meta property="og:image" content="{{ $ogImage }}">
+<meta property="og:image:alt" content="{{ $p['name'] }}">
+@unless($ogCustom)<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">@endunless
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ $ogTitle }}">
+<meta name="twitter:description" content="{{ $ogDesc }}">
+<meta name="twitter:image" content="{{ $ogImage }}">
 <link rel="icon" href="{{ $site['logo'] ?? 'data:image/svg+xml,'.rawurlencode('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path d="M20 2 36 11v18L20 38 4 29V11z" fill="#35A3D8"/><path d="M17 12h6v5h5v6h-5v5h-6v-5h-5v-6h5z" fill="#fff"/></svg>') }}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('css/site.css') }}?v=1">
+<link rel="stylesheet" href="{{ asset('css/site.css') }}?v=2">
 </head>
 <body>
 @if($sec['loader'])
@@ -110,7 +130,7 @@ window.SERENA = {
   routes: { chatbot: @json(route('chatbot')), times: @json(route('appointment.times')), lcStart: @json(route('livechat.start')), lcPoll: @json(route('livechat.poll')), lcSend: @json(route('livechat.send')), lcEnd: @json(route('livechat.end')) }
 };
 </script>
-<script src="{{ asset('js/site.js') }}?v=1" defer></script>
+<script src="{{ asset('js/site.js') }}?v=2" defer></script>
 @if($sec['chatbot'] && !$site['chatbot']['enabled'])<script>document.addEventListener("DOMContentLoaded",()=>document.querySelector('[data-ct="live"]')?.click());</script>@endif
 </body>
 </html>

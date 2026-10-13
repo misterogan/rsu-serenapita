@@ -284,4 +284,5 @@ svg.i{width:18px;height:18px;flex:0 0 18px;fill:none;stroke:currentColor;stroke-
 .lc-empty{flex:1;display:grid;place-items:center;color:var(--muted);text-align:center;padding:30px}
 @media (max-width:1200px){.lc{grid-template-columns:280px minmax(0,1fr)}.lc-info{display:none}}
 @media (max-width:760px){.lc{grid-template-columns:1fr}.lc-chat{display:none}.lc.chatting .lc-list{display:none}.lc.chatting .lc-chat{display:flex}.lc-back{display:inline-flex}}
+.lc-log.still .lc-m{animation:none}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}

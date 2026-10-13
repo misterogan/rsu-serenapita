@@ -132,8 +132,11 @@
     function apply(j) {
       const prevStatus = st.conv?.status;
       st.conv = { status: j.status, name: j.name, phone: j.phone, topic: j.topic };
-      (j.messages || []).forEach(m => { if (m.id > st.last) { st.msgs.push(m); st.last = m.id; } });
-      if (prevStatus !== j.status || !$(".vc-log", root)) render(); else renderMsgs();
+      const fresh = (j.messages || []).filter(m => m.id > st.last);
+      fresh.forEach(m => { st.msgs.push(m); st.last = m.id; });
+      // Tampilan hanya diubah bila memang ada yang berubah, supaya tidak berkedip
+      if (prevStatus !== j.status || !$(".vc-log", root)) render();
+      else if (fresh.length) appendMsgs(fresh);
     }
     function render() {
       const c = st.conv;
@@ -158,14 +161,25 @@
       const ta = $(".vc-in", root); if (ta) ta.value = draft;
       renderMsgs();
     }
+    const msgHTML = m => m.from === "system" ? `<div class="vc-sys">${esc(m.text)}</div>`
+      : m.from === "visitor" ? `<div class="vc-m me">${esc(m.text)}<time>${esc(m.time)}</time></div>`
+      : `<div class="vc-m ag"><small>${esc(m.label || C.livechat.label)}</small>${esc(m.text)}<time>${esc(m.time)}</time></div>`;
+    const WAIT = '<div class="vc-sys" data-wait>Pesan Anda sudah diterima. Petugas akan segera membalas.</div>';
+    /** Gambar ulang seluruh riwayat (saat chat dibuka atau status berubah), tanpa animasi. */
     function renderMsgs() {
       const lg = $(".vc-log", root); if (!lg) return;
-      let h = st.msgs.map(m => m.from === "system" ? `<div class="vc-sys">${esc(m.text)}</div>`
-        : m.from === "visitor" ? `<div class="vc-m me">${esc(m.text)}<time>${esc(m.time)}</time></div>`
-        : `<div class="vc-m ag"><small>${esc(m.label || C.livechat.label)}</small>${esc(m.text)}<time>${esc(m.time)}</time></div>`).join("");
-      if (st.conv?.status === "menunggu") h += '<div class="vc-sys">Pesan Anda sudah diterima. Petugas akan segera membalas.</div>';
+      lg.classList.add("still");
+      lg.innerHTML = st.msgs.map(msgHTML).join("") + (st.conv?.status === "menunggu" ? WAIT : "");
+      lg.scrollTop = lg.scrollHeight; st.justSent = false;
+      requestAnimationFrame(() => lg.classList.remove("still"));
+    }
+    /** Tambahkan hanya pesan baru di bawah; pesan lama tidak disentuh. */
+    function appendMsgs(list) {
+      const lg = $(".vc-log", root); if (!lg) return;
       const atBottom = lg.scrollHeight - lg.scrollTop - lg.clientHeight < 60;
-      lg.innerHTML = h; if (atBottom || st.justSent) lg.scrollTop = lg.scrollHeight; st.justSent = false;
+      const wait = $("[data-wait]", lg);
+      list.forEach(m => wait ? wait.insertAdjacentHTML("beforebegin", msgHTML(m)) : lg.insertAdjacentHTML("beforeend", msgHTML(m)));
+      if (atBottom || st.justSent) lg.scrollTop = lg.scrollHeight; st.justSent = false;
     }
     async function errors(r, el) {
       try { const j = await r.json(); el.textContent = j.errors ? Object.values(j.errors)[0][0] : (j.message || "Terjadi kesalahan."); }
