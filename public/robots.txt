@@ -1,2 +1,8 @@
 User-agent: *
-Disallow:
+Disallow: /admin
+Disallow: /livechat
+Disallow: /chatbot
+Disallow: /api/
+Disallow: /appointments/times
+
+Sitemap: https://rsuserenapita.id/sitemap.xml

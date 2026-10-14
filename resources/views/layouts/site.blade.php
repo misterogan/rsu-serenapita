@@ -30,6 +30,31 @@
 <meta name="twitter:title" content="{{ $ogTitle }}">
 <meta name="twitter:description" content="{{ $ogDesc }}">
 <meta name="twitter:image" content="{{ $ogImage }}">
+@if(request()->routeIs('home'))
+@php
+  $ld = [
+    '@context' => 'https://schema.org',
+    '@type' => 'Hospital',
+    'name' => $p['name'],
+    'url' => url('/'),
+    'image' => $ogImage,
+    'logo' => $site['logo'] ?? asset('images/og-default.jpg'),
+    'telephone' => $site['emergency']?->number,
+    'email' => $p['email'] ?: null,
+    'address' => [
+      '@type' => 'PostalAddress',
+      'streetAddress' => $p['street'],
+      'addressLocality' => trim(preg_replace('/^Kec(\.|amatan)?\s*/i', '', $p['district'] ?? '')) ?: $p['city'],
+      'addressRegion' => $p['province'],
+      'postalCode' => $p['zip'],
+      'addressCountry' => 'ID',
+    ],
+    'hasMap' => $p['maps'] ?: null,
+    'isAcceptingNewPatients' => true,
+  ];
+@endphp
+<script type="application/ld+json">{!! json_encode(array_filter($ld, fn ($v) => $v !== null && $v !== ''), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+@endif
 <link rel="icon" href="{{ $site['logo'] ?? 'data:image/svg+xml,'.rawurlencode('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path d="M20 2 36 11v18L20 38 4 29V11z" fill="#35A3D8"/><path d="M17 12h6v5h5v6h-5v5h-6v-5h-5v-6h5z" fill="#fff"/></svg>') }}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">

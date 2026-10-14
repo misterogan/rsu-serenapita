@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 
 /* ---------------- Public website ---------------- */
 Route::get('/', Site\HomeController::class)->name('home');
+Route::get('/sitemap.xml', Site\SitemapController::class)->name('sitemap');
 Route::get('/news', [Site\NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{slug}', [Site\NewsController::class, 'show'])->name('news.show');
 Route::get('/doctors', [Site\DoctorController::class, 'index'])->name('doctors');
