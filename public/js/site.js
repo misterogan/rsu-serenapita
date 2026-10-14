@@ -28,10 +28,13 @@
   mb && mb.addEventListener("click", () => { const o = $("#nav").classList.toggle("open"); mb.setAttribute("aria-expanded", o); });
 
   /* ---------- Slider ---------- */
-  const slides = $$(".slide"), dots = $$("[data-go]");
+  const slides = $$(".slide"), dots = $$("[data-go]"), bgs = $$(".hero-bg");
+  const hero = $(".hero");
+  const paintBg = i => { let has = false; bgs.forEach(b => { const on = +b.dataset.bg === i; b.classList.toggle("on", on); if (on) has = true; }); hero && hero.classList.toggle("has-photo", has); };
+  paintBg(0);
   if (slides.length > 1) {
     let cur = 0;
-    const show = i => { cur = i; slides.forEach((s, k) => s.classList.toggle("on", k === i)); dots.forEach((d, k) => d.setAttribute("aria-current", k === i)); };
+    const show = i => { cur = i; slides.forEach((s, k) => s.classList.toggle("on", k === i)); dots.forEach((d, k) => d.setAttribute("aria-current", k === i)); paintBg(i); };
     const timer = reduce ? null : setInterval(() => show((cur + 1) % slides.length), 7000);
     dots.forEach(d => d.addEventListener("click", () => { show(+d.dataset.go); clearInterval(timer); $(".dots").classList.add("paused"); }));
   }

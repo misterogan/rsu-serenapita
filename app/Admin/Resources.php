@@ -109,7 +109,7 @@ class Resources
                 'desc' => 'Slide besar di bagian atas beranda. Urutan di tabel sama dengan urutan tampil.',
                 'order' => ['sort', 'asc'], 'search' => ['title', 'text'],
                 'columns' => [
-                    'Slide' => fn ($r) => '<span class="main">'.e($r->title).'</span><span class="sub">'.e(Str::limit($r->text, 90)).'</span>',
+                    'Slide' => fn ($r) => '<div class="cellrow"><div class="mini-thumb" style="background:#1C3B70">'.($r->image ? '<img src="'.e(asset('storage/'.$r->image)).'" alt="">' : '').'</div><div><span class="main">'.e($r->title).'</span><span class="sub">'.e(Str::limit($r->text, 90)).'</span></div></div>',
                     'Tombol' => fn ($r) => $r->button ? e($r->button).'<span class="sub">'.e(self::LINKS[$r->link] ?? $r->link).'</span>' : '—',
                     'Tampil' => fn ($r) => self::toggle('slides', $r, 'active'),
                 ],
@@ -119,6 +119,8 @@ class Resources
                     ['name' => 'tab', 'label' => 'Label tab', 'type' => 'text', 'half' => true, 'rules' => 'nullable|string|max:30'],
                     ['name' => 'button', 'label' => 'Teks tombol', 'type' => 'text', 'half' => true, 'rules' => 'nullable|string|max:40'],
                     ['name' => 'link', 'label' => 'Tujuan tombol', 'type' => 'select', 'rules' => 'nullable|in:'.implode(',', array_keys(self::LINKS)), 'options' => fn () => self::LINKS],
+                    ['name' => 'image', 'label' => 'Foto latar (opsional)', 'type' => 'image', 'rules' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', 'dir' => 'slides', 'hint' => 'Ukuran ideal 1920 × 700 px, JPG atau WebP, maksimal 2 MB (disarankan di bawah 400 KB). Jika kosong, memakai latar biru bawaan. Foto otomatis diberi lapisan gelap agar tulisan tetap terbaca.'],
+                    ['name' => 'image_position', 'label' => 'Bagian foto yang diutamakan', 'type' => 'select', 'rules' => 'required|in:center,right,left,top,bottom', 'default' => 'center', 'options' => fn () => ['center' => 'Tengah', 'right' => 'Kanan', 'left' => 'Kiri', 'top' => 'Atas', 'bottom' => 'Bawah'], 'hint' => 'Bagian yang tetap terlihat saat foto dipotong, misalnya di layar HP.'],
                     ['name' => 'active', 'label' => 'Tampilkan slide', 'type' => 'toggle', 'default' => true],
                 ],
                 'label' => fn ($r) => $r->title,

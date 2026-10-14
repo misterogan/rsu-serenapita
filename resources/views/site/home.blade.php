@@ -11,6 +11,9 @@
       <g fill="#fff" opacity=".35"><rect x="85" y="100" width="28" height="20"/><rect x="125" y="100" width="28" height="20"/><rect x="85" y="140" width="28" height="20"/><rect x="125" y="140" width="28" height="20"/><rect x="347" y="100" width="28" height="20"/><rect x="387" y="100" width="28" height="20"/><rect x="347" y="140" width="28" height="20"/><rect x="387" y="140" width="28" height="20"/><rect x="195" y="120" width="110" height="14"/><rect x="195" y="150" width="110" height="14"/></g>
       <rect x="215" y="260" width="70" height="70" fill="#fff" opacity=".3"/></g>
   </svg>
+  @foreach($slides as $i => $s)
+    @if($s->image)<div class="hero-bg {{ $i === 0 ? 'on' : '' }}" data-bg="{{ $i }}" style="background-image:url('{{ asset('storage/'.$s->image) }}');background-position:{{ $s->image_position ?: 'center' }}" role="img" aria-label="{{ $s->title }}"></div>@endif
+  @endforeach
   <div class="wrap">
     <div class="slides">
       @foreach($slides as $i => $s)
