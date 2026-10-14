@@ -3,10 +3,12 @@
   $p = $site['profile']; $sec = $site['sections'];
 @endphp
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="{{ !empty($sec['dark_mode']) ? 'auto-dark' : '' }} {{ $site['logoDark'] && $site['logoDark'] !== $site['logo'] ? 'has-dark-logo' : '' }}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="{{ !empty($sec['dark_mode']) ? 'light dark' : 'only light' }}">
+<meta name="theme-color" content="#1C3B70">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <title>@hasSection('title')@yield('title') · @endif{{ $p['name'] }}</title>
 <meta name="description" content="@yield('description', $p['footer'])">
@@ -58,7 +60,7 @@
 <link rel="icon" href="{{ $site['logo'] ?? 'data:image/svg+xml,'.rawurlencode('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path d="M20 2 36 11v18L20 38 4 29V11z" fill="#35A3D8"/><path d="M17 12h6v5h5v6h-5v5h-6v-5h-5v-6h5z" fill="#fff"/></svg>') }}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('css/site.css') }}?v=3">
+<link rel="stylesheet" href="{{ asset('css/site.css') }}?v=5">
 </head>
 <body>
 @if($sec['loader'])
@@ -71,14 +73,14 @@
 
 @if($sec['topbar'])
 <div class="topbar"><div class="wrap">
-  <span>{{ $site['shortAddress'] }}</span>
-  <span>@foreach($site['phones']->where('show_top', true) as $ph){{ $ph->label }}: <a href="{{ $ph->href() }}">{{ $ph->number }}</a>@if(!$loop->last) · @endif @endforeach</span>
+  <span class="addr">{{ $site['shortAddress'] }}</span>
+  <span class="phones">@foreach($site['phones']->where('show_top', true) as $ph){{ $ph->label }}: <a href="{{ $ph->href() }}">{{ $ph->number }}</a>@if(!$loop->last) · @endif @endforeach</span>
 </div></div>
 @endif
 
 <header class="site"><div class="wrap">
   <a class="logo" href="{{ route('home') }}" aria-label="{{ $p['name'] }}, ke beranda">
-    @if($site['logo'])<img src="{{ $site['logo'] }}" alt="">@else @include('partials.logo-mark') @endif
+    @if($site['logo'])<picture>@if(!empty($sec['dark_mode']) && $site['logoDark'] && $site['logoDark'] !== $site['logo'])<source srcset="{{ $site['logoDark'] }}" media="(prefers-color-scheme: dark)">@endif<img src="{{ $site['logo'] }}" alt=""></picture>@else @include('partials.logo-mark') @endif
     <div><strong>{{ $p['name'] }}</strong><span>{{ $p['short'] }}</span></div>
   </a>
   <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav">Menu</button>

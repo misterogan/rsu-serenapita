@@ -31,6 +31,7 @@ class ContentController extends Controller
             'loader' => ['Loading perpindahan halaman', 'Logo detak jantung dan blur saat pindah menu.'],
             'footer_news' => ['Berita di footer', 'Tiga berita terakhir di footer.'],
             'footer_links' => ['Tautan cepat di footer', 'Daftar tautan pintas di footer.'],
+            'dark_mode' => ['Mode gelap otomatis', 'Website tampil gelap bila HP atau komputer pengunjung memakai mode gelap. Matikan agar website selalu tampil terang dan logo tetap jelas.'],
         ],
     ];
 
