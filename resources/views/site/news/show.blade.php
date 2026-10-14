@@ -6,7 +6,11 @@
 @section('content')
 <div class="page-head"><div class="wrap"><div class="crumb"><a href="{{ route('home') }}">Beranda</a> / <a href="{{ route('news.index') }}">Berita</a></div><h1>{{ $news->title }}</h1><p>{{ $news->published_at->translatedFormat('l, d F Y') }} · {{ $news->category?->name }}</p></div></div>
 <div class="section"><div class="wrap article">
+  @if($news->image)
+  <a class="thumb photo" href="{{ asset('storage/'.$news->image) }}" target="_blank" rel="noopener" title="Buka gambar ukuran penuh"><img src="{{ asset('storage/'.$news->image) }}" alt="{{ $news->title }}"></a>
+  @else
   <div class="thumb">@include('partials.cover', ['news' => $news])</div>
+  @endif
   <p><strong>{{ $news->excerpt }}</strong></p>
   @foreach($news->paragraphs() as $para)<p>{{ $para }}</p>@endforeach
   @if($more->isNotEmpty())

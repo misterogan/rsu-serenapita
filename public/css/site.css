@@ -135,6 +135,9 @@ h2.sec::after{content:"";position:absolute;left:0;bottom:0;width:36px;height:2px
 .chip.on{background:var(--blue);border-color:var(--blue);color:#fff}
 .article{max-width:720px}
 .article .thumb{aspect-ratio:21/9}
+.article .thumb.photo{aspect-ratio:auto;display:flex;justify-content:center;background:var(--soft);border:1px solid var(--line);cursor:zoom-in}
+.article .thumb.photo img{width:auto;max-width:100%;height:auto;max-height:85vh;object-fit:contain;transform:none!important}
+.post .thumb img{object-position:center top}
 .article p{font-size:16px}
 .dept-feature{background:var(--surface);border:1px solid var(--line);margin-bottom:6px}
 .dept-feature h4{margin:0;background:var(--navy);color:#fff;padding:10px 14px;font-size:15px}
