@@ -85,7 +85,7 @@
   </a>
   <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav">Menu</button>
   <nav class="main" id="nav">
-    @foreach($site['menus'] as $m)<a href="{{ Links::url($m->route) }}" class="{{ Links::active($m->route) ? 'active' : '' }}">{{ $m->label }}</a>@endforeach
+    @foreach($site['menus'] as $m)@continue(!Links::enabled($m->route))<a href="{{ Links::url($m->route) }}" class="{{ Links::active($m->route) ? 'active' : '' }}">{{ $m->label }}</a>@endforeach
   </nav>
 </div></header>
 
@@ -110,10 +110,10 @@
       @if($sec['footer_links'])
       <h4>Tautan cepat</h4>
       <ul>
-        <li><a href="{{ route('schedule') }}">Jadwal praktik dokter</a></li>
-        <li><a href="{{ route('appointment') }}">Buat janji temu</a></li>
-        <li><a href="{{ route('doctors') }}">Daftar dokter</a></li>
-        <li><a href="{{ route('services') }}">Layanan dan fasilitas</a></li>
+        @if(Links::enabled('schedule'))<li><a href="{{ route('schedule') }}">Jadwal praktik dokter</a></li>@endif
+        @if(Links::enabled('appointment'))<li><a href="{{ route('appointment') }}">Buat janji temu</a></li>@endif
+        @if(Links::enabled('doctors'))<li><a href="{{ route('doctors') }}">Daftar dokter</a></li>@endif
+        @if(Links::enabled('services'))<li><a href="{{ route('services') }}">Layanan dan fasilitas</a></li>@endif
         @if($sec['careers'] ?? true)<li><a href="{{ route('careers.index') }}">Karier &amp; lowongan kerja</a></li>@endif
         @if($sec['chatbot'])<li><a href="#" data-open-chat>Tanya {{ $site['chatbot']['name'] }} atau petugas</a></li>@endif
       </ul>

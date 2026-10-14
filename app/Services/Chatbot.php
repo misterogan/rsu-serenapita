@@ -146,6 +146,9 @@ class Chatbot
         if ($this->has($q, ['bpjs', 'rujukan', 'jkn', 'kis'])) {
             return "Pasien BPJS Kesehatan perlu membawa:\n• KTP\n• Kartu BPJS/KIS\n• Surat rujukan yang masih berlaku dari puskesmas atau klinik tingkat pertama\nUntuk keadaan darurat di IGD tidak perlu rujukan. Daftar poli bisa lewat menu Buat Janji atau loket pendaftaran.";
         }
+        if ($this->has($q, ['janji', 'daftar', 'booking', 'antre', 'antri', 'pendaftaran online', 'reservasi']) && ! \App\Support\Links::enabled('appointment')) {
+            return 'Pendaftaran online sedang tidak tersedia. Silakan daftar di loket pendaftaran ('.$this->profile['counter_hours'].') atau hubungi kami:'."\n".$this->contactAnswer();
+        }
         if ($this->has($q, ['janji', 'daftar', 'booking', 'antre', 'antri', 'pendaftaran online', 'reservasi'])) {
             return "Cara membuat janji temu:\n1. Buka menu Buat Janji\n2. Pilih poli, dokter, tanggal, dan jam\n3. Isi data pasien lalu kirim\nAnda akan mendapat kode janji dan nomor antrean. Datang ke loket 15 menit sebelum jamnya.\nLoket pendaftaran: ".$this->profile['counter_hours'].'.';
         }
@@ -353,7 +356,7 @@ class Chatbot
                 return "{$d->name}{$poli} tidak praktik {$this->dayName($date)}. Jadwal praktiknya: {$d->scheduleText()}.";
             }
 
-            return "{$d->name}{$poli} praktik {$this->dayName($date)} pukul {$slot[1]}–{$slot[2]}. Buat janji lewat menu Buat Janji agar tidak antre lama.";
+            return "{$d->name}{$poli} praktik {$this->dayName($date)} pukul {$slot[1]}–{$slot[2]}.".(\App\Support\Links::enabled('appointment') ? ' Buat janji lewat menu Buat Janji agar tidak antre lama.' : '');
         }
 
         $text = "Jadwal {$d->name}{$poli}:\n".collect($d->schedule ?? [])->map(fn ($s) => '• '.Doctor::DAYS[$s[0]].' '.$s[1].'–'.$s[2])->implode("\n");

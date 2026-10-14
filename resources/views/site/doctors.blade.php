@@ -18,7 +18,7 @@
         @if($leave = $d->leaves->first(fn($l) => $l->date_to->gte(today())))<div class="leave-note">Cuti {{ $leave->date_from->translatedFormat('d M') }} – {{ $leave->date_to->translatedFormat('d M Y') }}</div>@endif
         @if($d->bio)<p class="bio">{{ $d->bio }}</p>@endif
         <ul>@foreach($d->schedule ?? [] as $s)<li><span>{{ Doctor::DAYS[$s[0]] }}</span><span>{{ $s[1] }} – {{ $s[2] }}</span></li>@endforeach</ul>
-        <a class="btn ghost" href="{{ route('appointment', ['doctor' => $d->id]) }}">Buat janji</a>
+        @if(\App\Support\Links::enabled('appointment'))<a class="btn ghost" href="{{ route('appointment', ['doctor' => $d->id]) }}">Buat janji</a>@endif
       </div>
     </div>
     @endforeach

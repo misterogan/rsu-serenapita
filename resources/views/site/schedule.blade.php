@@ -14,7 +14,7 @@
           @php $slot = $doc->slotFor($d->dayOfWeek); @endphp
           @if($doc->onLeave($d))<td class="cuti">Cuti</td>@elseif($slot)<td class="on">{{ $slot[1] }}–{{ $slot[2] }}</td>@else<td class="off">—</td>@endif
         @endforeach
-        <td><a href="{{ route('appointment', ['doctor' => $doc->id]) }}" style="font-weight:700;font-size:13px">Buat janji</a></td></tr>
+        <td>@if(\App\Support\Links::enabled('appointment'))<a href="{{ route('appointment', ['doctor' => $doc->id]) }}" style="font-weight:700;font-size:13px">Buat janji</a>@endif</td></tr>
       @endforeach
     @empty
       <tr><td colspan="9" class="empty">Jadwal belum tersedia.</td></tr>

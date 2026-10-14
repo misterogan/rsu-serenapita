@@ -16,7 +16,7 @@
       <dt>Loket pendaftaran</dt><dd>{{ $p['counter_hours'] }}</dd>
       <dt>Jam besuk</dt><dd>{{ $p['visiting_hours'] }}</dd>
     </dl>
-    <p style="margin-top:26px"><a class="btn blue" href="{{ route('appointment') }}">Buat janji temu</a></p>
+    @if(\App\Support\Links::enabled('appointment'))<p style="margin-top:26px"><a class="btn blue" href="{{ route('appointment') }}">Buat janji temu</a></p>@endif
   </div>
 </div></div>
 @endsection

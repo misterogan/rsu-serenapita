@@ -23,6 +23,15 @@ class SitemapController extends Controller
             ['loc' => route('contact'), 'freq' => 'monthly', 'prio' => '0.7', 'mod' => null],
             ['loc' => route('news.index'), 'freq' => 'daily', 'prio' => '0.8', 'mod' => News::visible()->max('updated_at')],
         ];
+        $pages = array_values(array_filter($pages, function ($p) {
+            foreach (\App\Support\Links::ROUTES as $key => $route) {
+                if ($key !== 'home' && $p['loc'] === route($route)) {
+                    return \App\Support\Links::enabled($key);
+                }
+            }
+
+            return true;
+        }));
         if (SiteSettings::get('sections')['careers'] ?? true) {
             $pages[] = ['loc' => route('careers.index'), 'freq' => 'weekly', 'prio' => '0.6', 'mod' => JobOpening::published()->max('updated_at')];
             foreach (JobOpening::where('status', 'Dibuka')->get(['slug', 'updated_at']) as $j) {

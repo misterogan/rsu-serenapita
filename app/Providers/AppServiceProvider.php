@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
         Carbon::setLocale('id');
         Paginator::defaultView('partials.pagination');
 
-        View::composer(['layouts.site', 'site.*'], function ($view) {
+        View::composer(['layouts.site', 'site.*', 'errors.*', 'errors::*'], function ($view) {
             $site = once(fn () => [
                 'profile' => SiteSettings::profile(),
                 'address' => SiteSettings::address(),

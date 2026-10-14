@@ -9,15 +9,15 @@ use Illuminate\Support\Facades\Route;
 /* ---------------- Public website ---------------- */
 Route::get('/', Site\HomeController::class)->name('home');
 Route::get('/sitemap.xml', Site\SitemapController::class)->name('sitemap');
-Route::get('/news', [Site\NewsController::class, 'index'])->name('news.index');
+Route::get('/news', [Site\NewsController::class, 'index'])->middleware('page:news')->name('news.index');
 Route::get('/news/{slug}', [Site\NewsController::class, 'show'])->name('news.show');
-Route::get('/doctors', [Site\DoctorController::class, 'index'])->name('doctors');
-Route::get('/schedule', [Site\DoctorController::class, 'schedule'])->name('schedule');
-Route::get('/services', [Site\PageController::class, 'services'])->name('services');
-Route::get('/contact', [Site\PageController::class, 'contact'])->name('contact');
-Route::get('/appointments', [Site\AppointmentController::class, 'create'])->name('appointment');
-Route::get('/appointments/times', [Site\AppointmentController::class, 'times'])->name('appointment.times');
-Route::post('/appointments', [Site\AppointmentController::class, 'store'])->middleware('throttle:10,1')->name('appointment.store');
+Route::get('/doctors', [Site\DoctorController::class, 'index'])->middleware('page:doctors')->name('doctors');
+Route::get('/schedule', [Site\DoctorController::class, 'schedule'])->middleware('page:schedule')->name('schedule');
+Route::get('/services', [Site\PageController::class, 'services'])->middleware('page:services')->name('services');
+Route::get('/contact', [Site\PageController::class, 'contact'])->middleware('page:contact')->name('contact');
+Route::get('/appointments', [Site\AppointmentController::class, 'create'])->middleware('page:appointment')->name('appointment');
+Route::get('/appointments/times', [Site\AppointmentController::class, 'times'])->middleware('page:appointment')->name('appointment.times');
+Route::post('/appointments', [Site\AppointmentController::class, 'store'])->middleware(['throttle:10,1', 'page:appointment'])->name('appointment.store');
 
 Route::get('/careers', [Site\CareerController::class, 'index'])->name('careers.index');
 Route::get('/careers/{slug}', [Site\CareerController::class, 'show'])->name('careers.show');

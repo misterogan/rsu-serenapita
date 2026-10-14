@@ -4,7 +4,7 @@
 @section('og_type', 'article')
 @if($news->image)@section('og_image', asset('storage/'.$news->image))@endif
 @section('content')
-<div class="page-head"><div class="wrap"><div class="crumb"><a href="{{ route('home') }}">Beranda</a> / <a href="{{ route('news.index') }}">Berita</a></div><h1>{{ $news->title }}</h1><p>{{ $news->published_at->translatedFormat('l, d F Y') }} · {{ $news->category?->name }}</p></div></div>
+<div class="page-head"><div class="wrap"><div class="crumb"><a href="{{ route('home') }}">Beranda</a> / @if(\App\Support\Links::enabled('news'))<a href="{{ route('news.index') }}">Berita</a>@else Berita @endif</div><h1>{{ $news->title }}</h1><p>{{ $news->published_at->translatedFormat('l, d F Y') }} · {{ $news->category?->name }}</p></div></div>
 <div class="section"><div class="wrap article">
   @if($news->image)
   <a class="thumb photo" href="{{ asset('storage/'.$news->image) }}" target="_blank" rel="noopener" title="Buka gambar ukuran penuh"><img src="{{ asset('storage/'.$news->image) }}" alt="{{ $news->title }}"></a>
