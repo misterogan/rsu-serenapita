@@ -54,7 +54,7 @@
   <div>
     @if($sec['news'])
     <h2 class="sec">Berita terbaru</h2>
-    <div class="news-grid">@foreach($news as $i => $n)@include('partials.post', ['n' => $n, 'img' => $i === 0 || $i === 3])@endforeach</div>
+    <div class="news-grid">@foreach($news as $i => $n)@include('partials.post', ['n' => $n])@endforeach</div>
     <p style="text-align:right;margin-top:20px"><a href="{{ route('news.index') }}" style="font-weight:700;font-size:14px">Semua berita</a></p>
     @endif
   </div>
