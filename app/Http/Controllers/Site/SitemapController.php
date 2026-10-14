@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
 use App\Models\Doctor;
+use App\Models\JobOpening;
+use App\Support\SiteSettings;
 use App\Models\News;
 
 /** Peta situs untuk mesin pencari (Google, Bing). */
@@ -21,6 +23,12 @@ class SitemapController extends Controller
             ['loc' => route('contact'), 'freq' => 'monthly', 'prio' => '0.7', 'mod' => null],
             ['loc' => route('news.index'), 'freq' => 'daily', 'prio' => '0.8', 'mod' => News::visible()->max('updated_at')],
         ];
+        if (SiteSettings::get('sections')['careers'] ?? true) {
+            $pages[] = ['loc' => route('careers.index'), 'freq' => 'weekly', 'prio' => '0.6', 'mod' => JobOpening::published()->max('updated_at')];
+            foreach (JobOpening::where('status', 'Dibuka')->get(['slug', 'updated_at']) as $j) {
+                $pages[] = ['loc' => route('careers.show', $j->slug), 'freq' => 'weekly', 'prio' => '0.5', 'mod' => $j->updated_at];
+            }
+        }
         foreach (News::visible()->get(['slug', 'updated_at']) as $n) {
             $pages[] = ['loc' => route('news.show', $n->slug), 'freq' => 'monthly', 'prio' => '0.6', 'mod' => $n->updated_at];
         }

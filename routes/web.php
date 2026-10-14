@@ -19,6 +19,10 @@ Route::get('/appointments', [Site\AppointmentController::class, 'create'])->name
 Route::get('/appointments/times', [Site\AppointmentController::class, 'times'])->name('appointment.times');
 Route::post('/appointments', [Site\AppointmentController::class, 'store'])->middleware('throttle:10,1')->name('appointment.store');
 
+Route::get('/careers', [Site\CareerController::class, 'index'])->name('careers.index');
+Route::get('/careers/{slug}', [Site\CareerController::class, 'show'])->name('careers.show');
+Route::post('/careers/{slug}/apply', [Site\CareerController::class, 'apply'])->middleware('throttle:5,1')->name('careers.apply');
+
 Route::post('/chatbot', Site\ChatbotController::class)->middleware('throttle:20,1')->name('chatbot');
 Route::prefix('livechat')->name('livechat.')->group(function () {
     Route::post('/start', [Site\LiveChatController::class, 'start'])->middleware('throttle:6,1')->name('start');
@@ -87,6 +91,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::delete('/roles/{role}', [Admin\RoleController::class, 'destroy'])->name('roles.destroy');
         });
         Route::get('/logs', Admin\LogController::class)->middleware('module:logs')->name('logs');
+        Route::get('/applications/{application}/file/{type}', Admin\ApplicationFileController::class)->where('type', 'cv|doc')->middleware('module:applications')->name('applications.file');
         Route::post('/appointments/{appointment}/resend', [Admin\AppointmentController::class, 'resend'])->middleware('module:appointments')->name('appointments.resend');
 
         // Generic CRUD: news, categories, slides, services, doctors, clinics, appointments, users

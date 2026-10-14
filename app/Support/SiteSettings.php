@@ -29,7 +29,7 @@ class SiteSettings
         ],
         'sections' => [
             'slider' => true, 'boxes' => true, 'news' => true, 'poli_side' => true, 'book_side' => true,
-            'topbar' => true, 'chatbot' => true, 'loader' => true, 'footer_news' => true, 'footer_links' => true, 'dark_mode' => false,
+            'topbar' => true, 'chatbot' => true, 'loader' => true, 'footer_news' => true, 'footer_links' => true, 'dark_mode' => false, 'careers' => true,
         ],
         'boxes' => [
             ['title' => 'Gawat darurat', 'text' => 'IGD buka 24 jam setiap hari, termasuk hari libur.', 'button' => 'Lokasi IGD', 'link' => 'contact', 'show_phone' => true],

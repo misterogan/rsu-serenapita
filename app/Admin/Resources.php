@@ -4,6 +4,8 @@ namespace App\Admin;
 
 use App\Models\Appointment;
 use App\Models\Doctor;
+use App\Models\JobApplication;
+use App\Models\JobOpening;
 use App\Models\News;
 use App\Models\NewsCategory;
 use App\Models\Poli;
@@ -33,7 +35,8 @@ class Resources
     public static function badge(string $text): string
     {
         $map = ['Terbit' => 'green', 'Aktif' => 'green', 'Hadir' => 'green', 'Draf' => 'grey', 'Selesai' => 'grey', 'Nonaktif' => 'grey',
-            'Terjadwal' => 'blue', 'Dikonfirmasi' => 'blue', 'Menunggu' => 'amber', 'Cuti' => 'amber', 'Batal' => 'red'];
+            'Terjadwal' => 'blue', 'Dikonfirmasi' => 'blue', 'Menunggu' => 'amber', 'Cuti' => 'amber', 'Batal' => 'red',
+            'Dibuka' => 'green', 'Ditutup' => 'grey', 'Baru' => 'blue', 'Diproses' => 'amber', 'Wawancara' => 'blue', 'Diterima' => 'green', 'Ditolak' => 'red'];
 
         return '<span class="badge b-'.($map[$text] ?? 'grey').'">'.e($text).'</span>';
     }
@@ -214,6 +217,82 @@ class Resources
                 ],
                 'fields' => [],
                 'label' => fn ($r) => $r->code,
+            ],
+
+            'jobs' => [
+                'model' => JobOpening::class, 'one' => 'lowongan', 'title' => 'Lowongan kerja',
+                'desc' => 'Lowongan yang tampil di halaman Karier. Pengunjung bisa melamar langsung dengan mengunggah CV.',
+                'order' => ['id', 'desc'], 'search' => ['title', 'department'], 'withCount' => ['applications'],
+                'filters' => [
+                    'status' => ['label' => 'Semua status', 'options' => fn () => ['Dibuka' => 'Dibuka', 'Ditutup' => 'Ditutup', 'Draf' => 'Draf']],
+                    'employment_type' => ['label' => 'Semua jenis', 'options' => fn () => array_combine(JobOpening::TYPES, JobOpening::TYPES)],
+                ],
+                'columns' => [
+                    'Lowongan' => fn ($r) => '<span class="main">'.e($r->title).'</span><span class="sub">'.e(collect([$r->department, $r->employment_type, $r->education])->filter()->implode(' · ')).'</span>',
+                    'Batas lamaran' => fn ($r) => $r->deadline ? $r->deadline->translatedFormat('d M Y').($r->deadline->lt(today()) ? '<span class="sub" style="color:var(--red)">Sudah lewat</span>' : '') : '<span class="sub">Tanpa batas</span>',
+                    'Status' => fn ($r) => self::badge($r->status),
+                    'Pelamar' => fn ($r) => '<a href="'.e(route('admin.crud.index', ['applications', 'job_opening_id' => $r->id])).'" style="font-weight:700">'.$r->applications_count.' pelamar</a>',
+                ],
+                'fields' => [
+                    ['name' => 'title', 'label' => 'Posisi / judul lowongan', 'type' => 'text', 'rules' => 'required|string|max:150', 'hint' => 'Contoh: Perawat Pelaksana Rawat Inap.'],
+                    ['name' => 'slug', 'label' => 'Slug alamat', 'type' => 'text', 'half' => true, 'rules' => 'nullable|alpha_dash|max:80', 'hint' => 'Kosongkan untuk dibuat otomatis dari judul.'],
+                    ['name' => 'department', 'label' => 'Unit / bagian', 'type' => 'text', 'half' => true, 'rules' => 'nullable|string|max:80', 'hint' => 'Contoh: Keperawatan, Farmasi, Administrasi.'],
+                    ['name' => 'employment_type', 'label' => 'Jenis pekerjaan', 'type' => 'select', 'half' => true, 'rules' => 'required|in:'.implode(',', JobOpening::TYPES), 'options' => fn () => array_combine(JobOpening::TYPES, JobOpening::TYPES), 'default' => 'Kontrak'],
+                    ['name' => 'education', 'label' => 'Pendidikan minimal', 'type' => 'select', 'half' => true, 'rules' => 'nullable|in:'.implode(',', JobOpening::EDUCATION), 'options' => fn () => ['' => '— Tidak ditentukan —'] + array_combine(JobOpening::EDUCATION, JobOpening::EDUCATION)],
+                    ['name' => 'location', 'label' => 'Lokasi kerja', 'type' => 'text', 'half' => true, 'rules' => 'required|string|max:80', 'default' => 'Sidikalang'],
+                    ['name' => 'quota', 'label' => 'Jumlah dibutuhkan', 'type' => 'number', 'half' => true, 'rules' => 'nullable|integer|min:1|max:999'],
+                    ['name' => 'deadline', 'label' => 'Batas akhir lamaran', 'type' => 'date', 'half' => true, 'rules' => 'nullable|date', 'hint' => 'Setelah tanggal ini, formulir lamaran otomatis ditutup.'],
+                    ['name' => 'status', 'label' => 'Status', 'type' => 'select', 'half' => true, 'rules' => 'required|in:Dibuka,Ditutup,Draf', 'options' => fn () => ['Draf' => 'Draf (belum tampil)', 'Dibuka' => 'Dibuka (menerima lamaran)', 'Ditutup' => 'Ditutup (tampil, tidak menerima lamaran)'], 'default' => 'Draf'],
+                    ['name' => 'summary', 'label' => 'Ringkasan singkat', 'type' => 'textarea', 'rows' => 2, 'rules' => 'nullable|string|max:300', 'hint' => 'Tampil di daftar lowongan. 1 sampai 2 kalimat.'],
+                    ['name' => 'description', 'label' => 'Deskripsi pekerjaan', 'type' => 'textarea', 'rows' => 6, 'rules' => 'nullable|string|max:5000', 'hint' => 'Tugas dan tanggung jawab. Pisahkan paragraf dengan satu baris kosong.'],
+                    ['name' => 'requirements', 'label' => 'Persyaratan', 'type' => 'textarea', 'rows' => 6, 'rules' => 'nullable|string|max:5000', 'hint' => 'Satu persyaratan per baris. Contoh: Memiliki STR aktif.'],
+                    ['name' => 'benefits', 'label' => 'Yang kami tawarkan', 'type' => 'textarea', 'rows' => 4, 'rules' => 'nullable|string|max:3000', 'hint' => 'Opsional. Satu poin per baris, misalnya BPJS Ketenagakerjaan.'],
+                ],
+                'before' => function ($model, array &$data, bool $isNew) {
+                    $base = Str::slug(($data['slug'] ?? '') ?: $data['title']);
+                    $slug = $base;
+                    $i = 2;
+                    while (JobOpening::where('slug', $slug)->where('id', '!=', $model->id ?? 0)->exists()) {
+                        $slug = $base.'-'.$i++;
+                    }
+                    $data['slug'] = $slug;
+                    $data['education'] = ($data['education'] ?? '') ?: null;
+                },
+                'canDelete' => fn ($r) => $r->applications()->exists() ? 'Lowongan ini sudah memiliki pelamar. Ubah statusnya menjadi Ditutup, atau hapus pelamarnya lebih dulu.' : null,
+                'label' => fn ($r) => $r->title,
+            ],
+
+            'applications' => [
+                'model' => JobApplication::class, 'one' => 'pelamar', 'title' => 'Pelamar',
+                'desc' => 'Lamaran yang masuk dari halaman Karier. Buka lamaran untuk melihat data lengkap, mengunduh CV, dan mengubah status.',
+                'noCreate' => true, 'files' => ['cv_path', 'doc_path'],
+                'with' => ['job'], 'order' => ['id', 'desc'], 'search' => ['name', 'email', 'phone', 'code'],
+                'filters' => [
+                    'job_opening_id' => ['label' => 'Semua lowongan', 'options' => fn () => JobOpening::orderByDesc('id')->pluck('title', 'id')->all()],
+                    'status' => ['label' => 'Semua status', 'options' => fn () => array_combine(JobApplication::STATUSES, JobApplication::STATUSES)],
+                ],
+                'columns' => [
+                    'Kode' => fn ($r) => '<span class="main">'.e($r->code).'</span><span class="sub">'.$r->created_at->translatedFormat('d M Y H.i').'</span>',
+                    'Pelamar' => fn ($r) => '<span class="main">'.e($r->name).'</span><span class="sub">'.e($r->email).' · '.e($r->phone).'</span>',
+                    'Lowongan' => fn ($r) => e($r->job?->title ?? '—'),
+                    'Pendidikan' => fn ($r) => e($r->education).($r->major ? '<span class="sub">'.e($r->major).'</span>' : ''),
+                    'Status' => fn ($r) => self::badge($r->status),
+                    'Berkas' => fn ($r) => '<a href="'.e(route('admin.applications.file', [$r, 'cv'])).'" target="_blank" style="font-weight:700">CV</a>'.($r->doc_path ? ' · <a href="'.e(route('admin.applications.file', [$r, 'doc'])).'" target="_blank">Dokumen</a>' : ''),
+                ],
+                'fields' => [
+                    ['name' => 'name', 'label' => 'Nama pelamar', 'type' => 'readonly', 'half' => true, 'lock' => false, 'value' => fn ($r) => e($r->name)],
+                    ['name' => 'job_opening_id', 'label' => 'Melamar untuk', 'type' => 'readonly', 'half' => true, 'lock' => false, 'value' => fn ($r) => e($r->job?->title ?? '—')],
+                    ['name' => 'email', 'label' => 'Kontak', 'type' => 'readonly', 'lock' => false, 'value' => fn ($r) => '<a href="mailto:'.e($r->email).'">'.e($r->email).'</a> · <a href="tel:'.e($r->phone).'">'.e($r->phone).'</a> · <a href="https://wa.me/62'.e(substr($r->phone, 1)).'" target="_blank" rel="noopener">WhatsApp</a>'],
+                    ['name' => 'birth_date', 'label' => 'Tanggal lahir', 'type' => 'readonly', 'half' => true, 'lock' => false, 'value' => fn ($r) => $r->birth_date ? $r->birth_date->translatedFormat('d F Y').' ('.$r->birth_date->age.' tahun)' : '—'],
+                    ['name' => 'city', 'label' => 'Kota domisili', 'type' => 'readonly', 'half' => true, 'lock' => false, 'value' => fn ($r) => e($r->city ?: '—')],
+                    ['name' => 'education', 'label' => 'Pendidikan', 'type' => 'readonly', 'half' => true, 'lock' => false, 'value' => fn ($r) => e(collect([$r->education, $r->major, $r->institution])->filter()->implode(' · '))],
+                    ['name' => 'experience_years', 'label' => 'Pengalaman kerja', 'type' => 'readonly', 'half' => true, 'lock' => false, 'value' => fn ($r) => $r->experience_years ? $r->experience_years.' tahun' : 'Belum berpengalaman'],
+                    ['name' => 'cover_letter', 'label' => 'Surat lamaran singkat', 'type' => 'readonly', 'lock' => false, 'value' => fn ($r) => $r->cover_letter ? nl2br(e($r->cover_letter)) : '<span style="color:var(--muted)">Tidak diisi</span>'],
+                    ['name' => 'cv_path', 'label' => 'Berkas', 'type' => 'readonly', 'lock' => false, 'value' => fn ($r) => '<a class="btn sm" href="'.e(route('admin.applications.file', [$r, 'cv'])).'" target="_blank">Buka CV (PDF)</a>'.($r->doc_path ? ' <a class="btn sm" href="'.e(route('admin.applications.file', [$r, 'doc'])).'" target="_blank">Buka dokumen pendukung</a>' : '')],
+                    ['name' => 'status', 'label' => 'Status lamaran', 'type' => 'select', 'half' => true, 'rules' => 'required|in:'.implode(',', JobApplication::STATUSES), 'options' => fn () => array_combine(JobApplication::STATUSES, JobApplication::STATUSES)],
+                    ['name' => 'note', 'label' => 'Catatan internal', 'type' => 'textarea', 'rows' => 4, 'rules' => 'nullable|string|max:2000', 'hint' => 'Hanya terlihat oleh petugas. Misalnya hasil wawancara atau jadwal tes.'],
+                ],
+                'label' => fn ($r) => $r->code.' '.$r->name,
             ],
 
             'users' => [

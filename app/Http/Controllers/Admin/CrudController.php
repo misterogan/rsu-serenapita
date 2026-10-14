@@ -151,6 +151,11 @@ class CrudController extends Controller
                 Storage::disk('public')->delete($model->{$f['name']});
             }
         }
+        foreach ($res['files'] ?? [] as $f) {
+            if ($model->{$f}) {
+                Storage::disk('local')->delete($model->{$f});
+            }
+        }
         $label = isset($res['label']) ? $res['label']($model) : $model->getKey();
         $model->delete();
         ActivityLog::record('Menghapus '.$res['one'].' "'.$label.'"');

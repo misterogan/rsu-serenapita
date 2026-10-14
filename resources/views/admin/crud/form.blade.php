@@ -14,7 +14,7 @@
     <div class="fld {{ !empty($f['half']) ? 'half' : '' }}">
     @switch($f['type'])
       @case('readonly')
-        <label>{{ $f['label'] }} <span class="lock">· dari SIMRS</span></label><div class="ro">{!! $f['value']($model) !!}</div>
+        <label>{{ $f['label'] }} @if($f['lock'] ?? true)<span class="lock">· dari SIMRS</span>@endif</label><div class="ro">{!! $f['value']($model) !!}</div>
         @break
       @case('textarea')
         <label for="f_{{ $name }}">{{ $f['label'] }}</label><textarea id="f_{{ $name }}" name="{{ $name }}" rows="{{ $f['rows'] ?? 4 }}">{{ $val }}</textarea>
