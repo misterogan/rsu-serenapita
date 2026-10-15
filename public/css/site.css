@@ -287,7 +287,9 @@ footer .flogo img{height:34px;width:auto;max-width:150px}
 .vc-form label{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600}
 .vc-form input:not([type=checkbox]),.vc-form select,.vc-form textarea{padding:9px 11px;border:1px solid var(--line);border-radius:6px;background:var(--surface);font-weight:400}
 .vc-form .vc-chk{flex-direction:row;align-items:flex-start;gap:8px;font-weight:500;color:var(--muted);font-size:12px}
-.vc-err{color:var(--red);font-size:12px;font-weight:600;min-height:16px}
+.vc-form>*{flex-shrink:0}
+.vc-err{color:var(--red);font-size:12px;font-weight:600;min-height:16px;line-height:1.45}
+.vc-err:empty{min-height:0}
 .vc-btn{background:var(--blue);color:#fff;border:0;border-radius:6px;padding:10px 16px;font-weight:700;cursor:pointer}
 .vc-btn:disabled{opacity:.6;cursor:wait}
 .vc-link{background:none;border:0;color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;padding:6px;text-decoration:underline}

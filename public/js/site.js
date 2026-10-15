@@ -187,6 +187,7 @@
     async function errors(r, el) {
       try { const j = await r.json(); el.textContent = j.errors ? Object.values(j.errors)[0][0] : (j.message || "Terjadi kesalahan."); }
       catch (e) { el.textContent = "Terjadi kesalahan. Coba lagi."; }
+      el.scrollIntoView({ block: "nearest" });
     }
     root.addEventListener("submit", async e => {
       e.preventDefault(); if (st.busy) return;
