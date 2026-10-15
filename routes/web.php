@@ -42,6 +42,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/logout', [Admin\AuthController::class, 'logout'])->name('logout');
         Route::get('/', [Admin\AuthController::class, 'home'])->name('home');
 
+        Route::get('/help', Admin\HelpController::class)->name('help');
         Route::get('/dashboard', Admin\DashboardController::class)->middleware('module:dashboard')->name('dashboard');
 
         Route::middleware('module:livechat')->prefix('livechat')->name('livechat.')->group(function () {

@@ -12,7 +12,17 @@
       <rect x="215" y="260" width="70" height="70" fill="#fff" opacity=".3"/></g>
   </svg>
   @foreach($slides as $i => $s)
-    @if($s->image)<div class="hero-bg {{ $i === 0 ? 'on' : '' }}" data-bg="{{ $i }}" style="background-image:url('{{ asset('storage/'.$s->image) }}');background-position:{{ $s->image_position ?: 'center' }}" role="img" aria-label="{{ $s->title }}"></div>@endif
+    @if($s->image)
+      @php $bgUrl = asset('storage/'.$s->image); $fit = $s->fitMode(); @endphp
+      @if($fit === 'contain')
+      <div class="hero-bg fit-contain {{ $i === 0 ? 'on' : '' }}" data-bg="{{ $i }}" role="img" aria-label="{{ $s->title }}">
+        <span class="hero-blur" style="background-image:url('{{ $bgUrl }}');background-position:{{ $s->image_position ?: 'center' }}"></span>
+        <img class="hero-fg" src="{{ $bgUrl }}" alt="">
+      </div>
+      @else
+      <div class="hero-bg {{ $i === 0 ? 'on' : '' }}" data-bg="{{ $i }}" style="background-image:url('{{ $bgUrl }}');background-position:{{ $s->image_position ?: 'center' }}" role="img" aria-label="{{ $s->title }}"></div>
+      @endif
+    @endif
   @endforeach
   <div class="wrap">
     <div class="slides">

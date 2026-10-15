@@ -14,7 +14,7 @@
 <title>@yield('title', 'Backoffice') · {{ $brand['profile']['name'] }}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('css/admin.css') }}?v=2">
+<link rel="stylesheet" href="{{ asset('css/admin.css') }}?v=3">
 </head>
 <body data-lc-count="{{ $me->canModule('livechat') ? route('admin.livechat.count') : '' }}">
 <div id="loader" role="status" aria-hidden="true"><div class="ld-card">
@@ -42,6 +42,8 @@
         @endforeach
         @endif
       @endforeach
+      <div class="grp">Bantuan</div>
+      <a href="{{ route('admin.help') }}" data-label="Panduan" class="{{ $current === 'help' ? 'active' : '' }}"><svg class="i" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 21V5M9 7h6M9 11h6"/></svg>Panduan</a>
     </nav>
     <div class="side-user">
       <div class="av" style="background:#35A3D8">{{ $me->initials() }}</div>
@@ -53,6 +55,8 @@
     <header class="top">
       <button class="burger" id="burger" aria-label="Buka menu"><svg class="i" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
       <div class="top-acts">
+        @php $helpAnchor = ['applications' => 'jobs', 'help' => ''][$current] ?? $current; @endphp
+        @if($current !== 'help')<a class="btn sm" href="{{ route('admin.help') }}{{ $helpAnchor ? '#'.$helpAnchor : '' }}" title="Panduan untuk halaman ini"><svg class="i" viewBox="0 0 24 24"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4.5M12 17.5h.01"/></svg>Panduan</a>@endif
         <a class="btn sm" href="{{ route('home') }}" target="_blank" rel="noopener"><svg class="i" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"/></svg>Lihat situs</a>
       </div>
     </header>
