@@ -34,7 +34,7 @@
 
 <div class="callout tips"><b>Tips</b><p>Menu <b>Buat Janji</b> juga otomatis nonaktif bila tidak ada satu pun dokter yang tampil, misalnya semua sakelar Tampil di Profil dokter dimatikan. Chatbot pun akan mengarahkan pasien ke loket atau telepon.</p></div>
 
-<div class="callout catatan"><b>Catatan</b><p>Menu di bagian atas website ada 8: Beranda, Berita, Dokter, Jadwal, Layanan, Buat Janji, Kontak, dan Tentang Kami. Halaman Galeri, Panduan Pasien &amp; FAQ, Pengaduan &amp; Saran, dan Karier tampil di kolom <b>Informasi</b> pada footer, dan masing-masing bisa dinonaktifkan lewat sakelar di bawah. Halaman baru di luar itu masih perlu dibuatkan oleh tim pengembang.</p></div>
+<div class="callout catatan"><b>Catatan</b><p>Menu di bagian atas website ada 8: Beranda, Berita, Dokter, Jadwal, Layanan, Buat Janji, Kontak, dan Tentang Kami. Menu <b>Tentang Kami</b> punya <b>submenu</b> yang muncul saat menu itu disorot atau panahnya diklik: Profil rumah sakit, Panduan pasien &amp; FAQ, Galeri, Pengaduan &amp; saran, dan Karier. Kelima halaman itu juga selalu tampil di kolom <b>Informasi</b> pada footer. Halaman yang dinonaktifkan lewat sakelar di bawah otomatis hilang dari submenu dan footer. Halaman baru di luar itu masih perlu dibuatkan oleh tim pengembang.</p></div>
 
 <a id="menu-4" class="anchor"></a>
 

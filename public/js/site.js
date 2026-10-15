@@ -26,6 +26,15 @@
   addEventListener("scroll", () => { const y = scrollY; if (y > 60) hdr.classList.add("scrolled"); else if (y < 10) hdr.classList.remove("scrolled"); }, { passive: true });
   const mb = $("#menuBtn");
   mb && mb.addEventListener("click", () => { const o = $("#nav").classList.toggle("open"); mb.setAttribute("aria-expanded", o); });
+  // Submenu di header (misalnya Tentang Kami)
+  const dds = $$(".nav-dd");
+  const closeDd = except => dds.forEach(d => { if (d !== except) { d.classList.remove("open"); d.querySelector(".nav-dd-btn")?.setAttribute("aria-expanded", "false"); } });
+  dds.forEach(d => {
+    const b = d.querySelector(".nav-dd-btn");
+    b && b.addEventListener("click", e => { e.stopPropagation(); const o = d.classList.toggle("open"); b.setAttribute("aria-expanded", o); closeDd(d); });
+  });
+  document.addEventListener("click", e => { if (!e.target.closest(".nav-dd")) closeDd(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeDd(); });
 
   /* ---------- Slider ---------- */
   const slides = $$(".slide"), dots = $$("[data-go]"), bgs = $$(".hero-bg");

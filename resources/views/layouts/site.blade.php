@@ -60,7 +60,7 @@
 <link rel="icon" href="{{ $site['logo'] ?? 'data:image/svg+xml,'.rawurlencode('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path d="M20 2 36 11v18L20 38 4 29V11z" fill="#35A3D8"/><path d="M17 12h6v5h5v6h-5v5h-6v-5h-5v-6h5z" fill="#fff"/></svg>') }}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('css/site.css') }}?v=11">
+<link rel="stylesheet" href="{{ asset('css/site.css') }}?v=12">
 </head>
 <body>
 @if($sec['loader'])
@@ -85,7 +85,30 @@
   </a>
   <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav">Menu</button>
   <nav class="main" id="nav">
-    @foreach($site['menus'] as $m)@continue(!Links::enabled($m->route))<a href="{{ Links::url($m->route) }}" class="{{ Links::active($m->route) ? 'active' : '' }}">{{ $m->label }}</a>@endforeach
+    @foreach($site['menus'] as $m)@continue(!Links::enabled($m->route))
+      @if($m->route === 'about')
+        @php
+          $subs = collect([
+            ['about', 'Profil rumah sakit', true],
+            ['guide', 'Panduan pasien & FAQ', $sec['guide'] ?? true],
+            ['gallery', 'Galeri foto & video', $sec['gallery'] ?? true],
+            ['feedback', 'Pengaduan & saran', $sec['feedback'] ?? true],
+            ['careers.index', 'Karier', $sec['careers'] ?? true],
+          ])->filter(fn ($x) => $x[2]);
+          $aboutOn = request()->routeIs('about', 'guide', 'gallery', 'feedback', 'feedback.*', 'careers.*');
+        @endphp
+        @if($subs->count() > 1)
+        <div class="nav-dd {{ $aboutOn ? 'active' : '' }}">
+          <a href="{{ route('about') }}" class="nav-dd-top">{{ $m->label }}</a><button type="button" class="nav-dd-btn" aria-expanded="false" aria-label="Submenu {{ $m->label }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="nav-dd-menu">@foreach($subs as [$r, $label])<a href="{{ route($r) }}" @if(request()->routeIs($r) || ($r === 'careers.index' && request()->routeIs('careers.*')) || ($r === 'feedback' && request()->routeIs('feedback.*'))) aria-current="page" @endif>{{ $label }}</a>@endforeach</div>
+        </div>
+        @else
+        <a href="{{ route('about') }}" class="{{ $aboutOn ? 'active' : '' }}">{{ $m->label }}</a>
+        @endif
+      @else
+      <a href="{{ Links::url($m->route) }}" class="{{ Links::active($m->route) ? 'active' : '' }}">{{ $m->label }}</a>
+      @endif
+    @endforeach
   </nav>
 </div></header>
 
@@ -169,7 +192,7 @@ window.SERENA = {
   routes: { chatbot: @json(route('chatbot', [], false)), times: @json(route('appointment.times', [], false)), lcStart: @json(route('livechat.start', [], false)), lcPoll: @json(route('livechat.poll', [], false)), lcSend: @json(route('livechat.send', [], false)), lcEnd: @json(route('livechat.end', [], false)) }
 };
 </script>
-<script src="{{ asset('js/site.js') }}?v=5" defer></script>
+<script src="{{ asset('js/site.js') }}?v=6" defer></script>
 @if($sec['chatbot'] && !$site['chatbot']['enabled'])<script>document.addEventListener("DOMContentLoaded",()=>document.querySelector('[data-ct="live"]')?.click());</script>@endif
 </body>
 </html>

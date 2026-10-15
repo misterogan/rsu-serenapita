@@ -6,6 +6,10 @@
 
 Halaman ini terbuka di alamat <b>rsuserenapita.id/about</b> dan muncul sebagai menu <b>Tentang Kami</b> di bagian atas website. Nama, urutan, dan tampil atau tidaknya menu diatur di <b>Menu &amp; tampilan</b>.
 
+- Di komputer, arahkan mouse ke menu <b>Tentang Kami</b> untuk membuka submenu: Profil rumah sakit, Panduan pasien &amp; FAQ, Galeri, Pengaduan &amp; saran, dan Karier.
+- Di HP, tekan tombol <b>Menu</b>, lalu tekan tanda panah di sebelah Tentang Kami.
+- Submenu hanya ada di menu atas. Di footer, kelima halaman tetap tampil di kolom <b>Informasi</b>.
+
 <figure><a href="/docs/img/site_about.jpg" target="_blank"><img src="/docs/img/site_about.jpg" width="1200" height="2607" alt="Gambar 25.1  Halaman Tentang Kami di website." loading="lazy"></a><figcaption>Gambar 25.1  Halaman Tentang Kami di website.</figcaption></figure>
 
 <a id="about-1" class="anchor"></a>

@@ -34,6 +34,33 @@ nav.main a{text-decoration:none;color:var(--muted);font-weight:600;font-size:14p
 @media (max-width:1320px) and (min-width:1181px){nav.main a{padding:8px 8px;font-size:13.5px}}
 nav.main a:hover{color:var(--blue)}
 nav.main a.active{background:var(--sky);color:#fff}
+/* Submenu Tentang Kami */
+.nav-dd{position:relative;display:flex;align-items:center;border-radius:3px}
+nav.main .nav-dd-top{padding-right:4px}
+.nav-dd-btn{background:none;border:0;padding:8px 8px 8px 2px;cursor:pointer;color:var(--muted);display:flex;align-items:center;border-radius:0 3px 3px 0}
+.nav-dd-btn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s}
+.nav-dd.active{background:var(--sky)}
+.nav-dd.active .nav-dd-top,.nav-dd.active .nav-dd-btn{color:#fff}
+.nav-dd-menu{position:absolute;top:100%;right:0;min-width:240px;background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--sky);box-shadow:0 16px 34px rgba(20,40,70,.14);padding:6px 0;display:flex;flex-direction:column;opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .2s,transform .2s,visibility 0s linear .2s;z-index:60}
+.nav-dd-menu::before{content:"";position:absolute;left:0;right:0;top:-12px;height:10px}
+nav.main .nav-dd-menu a{padding:10px 18px;border-radius:0;color:var(--ink);font-weight:500;white-space:nowrap}
+nav.main .nav-dd-menu a:hover,nav.main .nav-dd-menu a:focus-visible{background:var(--soft);color:var(--blue)}
+nav.main .nav-dd-menu a[aria-current=page]{color:var(--blue);font-weight:700;box-shadow:inset 3px 0 0 var(--sky)}
+@media (min-width:1181px){
+  .nav-dd:hover .nav-dd-menu,.nav-dd:focus-within .nav-dd-menu,.nav-dd.open .nav-dd-menu{opacity:1;visibility:visible;transform:none;transition:opacity .2s,transform .2s,visibility 0s}
+  .nav-dd:hover .nav-dd-btn svg,.nav-dd.open .nav-dd-btn svg{transform:rotate(180deg)}
+}
+@media (max-width:1180px){
+  .nav-dd{flex-wrap:wrap;background:none!important}
+  .nav-dd-top{flex:1}
+  .nav-dd.active .nav-dd-top{background:var(--sky);color:#fff!important}
+  .nav-dd.active .nav-dd-btn{color:var(--muted)}
+  .nav-dd-btn{padding:8px 12px;border:1px solid var(--line);border-radius:3px;margin-left:6px}
+  .nav-dd-menu{position:static;width:100%;min-width:0;box-shadow:none;border:0;border-left:2px solid var(--line);margin:4px 0 6px 12px;padding:0;opacity:1;visibility:visible;transform:none;display:none}
+  .nav-dd.open .nav-dd-menu{display:flex}
+  .nav-dd.open .nav-dd-btn svg{transform:rotate(180deg)}
+  nav.main .nav-dd-menu a{padding:9px 14px;font-size:14px}
+}
 .menu-btn{display:none;background:none;border:1px solid var(--line);border-radius:4px;padding:8px 10px;cursor:pointer}
 /* Layar sedang dan kecil: bar atas satu baris, header tidak bertumpuk */
 @media (max-width:1000px){
