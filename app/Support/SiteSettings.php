@@ -50,6 +50,7 @@ class SiteSettings
             'consent' => 'Saya menyetujui data saya digunakan RSU Serenapita untuk keperluan pendaftaran dan pelayanan kesehatan.',
             'note' => 'Datang ke loket pendaftaran paling lambat 15 menit sebelum jam praktik dan sebutkan kode janji Anda.',
             'interval' => 30,
+            'slot_quota' => 3,
         ],
         'chatbot' => [
             'enabled' => true,
@@ -74,6 +75,7 @@ class SiteSettings
             ],
         ],
         'simrs' => [
+            'source' => 'manual',  // manual | simrs : sumber data dokter, poli, jadwal, cuti
             'mode' => 'poll',      // webhook | poll
             'interval' => 2,       // menit
             'send_booking' => true,

@@ -59,6 +59,7 @@
 | Pelayanan medis | Profil dokter | Foto dan profil dokter | 12 |
 |  | Poliklinik | Deskripsi dan urutan poli | 13 |
 |  | Jadwal dokter | Melihat jadwal dan cuti | 14 |
+|  | Cuti dokter | Mencatat cuti dokter (mode manual) | 14 |
 | Pendaftaran | Janji temu | Memantau janji temu | 15 |
 |  | Formulir janji temu | Pengaturan formulir pasien | 16 |
 | Tampilan situs | Menu &amp; tampilan | Menu dan bagian halaman | 17 |

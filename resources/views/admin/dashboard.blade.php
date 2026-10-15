@@ -3,7 +3,7 @@
 @php $h = now()->hour; $greet = $h < 11 ? 'Selamat pagi' : ($h < 15 ? 'Selamat siang' : ($h < 19 ? 'Selamat sore' : 'Selamat malam')); @endphp
 @section('content')
 <div class="vh"><div><div class="crumb">{{ now()->translatedFormat('l, d F Y') }}</div><h1>{{ $greet }}, {{ explode(' ', auth()->user()->name)[0] }}</h1>
-  <p>Ringkasan pelayanan dan konten situs hari ini. <span class="pulse {{ $simrs['status'] === 'Gagal' ? 'bad' : '' }}"></span>SIMRS {{ strtolower($simrs['status']) }}@if($simrs['last_sync']), sinkron {{ \Illuminate\Support\Carbon::parse($simrs['last_sync'])->diffForHumans() }}@endif.</p></div></div>
+  <p>Ringkasan pelayanan dan konten situs hari ini. @if(\App\Support\DataSource::manual())<span class="pulse"></span>Data dokter dan jadwal dikelola manual di backoffice.@else<span class="pulse {{ $simrs['status'] === 'Gagal' ? 'bad' : '' }}"></span>SIMRS {{ strtolower($simrs['status']) }}@if($simrs['last_sync']), sinkron {{ \Illuminate\Support\Carbon::parse($simrs['last_sync'])->diffForHumans() }}@endif.@endif</p></div></div>
 <div class="stats">
   <a class="stat s1" href="{{ route('admin.crud.index', 'appointments') }}?date={{ today()->toDateString() }}"><span>Janji temu hari ini</span><b>{{ $stats['today'] }}</b><small>{{ $stats['present'] }} pasien sudah hadir</small></a>
   <a class="stat s2" href="{{ route('admin.livechat.index') }}"><span>Live chat menunggu</span><b>{{ $stats['chats'] }}</b><small>{{ $stats['chatsActive'] }} percakapan aktif</small></a>
@@ -13,7 +13,11 @@
 <div class="quick">
   @if(auth()->user()->canModule('news'))<a class="btn" href="{{ route('admin.crud.create', 'news') }}">Tulis berita</a>@endif
   @if(auth()->user()->canModule('livechat'))<a class="btn" href="{{ route('admin.livechat.index') }}">Buka live chat</a>@endif
+  @if(\App\Support\DataSource::manual())
+    @if(auth()->user()->canModule('schedule'))<a class="btn" href="{{ route('admin.schedule') }}">Lihat jadwal dokter</a>@endif
+  @else
   @if(auth()->user()->canModule('simrs'))<form method="post" action="{{ route('admin.simrs.sync') }}" class="inline">@csrf<button class="btn">Sinkronkan SIMRS</button></form>@endif
+  @endif
   @if(auth()->user()->canModule('menu'))<a class="btn" href="{{ route('admin.menu') }}">Atur menu situs</a>@endif
 </div>
 <div class="g3">

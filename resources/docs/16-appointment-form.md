@@ -4,7 +4,7 @@
 
 <p class="lead">Pengaturan untuk formulir Buat Janji di website: apakah pendaftaran online dibuka, data apa yang wajib diisi pasien, dan pesan yang tampil setelah janji dibuat.</p>
 
-<figure><a href="/docs/img/appt_form.jpg" target="_blank"><img src="/docs/img/appt_form.jpg" width="1200" height="988" alt="Gambar 16.1  Pengaturan formulir janji temu." loading="lazy"></a><figcaption>Gambar 16.1  Pengaturan formulir janji temu.</figcaption></figure>
+<figure><a href="/docs/img/appt_form.jpg" target="_blank"><img src="/docs/img/appt_form.jpg" width="1200" height="1026" alt="Gambar 16.1  Pengaturan formulir janji temu." loading="lazy"></a><figcaption>Gambar 16.1  Pengaturan formulir janji temu.</figcaption></figure>
 
 | Kolom / tombol | Penjelasan | Aturan |
 |---|---|---|
@@ -14,7 +14,9 @@
 | <b>Ingatkan rujukan untuk pasien BPJS</b> | Setelah janji dibuat, tampil pengingat untuk membawa surat rujukan. | Sakelar |
 | <b>Teks persetujuan data pasien</b> | Kalimat yang wajib dicentang pasien sebelum mengirim formulir. | Wajib, maks. 400 karakter |
 | <b>Pesan setelah janji dibuat</b> | Petunjuk untuk pasien, misalnya datang 15 menit lebih awal ke loket. Kode janji dan nomor antrean tampil otomatis di atas pesan ini. | Maks. 400 karakter |
+| <b>Jarak jam kedatangan</b> | Hanya di mode manual. Jarak antar pilihan jam, misalnya 30 menit: jadwal 08.00–10.00 menghasilkan pilihan 08.00, 08.30, 09.00, dan 09.30. | 10, 15, 20, 30, atau 60 menit |
+| <b>Kuota pasien per jam kedatangan</b> | Hanya di mode manual. Jumlah pasien maksimal untuk satu jam kedatangan. Jam yang sudah penuh tidak bisa dipilih lagi. | 1 sampai 50 |
 
-<div class="callout catatan"><b>Catatan</b><p>Jam yang tersedia, kuota pasien per dokter, dan nomor antrean diatur di SIMRS. Pasien hanya bisa memilih tanggal mulai besok sampai 30 hari ke depan.</p></div>
+<div class="callout catatan"><b>Catatan</b><p>Dalam mode SIMRS, jam yang tersedia, kuota, dan nomor antrean mengikuti SIMRS. Pasien hanya bisa memilih tanggal mulai besok sampai 30 hari ke depan.</p></div>
 
 <figure><a href="/docs/img/site_appt.jpg" target="_blank"><img src="/docs/img/site_appt.jpg" width="1200" height="750" alt="Gambar 16.2  Formulir Buat Janji di website, seperti yang dilihat pasien." loading="lazy"></a><figcaption>Gambar 16.2  Formulir Buat Janji di website, seperti yang dilihat pasien.</figcaption></figure>

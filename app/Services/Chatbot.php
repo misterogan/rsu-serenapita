@@ -351,15 +351,15 @@ class Chatbot
             if ($l = $d->onLeave($date)) {
                 return "{$d->name}{$poli} sedang cuti {$this->dayName($date)}, sampai {$l->date_to->translatedFormat('d F Y')}. Jadwal biasanya: {$d->scheduleText()}.";
             }
-            $slot = $d->slotFor($date->dayOfWeek);
-            if (! $slot) {
+            $hours = $d->hoursText($date->dayOfWeek);
+            if (! $hours) {
                 return "{$d->name}{$poli} tidak praktik {$this->dayName($date)}. Jadwal praktiknya: {$d->scheduleText()}.";
             }
 
-            return "{$d->name}{$poli} praktik {$this->dayName($date)} pukul {$slot[1]}–{$slot[2]}.".(\App\Support\Links::enabled('appointment') ? ' Buat janji lewat menu Buat Janji agar tidak antre lama.' : '');
+            return "{$d->name}{$poli} praktik {$this->dayName($date)} pukul {$hours}.".(\App\Support\Links::enabled('appointment') ? ' Buat janji lewat menu Buat Janji agar tidak antre lama.' : '');
         }
 
-        $text = "Jadwal {$d->name}{$poli}:\n".collect($d->schedule ?? [])->map(fn ($s) => '• '.Doctor::DAYS[$s[0]].' '.$s[1].'–'.$s[2])->implode("\n");
+        $text = "Jadwal {$d->name}{$poli}:\n".collect($d->schedule ?? [])->sortBy(fn ($s) => (($s[0] + 6) % 7).$s[1])->map(fn ($s) => '• '.Doctor::DAYS[$s[0]].' '.$s[1].'–'.$s[2])->implode("\n");
         if ($leave) {
             $text .= "\nCatatan: sedang/akan cuti {$leave->date_from->translatedFormat('d M')} – {$leave->date_to->translatedFormat('d M Y')}.";
         }
@@ -376,12 +376,12 @@ class Chatbot
 
         if ($date) {
             $lines = $doctors->map(function ($d) use ($date) {
-                $slot = $d->slotFor($date->dayOfWeek);
-                if (! $slot) {
+                $hours = $d->hoursText($date->dayOfWeek);
+                if (! $hours) {
                     return null;
                 }
 
-                return '• '.$d->name.' '.$slot[1].'–'.$slot[2].($d->onLeave($date) ? ' (cuti)' : '');
+                return '• '.$d->name.' '.$hours.($d->onLeave($date) ? ' (cuti)' : '');
             })->filter();
 
             return $lines->isEmpty()
@@ -398,7 +398,7 @@ class Chatbot
         $lines = Doctor::public()->with(['poli', 'leaves'])->orderBy('name')->get()
             ->filter(fn ($d) => $d->slotFor($date->dayOfWeek) && ! $d->onLeave($date))
             ->groupBy(fn ($d) => $d->poli?->name)
-            ->map(fn (Collection $docs, $poli) => $poli.': '.$docs->map(fn ($d) => $d->name.' '.$d->slotFor($date->dayOfWeek)[1].'–'.$d->slotFor($date->dayOfWeek)[2])->implode('; '));
+            ->map(fn (Collection $docs, $poli) => $poli.': '.$docs->map(fn ($d) => $d->name.' '.$d->hoursText($date->dayOfWeek))->implode('; '));
 
         return $lines->isEmpty()
             ? 'Tidak ada praktik poliklinik '.$this->dayName($date).'. IGD tetap buka 24 jam.'

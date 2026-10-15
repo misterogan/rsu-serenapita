@@ -2,9 +2,37 @@
 
 # Bab 20. Integrasi SIMRS
 
-<p class="lead">Halaman untuk memantau dan mengatur hubungan website dengan SIMRS. Menu ini biasanya hanya untuk tim IT atau Administrator.</p>
+<p class="lead">Halaman untuk memilih sumber data dokter dan jadwal, serta memantau dan mengatur hubungan website dengan SIMRS. Menu ini biasanya hanya untuk tim IT atau Administrator.</p>
 
-<figure><a href="/docs/img/simrs.jpg" target="_blank"><img src="/docs/img/simrs.jpg" width="1200" height="1295" alt="Gambar 20.1  Halaman Integrasi SIMRS." loading="lazy"></a><figcaption>Gambar 20.1  Halaman Integrasi SIMRS.</figcaption></figure>
+<a id="simrs-1" class="anchor"></a>
+
+## 20.1 Sumber data: manual atau SIMRS
+
+<figure><a href="/docs/img/simrs_source.jpg" target="_blank"><img src="/docs/img/simrs_source.jpg" width="1200" height="771" alt="Gambar 20.1  Pilihan sumber data dokter dan jadwal." loading="lazy"></a><figcaption>Gambar 20.1  Pilihan sumber data dokter dan jadwal.</figcaption></figure>
+
+|  | Mode manual | Mode SIMRS |
+|---|---|---|
+| Kapan dipakai | Sekarang, selama SIMRS belum terhubung | Setelah API SIMRS siap |
+| Dokter, poli, jadwal | Diisi di Profil dokter dan Poliklinik | Diambil otomatis dari SIMRS, terkunci |
+| Cuti dokter | Dicatat di menu Cuti dokter | Diambil dari SIMRS |
+| Jam tersedia dan kuota | Dari jadwal, jarak jam, dan kuota di Formulir janji temu | Dari SIMRS |
+| Status janji temu | Diubah petugas di menu Janji temu | Diubah di SIMRS, ikut ter-update saat sinkron |
+| Foto, profil, tampilan | Backoffice | Backoffice |
+
+### Pindah dari mode manual ke SIMRS
+
+1. Pastikan file .env di server sudah berisi SIMRS_DRIVER=http, SIMRS_BASE_URL, dan SIMRS_TOKEN, lalu klik <b>Uji koneksi</b> sampai berhasil.
+2. Isi <b>Kode poli di SIMRS</b> pada setiap poliklinik, dan <b>Kode dokter di SIMRS</b> pada setiap dokter, sesuai kode di SIMRS. Dengan begitu foto, profil, dan urutan yang sudah dibuat tetap terpakai.
+3. Di kartu <b>Sumber data dokter dan jadwal</b>, pilih <b>SIMRS</b>, lalu klik <b>Simpan sumber data</b>. Sinkron pertama langsung berjalan.
+4. Periksa menu Profil dokter dan Jadwal dokter. Dokter yang kodenya tidak ditemukan di SIMRS otomatis menjadi <b>Nonaktif</b>.
+
+<div class="callout awas"><b>Hati-hati</b><p>Setelah pindah ke mode SIMRS, cuti yang dicatat manual digantikan data cuti dari SIMRS. Bila sinkron pertama gagal, kembalikan ke mode manual dan periksa koneksi bersama vendor SIMRS.</p></div>
+
+<a id="simrs-2" class="anchor"></a>
+
+## 20.2 Koneksi dan sinkronisasi (mode SIMRS)
+
+<figure><a href="/docs/img/simrs.jpg" target="_blank"><img src="/docs/img/simrs.jpg" width="1200" height="1295" alt="Gambar 20.2  Halaman Integrasi SIMRS." loading="lazy"></a><figcaption>Gambar 20.2  Halaman Integrasi SIMRS.</figcaption></figure>
 
 | Bagian | Keterangan |
 |---|---|

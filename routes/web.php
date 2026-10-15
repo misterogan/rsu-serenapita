@@ -84,6 +84,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/simrs', [Admin\SimrsController::class, 'save']);
             Route::post('/simrs/test', [Admin\SimrsController::class, 'test'])->name('simrs.test');
             Route::post('/simrs/sync', [Admin\SimrsController::class, 'sync'])->name('simrs.sync');
+            Route::post('/simrs/source', [Admin\SimrsController::class, 'source'])->name('simrs.source');
         });
         Route::middleware('module:roles')->group(function () {
             Route::get('/roles', [Admin\RoleController::class, 'index'])->name('roles');

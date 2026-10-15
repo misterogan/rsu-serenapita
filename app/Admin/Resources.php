@@ -47,6 +47,28 @@ class Resources
             .'<label class="switch"><input type="checkbox" onchange="this.form.submit()" '.($model->{$field} ? 'checked' : '').' aria-label="Ubah"><span></span></label></form>';
     }
 
+    /** Rapikan isian jadwal dari formulir menjadi [[hari, "08.00", "12.00"], ...]. */
+    public static function cleanSchedule(array $rows): array
+    {
+        $out = [];
+        foreach ($rows as $i => $row) {
+            $day = $row['day'] ?? '';
+            $start = str_replace(':', '.', trim((string) ($row['start'] ?? '')));
+            $end = str_replace(':', '.', trim((string) ($row['end'] ?? '')));
+            if ($day === '' && $start === '' && $end === '') {
+                continue;
+            }
+            $ok = preg_match('/^\d{2}\.\d{2}$/', $start) && preg_match('/^\d{2}\.\d{2}$/', $end) && ctype_digit((string) $day) && (int) $day <= 6;
+            if (! $ok || $start >= $end) {
+                throw \Illuminate\Validation\ValidationException::withMessages(['schedule' => 'Jadwal baris '.($i + 1).' belum benar. Pilih hari, lalu isi jam mulai yang lebih awal dari jam selesai.']);
+            }
+            $out[] = [(int) $day, $start, $end];
+        }
+        usort($out, fn ($a, $b) => [($a[0] + 6) % 7, $a[1]] <=> [($b[0] + 6) % 7, $b[1]]);
+
+        return $out;
+    }
+
     public static function avatar(?string $color, string $initials, int $size = 34): string
     {
         return '<div class="av" style="background:'.e($color ?: '#5B6878').';width:'.$size.'px;height:'.$size.'px">'.e($initials).'</div>';
@@ -54,6 +76,7 @@ class Resources
 
     public static function all(): array
     {
+        $manual = \App\Support\DataSource::manual();
         return [
             'news' => [
                 'model' => News::class, 'one' => 'berita', 'title' => 'Berita',
@@ -148,8 +171,10 @@ class Resources
             ],
 
             'doctors' => [
-                'model' => Doctor::class, 'one' => 'dokter', 'title' => 'Profil dokter', 'simrs' => true, 'noCreate' => true, 'noDelete' => true,
-                'desc' => 'Nama, poli, jadwal, dan status dokter diambil dari SIMRS. Di sini Anda hanya mengatur tampilan dokter di situs.',
+                'model' => Doctor::class, 'one' => 'dokter', 'title' => 'Profil dokter', 'simrs' => ! $manual, 'noCreate' => ! $manual, 'noDelete' => ! $manual,
+                'desc' => $manual
+                    ? 'Kelola data dokter, poli, status, dan jadwal praktik langsung di sini (mode manual, selama SIMRS belum terhubung).'
+                    : 'Nama, poli, jadwal, dan status dokter diambil dari SIMRS. Di sini Anda hanya mengatur tampilan dokter di situs.',
                 'with' => ['poli'], 'order' => ['name', 'asc'], 'search' => ['name'],
                 'filters' => [
                     'poli_id' => ['label' => 'Semua poliklinik', 'options' => fn () => Poli::orderBy('sort')->pluck('name', 'id')->all()],
@@ -157,26 +182,44 @@ class Resources
                 ],
                 'columns' => [
                     'Dokter' => fn ($r) => '<div class="cellrow">'.($r->photo ? '<img class="av" src="'.e(asset('storage/'.$r->photo)).'" alt="">' : self::avatar($r->color, $r->initials())).'<div><span class="main">'.e($r->name).'</span><span class="sub">'.e($r->poli?->name ?? '—').'</span></div></div>',
-                    'Hari praktik' => fn ($r) => e(collect($r->schedule ?? [])->map(fn ($s) => mb_substr(Doctor::DAYS[$s[0]], 0, 3))->implode(', ') ?: '—'),
-                    'Status SIMRS' => fn ($r) => self::badge($r->status),
+                    'Hari praktik' => fn ($r) => e(collect($r->schedule ?? [])->map(fn ($s) => (int) $s[0])->unique()->sortBy(fn ($d) => ($d + 6) % 7)->map(fn ($d) => mb_substr(Doctor::DAYS[$d], 0, 3))->implode(', ') ?: '—'),
+                    ($manual ? 'Status' : 'Status SIMRS') => fn ($r) => self::badge($r->status),
                     'Tampil' => fn ($r) => self::toggle('doctors', $r, 'show'),
                 ],
-                'fields' => [
+                'fields' => $manual ? [
+                    ['name' => 'name', 'label' => 'Nama lengkap dan gelar', 'type' => 'text', 'rules' => 'required|string|max:120', 'hint' => 'Contoh: dr. Maria Situmorang, Sp.A'],
+                    ['name' => 'poli_id', 'label' => 'Poliklinik', 'type' => 'select', 'half' => true, 'rules' => 'required|exists:polis,id', 'options' => fn () => Poli::orderBy('sort')->pluck('name', 'id')->all()],
+                    ['name' => 'status', 'label' => 'Status', 'type' => 'select', 'half' => true, 'rules' => 'required|in:Aktif,Cuti,Nonaktif', 'default' => 'Aktif', 'options' => fn () => ['Aktif' => 'Aktif', 'Cuti' => 'Cuti', 'Nonaktif' => 'Nonaktif (tidak tampil)']],
+                    ['name' => 'schedule', 'label' => 'Jadwal praktik', 'type' => 'schedule', 'rules' => 'nullable|array|max:21', 'hint' => 'Satu baris untuk satu sesi. Bila praktik dua kali sehari, misalnya pagi dan sore, tambahkan dua baris dengan hari yang sama.'],
+                    ['name' => 'photo', 'label' => 'Foto dokter (opsional)', 'type' => 'image', 'rules' => 'nullable|image|max:2048', 'dir' => 'doctors'],
+                    ['name' => 'color', 'label' => 'Warna avatar', 'type' => 'color', 'rules' => 'required|in:'.implode(',', self::COLORS)],
+                    ['name' => 'bio', 'label' => 'Profil singkat', 'type' => 'textarea', 'rows' => 3, 'rules' => 'nullable|string|max:600'],
+                    ['name' => 'simrs_code', 'label' => 'Kode dokter di SIMRS (opsional)', 'type' => 'text', 'hidePrefix' => 'MAN-', 'rules' => fn ($m) => 'nullable|string|max:40|unique:doctors,simrs_code,'.($m->id ?? 'NULL'), 'hint' => 'Isi nanti saat SIMRS akan dihubungkan, supaya foto dan profil dokter ini tetap terpakai setelah sinkron.'],
+                    ['name' => 'show', 'label' => 'Tampilkan di situs', 'type' => 'toggle', 'desc' => 'Muncul di halaman Dokter, Jadwal, dan formulir janji temu.', 'default' => true],
+                ] : [
                     ['name' => 'name', 'label' => 'Nama lengkap dan gelar', 'type' => 'readonly', 'value' => fn ($r) => e($r->name)],
                     ['name' => 'poli_id', 'label' => 'Poliklinik', 'type' => 'readonly', 'half' => true, 'value' => fn ($r) => e($r->poli?->name ?? '—')],
                     ['name' => 'status', 'label' => 'Status', 'type' => 'readonly', 'half' => true, 'value' => fn ($r) => self::badge($r->status)],
-                    ['name' => 'schedule', 'label' => 'Jadwal praktik', 'type' => 'readonly', 'value' => fn ($r) => collect($r->schedule ?? [])->map(fn ($s) => e(Doctor::DAYS[$s[0]].' · '.$s[1].'–'.$s[2]))->implode('<br>') ?: 'Belum ada jadwal di SIMRS'],
+                    ['name' => 'schedule', 'label' => 'Jadwal praktik', 'type' => 'readonly', 'value' => fn ($r) => e($r->scheduleText()) ?: 'Belum ada jadwal di SIMRS'],
                     ['name' => 'photo', 'label' => 'Foto dokter (opsional)', 'type' => 'image', 'rules' => 'nullable|image|max:2048', 'dir' => 'doctors'],
                     ['name' => 'color', 'label' => 'Warna avatar', 'type' => 'color', 'rules' => 'required|in:'.implode(',', self::COLORS)],
                     ['name' => 'bio', 'label' => 'Profil singkat', 'type' => 'textarea', 'rows' => 3, 'rules' => 'nullable|string|max:600'],
                     ['name' => 'show', 'label' => 'Tampilkan di situs', 'type' => 'toggle', 'desc' => 'Muncul di halaman Dokter, Jadwal, dan formulir janji temu.'],
                 ],
+                'before' => function ($model, array &$data, bool $isNew) use ($manual) {
+                    if (! $manual) {
+                        return;
+                    }
+                    $data['schedule'] = self::cleanSchedule($data['schedule'] ?? []);
+                    $data['simrs_code'] = ($data['simrs_code'] ?? '') ?: ($model->exists && ! str_starts_with((string) $model->simrs_code, 'MAN-') ? $model->simrs_code : ($model->simrs_code ?: 'MAN-'.strtoupper(Str::random(8))));
+                },
+                'canDelete' => fn ($r) => $r->appointments()->exists() ? 'Dokter ini sudah memiliki janji temu. Ubah statusnya menjadi Nonaktif agar tidak tampil lagi.' : null,
                 'label' => fn ($r) => $r->name,
             ],
 
             'clinics' => [
-                'model' => Poli::class, 'one' => 'poliklinik', 'title' => 'Poliklinik', 'simrs' => true, 'noCreate' => true, 'noDelete' => true, 'sortable' => true,
-                'desc' => 'Daftar poli diambil dari SIMRS. Atur deskripsi, urutan, dan tampilannya di situs.',
+                'model' => Poli::class, 'one' => 'poliklinik', 'title' => 'Poliklinik', 'simrs' => ! $manual, 'noCreate' => ! $manual, 'noDelete' => ! $manual, 'sortable' => true,
+                'desc' => $manual ? 'Kelola daftar poliklinik, deskripsi, urutan, dan tampilannya di situs (mode manual).' : 'Daftar poli diambil dari SIMRS. Atur deskripsi, urutan, dan tampilannya di situs.',
                 'order' => ['sort', 'asc'], 'search' => ['name', 'description'], 'withCount' => ['doctors'],
                 'columns' => [
                     'Poliklinik' => fn ($r) => '<span class="main">'.e($r->name).'</span><span class="sub">'.e(Str::limit($r->description, 90)).'</span>',
@@ -184,39 +227,88 @@ class Resources
                     'Unggulan' => fn ($r) => $r->featured ? '<span class="badge b-blue">Unggulan</span>' : '—',
                     'Tampil' => fn ($r) => self::toggle('clinics', $r, 'active'),
                 ],
-                'fields' => [
-                    ['name' => 'name', 'label' => 'Nama poliklinik', 'type' => 'readonly', 'value' => fn ($r) => e($r->name)],
+                'fields' => array_values(array_filter([
+                    $manual
+                        ? ['name' => 'name', 'label' => 'Nama poliklinik', 'type' => 'text', 'rules' => fn ($m) => 'required|string|max:80|unique:polis,name,'.($m->id ?? 'NULL'), 'hint' => 'Contoh: Poli Anak, Poli Penyakit Dalam.']
+                        : ['name' => 'name', 'label' => 'Nama poliklinik', 'type' => 'readonly', 'value' => fn ($r) => e($r->name)],
                     ['name' => 'description', 'label' => 'Deskripsi di situs', 'type' => 'textarea', 'rows' => 3, 'rules' => 'nullable|string|max:300'],
-                    ['name' => 'active', 'label' => 'Tampilkan di situs', 'type' => 'toggle', 'desc' => 'Poli yang disembunyikan tidak muncul di situs dan formulir janji.'],
+                    ['name' => 'active', 'label' => 'Tampilkan di situs', 'type' => 'toggle', 'desc' => 'Poli yang disembunyikan tidak muncul di situs dan formulir janji.', 'default' => true],
                     ['name' => 'featured', 'label' => 'Unggulan di beranda', 'type' => 'toggle', 'desc' => 'Tampil sebagai kotak biru di atas daftar poliklinik.'],
-                ],
+                    $manual ? ['name' => 'simrs_code', 'label' => 'Kode poli di SIMRS (opsional)', 'type' => 'text', 'hidePrefix' => 'MAN-', 'rules' => fn ($m) => 'nullable|string|max:40|unique:polis,simrs_code,'.($m->id ?? 'NULL'), 'hint' => 'Isi nanti saat SIMRS akan dihubungkan.'] : null,
+                ])),
+                'before' => function ($model, array &$data, bool $isNew) use ($manual) {
+                    if (! $manual) {
+                        return;
+                    }
+                    $data['simrs_code'] = ($data['simrs_code'] ?? '') ?: ($model->simrs_code ?: 'MAN-'.strtoupper(Str::random(8)));
+                    if ($isNew) {
+                        $data['sort'] = (Poli::max('sort') ?? 0) + 1;
+                    }
+                },
                 'after' => function ($model) {
                     if ($model->featured) {
                         Poli::where('id', '!=', $model->id)->update(['featured' => false]);
                     }
                 },
+                'canDelete' => fn ($r) => $r->doctors()->exists() ? 'Poliklinik ini masih memiliki dokter. Pindahkan dokternya ke poli lain atau matikan sakelar Tampil.' : null,
                 'label' => fn ($r) => $r->name,
             ],
 
+            'leaves' => [
+                'model' => \App\Models\DoctorLeave::class, 'one' => 'cuti dokter', 'title' => 'Cuti dokter', 'simrs' => ! $manual,
+                'noCreate' => ! $manual, 'noDelete' => ! $manual, 'noEdit' => ! $manual,
+                'desc' => $manual ? 'Catat cuti atau libur dokter. Selama cuti, dokter tidak bisa dipilih di formulir janji temu dan jadwalnya bertanda Cuti.' : 'Cuti dokter diambil dari SIMRS.',
+                'with' => ['doctor.poli'], 'order' => ['date_from', 'desc'],
+                'filters' => ['doctor_id' => ['label' => 'Semua dokter', 'options' => fn () => Doctor::orderBy('name')->pluck('name', 'id')->all()]],
+                'columns' => [
+                    'Dokter' => fn ($r) => '<span class="main">'.e($r->doctor?->name ?? '—').'</span><span class="sub">'.e($r->doctor?->poli?->name ?? '').'</span>',
+                    'Periode' => fn ($r) => $r->date_from->translatedFormat('d M Y').($r->date_to->ne($r->date_from) ? ' – '.$r->date_to->translatedFormat('d M Y') : ''),
+                    'Keterangan' => fn ($r) => e($r->reason ?: '—'),
+                    'Status' => fn ($r) => $r->date_to->lt(today()) ? '<span class="badge b-grey">Selesai</span>' : ($r->date_from->gt(today()) ? '<span class="badge b-blue">Akan datang</span>' : '<span class="badge b-amber">Berlangsung</span>'),
+                ],
+                'fields' => [
+                    ['name' => 'doctor_id', 'label' => 'Dokter', 'type' => 'select', 'rules' => 'required|exists:doctors,id', 'options' => fn () => Doctor::orderBy('name')->pluck('name', 'id')->all()],
+                    ['name' => 'date_from', 'label' => 'Mulai tanggal', 'type' => 'date', 'half' => true, 'rules' => 'required|date'],
+                    ['name' => 'date_to', 'label' => 'Sampai tanggal', 'type' => 'date', 'half' => true, 'rules' => 'required|date|after_or_equal:date_from'],
+                    ['name' => 'reason', 'label' => 'Keterangan', 'type' => 'text', 'rules' => 'nullable|string|max:150', 'hint' => 'Contoh: Cuti tahunan, seminar, atau libur nasional.'],
+                ],
+                'before' => function ($model, array &$data, bool $isNew) {
+                    if ($isNew) {
+                        $data['simrs_code'] = 'MAN-'.strtoupper(Str::random(10));
+                    }
+                },
+                'label' => fn ($r) => ($r->doctor?->name ?? 'Dokter').' '.$r->date_from->format('d/m/Y'),
+            ],
+
             'appointments' => [
-                'model' => Appointment::class, 'one' => 'janji temu', 'title' => 'Janji temu', 'simrs' => true, 'noCreate' => true, 'noDelete' => true, 'noEdit' => true,
-                'desc' => 'Pantauan janji temu yang dibuat di situs dan diteruskan ke SIMRS. Konfirmasi, kehadiran, dan pembatalan dilakukan di SIMRS.',
+                'model' => Appointment::class, 'one' => 'janji temu', 'title' => 'Janji temu', 'simrs' => ! $manual, 'noCreate' => true, 'noDelete' => true, 'noEdit' => ! $manual,
+                'desc' => $manual
+                    ? 'Janji temu dari situs. Dalam mode manual, ubah status janji di sini: Dikonfirmasi, Hadir, Selesai, atau Batal.'
+                    : 'Pantauan janji temu yang dibuat di situs dan diteruskan ke SIMRS. Konfirmasi, kehadiran, dan pembatalan dilakukan di SIMRS.',
                 'with' => ['doctor.poli'], 'order' => ['date', 'desc'], 'search' => ['code', 'name', 'phone', 'simrs_booking_code'],
                 'filters' => [
                     'status' => ['label' => 'Semua status', 'options' => fn () => array_combine(Appointment::STATUSES, Appointment::STATUSES)],
                     'date' => ['label' => 'Tanggal', 'type' => 'date'],
                 ],
-                'columns' => [
+                'columns' => array_filter([
                     'Kode' => fn ($r) => '<span class="main">'.e($r->code).'</span><span class="sub">'.e($r->simrs_booking_code ?: '').'</span>',
                     'Pasien' => fn ($r) => '<span class="main">'.e($r->name).'</span><span class="sub">'.e($r->phone).($r->medical_record ? ' · '.e($r->medical_record) : '').'</span>',
                     'Dokter' => fn ($r) => e($r->doctor?->name ?? '—').'<span class="sub">'.e($r->doctor?->poli?->name ?? '').'</span>',
                     'Waktu' => fn ($r) => $r->date->translatedFormat('D, d M Y').'<span class="sub">Pukul '.e($r->time).($r->queue_number ? ' · Antrean '.e($r->queue_number) : '').'</span>',
                     'Bayar' => fn ($r) => e($r->payment),
-                    'Status SIMRS' => fn ($r) => self::badge($r->status),
-                    'Pengiriman' => fn ($r) => $r->simrs_sent_at ? '<span class="badge b-green">Terkirim</span>' : '<span class="badge b-red" title="'.e($r->simrs_error).'">Gagal</span>'
+                    ($manual ? 'Status' : 'Status SIMRS') => fn ($r) => self::badge($r->status),
+                    'Pengiriman' => $manual ? null : fn ($r) => $r->simrs_sent_at ? '<span class="badge b-green">Terkirim</span>' : '<span class="badge b-red" title="'.e($r->simrs_error).'">Gagal</span>'
                         .(! $r->simrs_sent_at ? '<form method="post" class="inline" action="'.route('admin.appointments.resend', $r).'">'.csrf_field().'<button class="btn sm" style="margin-left:6px">Kirim ulang</button></form>' : ''),
-                ],
-                'fields' => [],
+                ]),
+                'fields' => $manual ? [
+                    ['name' => 'code', 'label' => 'Kode janji', 'type' => 'readonly', 'half' => true, 'lock' => false, 'value' => fn ($r) => e($r->code).($r->queue_number ? ' · Antrean '.e($r->queue_number) : '')],
+                    ['name' => 'doctor_id', 'label' => 'Dokter', 'type' => 'readonly', 'half' => true, 'lock' => false, 'value' => fn ($r) => e(($r->doctor?->name ?? '—').' · '.($r->doctor?->poli?->name ?? ''))],
+                    ['name' => 'name', 'label' => 'Pasien', 'type' => 'readonly', 'lock' => false, 'value' => fn ($r) => e($r->name).' · <a href="tel:'.e($r->phone).'">'.e($r->phone).'</a>'.($r->medical_record ? ' · No. RM '.e($r->medical_record) : '').($r->nik ? '<br>NIK '.e($r->nik) : '')],
+                    ['name' => 'date', 'label' => 'Waktu', 'type' => 'readonly', 'half' => true, 'lock' => false, 'value' => fn ($r) => $r->date->translatedFormat('l, d F Y').' · pukul '.e($r->time)],
+                    ['name' => 'payment', 'label' => 'Pembayaran', 'type' => 'readonly', 'half' => true, 'lock' => false, 'value' => fn ($r) => e($r->payment).($r->bpjs_number ? '<br>BPJS '.e($r->bpjs_number).($r->referral_number ? ' · Rujukan '.e($r->referral_number) : '') : '')],
+                    ['name' => 'note', 'label' => 'Keluhan dari pasien', 'type' => 'readonly', 'lock' => false, 'value' => fn ($r) => $r->note ? nl2br(e($r->note)) : '<span style="color:var(--muted)">Tidak diisi</span>'],
+                    ['name' => 'status', 'label' => 'Status janji', 'type' => 'select', 'rules' => 'required|in:'.implode(',', Appointment::STATUSES), 'options' => fn () => array_combine(Appointment::STATUSES, Appointment::STATUSES)],
+                ] : [],
                 'label' => fn ($r) => $r->code,
             ],
 

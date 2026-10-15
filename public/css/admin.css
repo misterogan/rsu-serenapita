@@ -332,3 +332,15 @@ svg.i{width:18px;height:18px;flex:0 0 18px;fill:none;stroke:currentColor;stroke-
 @media (max-width:980px){.help{grid-template-columns:1fr}.help-toc{position:static;max-height:none}.help-toc nav{max-height:220px;overflow-y:auto}.doc{padding:20px 18px}}
 @media print{.side,.top,.help-toc,.vh-act,#loader,.toasts{display:none!important}.app{display:block}.content{padding:0;max-width:none}.help{display:block}.doc{border:0;box-shadow:none;page-break-inside:auto}.doc figure img{max-height:420px}}
 .help [hidden]{display:none!important}
+
+/* Sumber data dokter & jadwal */
+.source-opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.source-opt{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:6px;padding:14px;cursor:pointer}
+.source-opt:has(input:checked){border-color:var(--blue);background:var(--soft)}
+.source-opt input{margin-top:4px}
+.source-opt small{display:block;color:var(--muted);margin-top:4px;line-height:1.5}
+.source-help{margin-top:14px;font-size:13.5px}
+.source-help summary{cursor:pointer;font-weight:700;color:var(--blue)}
+.source-help ol{margin:8px 0 0;padding-left:20px;line-height:1.6}
+.sched-edit td{padding:6px 8px}.sched-edit select,.sched-edit input{min-width:120px}
+@media (max-width:760px){.source-opts{grid-template-columns:1fr}}

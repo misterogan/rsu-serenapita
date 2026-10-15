@@ -8,7 +8,7 @@ class Modules
     public const GROUPS = [
         'Utama' => ['dashboard' => 'Dasbor', 'livechat' => 'Live chat'],
         'Konten situs' => ['news' => 'Berita', 'categories' => 'Kategori berita', 'slides' => 'Slider beranda', 'info' => 'Kotak info & jam', 'services' => 'Layanan & fasilitas'],
-        'Pelayanan medis' => ['doctors' => 'Profil dokter', 'clinics' => 'Poliklinik', 'schedule' => 'Jadwal dokter'],
+        'Pelayanan medis' => ['doctors' => 'Profil dokter', 'clinics' => 'Poliklinik', 'schedule' => 'Jadwal dokter', 'leaves' => 'Cuti dokter'],
         'Pendaftaran' => ['appointments' => 'Janji temu', 'appointment-form' => 'Formulir janji temu'],
         'Karier' => ['jobs' => 'Lowongan kerja', 'applications' => 'Pelamar'],
         'Tampilan situs' => ['menu' => 'Menu & tampilan', 'chatbot' => 'Chatbot Serena', 'profile' => 'Profil & kontak'],
@@ -30,6 +30,7 @@ class Modules
         'appointment-form' => 'M6 3h12v18H6zM9 8h6M9 12h6M9 16h3',
         'menu' => 'M4 6h16M4 12h16M4 18h10',
         'jobs' => 'M4 8h16v11H4zM9 8V5h6v3M4 13h16',
+        'leaves' => 'M5 5h14v15H5zM5 9h14M9 3v4M15 3v4M9 14l6 0',
         'applications' => 'M9 4h6v3H9zM7 5H5v16h14V5h-2M8 12h8M8 16h5',
         'chatbot' => 'M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z',
         'profile' => 'M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11zM12 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z',

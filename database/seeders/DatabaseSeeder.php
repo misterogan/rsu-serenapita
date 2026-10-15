@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
         $admin = Role::create(['name' => Role::ADMIN, 'permissions' => array_keys(Modules::all())]);
         $humas = Role::create(['name' => 'Humas', 'permissions' => ['dashboard', 'livechat', 'news', 'categories', 'slides', 'info', 'services', 'menu', 'chatbot', 'profile']]);
         $daftar = Role::create(['name' => 'Pendaftaran', 'permissions' => ['dashboard', 'livechat', 'appointments', 'appointment-form', 'schedule']]);
-        Role::create(['name' => 'Pelayanan Medis', 'permissions' => ['dashboard', 'doctors', 'clinics', 'schedule', 'appointments']]);
+        Role::create(['name' => 'Pelayanan Medis', 'permissions' => ['dashboard', 'doctors', 'clinics', 'schedule', 'leaves', 'appointments']]);
 
         User::create(['name' => 'Admin Sistem', 'email' => 'admin@rsuserenapita.co.id', 'password' => 'serenapita123', 'role_id' => $admin->id, 'is_active' => true]);
         User::create(['name' => 'Rina Simamora', 'email' => 'humas@rsuserenapita.co.id', 'password' => 'serenapita123', 'role_id' => $humas->id, 'is_active' => true]);

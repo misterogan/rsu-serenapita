@@ -18,9 +18,9 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->bind(SimrsClient::class, fn () => config('serenapita.simrs.driver') === 'http'
-            ? new HttpSimrsClient
-            : new FakeSimrsClient);
+        $this->app->bind(SimrsClient::class, fn () => \App\Support\DataSource::manual()
+            ? new \App\Services\Simrs\ManualSimrsClient
+            : (config('serenapita.simrs.driver') === 'http' ? new HttpSimrsClient : new FakeSimrsClient));
     }
 
     public function boot(): void

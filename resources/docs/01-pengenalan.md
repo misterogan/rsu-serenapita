@@ -32,6 +32,8 @@ Sebagian data website diambil otomatis dari <b>SIMRS</b> (Sistem Informasi Manaj
 | Deskripsi, urutan, dan tampil atau tidaknya poli | Backoffice | Menu Poliklinik. |
 | Berita, slider, layanan, kotak info, menu, logo, alamat, nomor telepon, chatbot, live chat, pengguna | Backoffice | Semua menu lain. |
 
+<div class="callout catatan"><b>Catatan</b><p>Selama SIMRS belum terhubung, website memakai <b>mode manual</b>: dokter, poli, jadwal, cuti, dan status janji temu diisi langsung di backoffice. Setelah SIMRS siap, sumber data bisa dipindah ke SIMRS. Lihat [Bab 20](#simrs).</p></div>
+
 <a id="pengenalan-3" class="anchor"></a>
 
 ## 1.3 Yang dibutuhkan

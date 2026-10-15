@@ -25,22 +25,35 @@ class Doctor extends Model
         return $this->hasMany(DoctorLeave::class);
     }
 
+    public function appointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class);
+    }
+
     public function scopePublic(Builder $q): Builder
     {
         return $q->where('show', true)->where('status', '!=', 'Nonaktif')
             ->whereHas('poli', fn ($p) => $p->where('active', true));
     }
 
-    /** Jadwal untuk satu hari (0 = Minggu), atau null bila tidak praktik. */
+    /** Sesi praktik pertama pada satu hari (0 = Minggu), atau null bila tidak praktik. */
     public function slotFor(int $day): ?array
     {
-        foreach ($this->schedule ?? [] as $s) {
-            if ((int) $s[0] === $day) {
-                return $s;
-            }
-        }
+        return $this->slotsFor($day)[0] ?? null;
+    }
 
-        return null;
+    /** Semua sesi praktik pada satu hari, urut jam mulai. Satu hari bisa punya lebih dari satu sesi. */
+    public function slotsFor(int $day): array
+    {
+        return collect($this->schedule ?? [])->filter(fn ($s) => (int) $s[0] === $day)->sortBy(fn ($s) => $s[1])->values()->all();
+    }
+
+    /** Teks jam praktik satu hari, misalnya "10.00–12.00, 13.30–19.30". */
+    public function hoursText(int $day): ?string
+    {
+        $s = $this->slotsFor($day);
+
+        return $s ? implode(', ', array_map(fn ($x) => $x[1].'–'.$x[2], $s)) : null;
     }
 
     public function onLeave(Carbon|string $date): ?DoctorLeave
@@ -54,18 +67,20 @@ class Doctor extends Model
     public function timesFor(Carbon|string $date, int $interval = 30): array
     {
         $date = Carbon::parse($date);
-        $slot = $this->slotFor($date->dayOfWeek);
-        if (! $slot || $this->onLeave($date)) {
+        $slots = $this->slotsFor($date->dayOfWeek);
+        if (! $slots || $this->onLeave($date)) {
             return [];
         }
-        [$h1, $m1] = array_map('intval', explode('.', $slot[1]));
-        [$h2, $m2] = array_map('intval', explode('.', $slot[2]));
         $out = [];
-        for ($m = $h1 * 60 + $m1; $m < $h2 * 60 + $m2; $m += $interval) {
-            $out[] = sprintf('%02d.%02d', intdiv($m, 60), $m % 60);
+        foreach ($slots as $slot) {
+            [$h1, $m1] = array_map('intval', explode('.', $slot[1]));
+            [$h2, $m2] = array_map('intval', explode('.', $slot[2]));
+            for ($m = $h1 * 60 + $m1; $m < $h2 * 60 + $m2; $m += $interval) {
+                $out[] = sprintf('%02d.%02d', intdiv($m, 60), $m % 60);
+            }
         }
 
-        return $out;
+        return array_values(array_unique($out));
     }
 
     public function initials(): string
@@ -78,6 +93,6 @@ class Doctor extends Model
 
     public function scheduleText(): string
     {
-        return collect($this->schedule ?? [])->map(fn ($s) => self::DAYS[$s[0]].' '.$s[1].'–'.$s[2])->implode(', ');
+        return collect($this->schedule ?? [])->sortBy(fn ($s) => (($s[0] + 6) % 7).$s[1])->map(fn ($s) => self::DAYS[$s[0]].' '.$s[1].'–'.$s[2])->implode(', ');
     }
 }

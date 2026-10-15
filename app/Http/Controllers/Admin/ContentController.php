@@ -178,7 +178,9 @@ class ContentController extends Controller
 
     public function saveBooking(Request $request)
     {
-        $data = $request->validate(['consent' => 'required|string|max:400', 'note' => 'nullable|string|max:400']);
+        $data = $request->validate(['consent' => 'required|string|max:400', 'note' => 'nullable|string|max:400',
+            'interval' => 'nullable|integer|in:10,15,20,30,60', 'slot_quota' => 'nullable|integer|min:1|max:50']);
+        $data = array_filter($data, fn ($v) => $v !== null);
         SiteSettings::put('booking', array_merge(SiteSettings::get('booking'), $data, [
             'online' => $request->boolean('online'), 'require_nik' => $request->boolean('require_nik'),
             'require_bpjs' => $request->boolean('require_bpjs'), 'rujukan' => $request->boolean('rujukan'),

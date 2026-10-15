@@ -2,7 +2,7 @@
 
 # Bab 15. Janji temu
 
-<p class="lead">Daftar janji temu yang dibuat pasien lewat website. Janji langsung diteruskan ke SIMRS, dan halaman ini dipakai untuk memantaunya.</p>
+<p class="lead">Daftar janji temu yang dibuat pasien lewat website. Dalam mode manual, status janji diubah di sini. Dalam mode SIMRS, janji diteruskan ke SIMRS dan halaman ini dipakai untuk memantau.</p>
 
 <figure><a href="/docs/img/appointments.jpg" target="_blank"><img src="/docs/img/appointments.jpg" width="1200" height="906" alt="Gambar 15.1  Daftar janji temu." loading="lazy"></a><figcaption>Gambar 15.1  Daftar janji temu.</figcaption></figure>
 
@@ -26,10 +26,24 @@
 
 <a id="appointments-2" class="anchor"></a>
 
-## 15.2 Janji yang gagal terkirim ke SIMRS
+## 15.2 Janji yang gagal terkirim ke SIMRS (mode SIMRS)
 
 1. Cari janji dengan tanda merah <b>Gagal</b> di kolom Pengiriman. Arahkan mouse ke tulisan Gagal untuk melihat penyebabnya.
 2. Klik tombol <b>Kirim ulang</b> di sebelahnya.
 3. Bila berhasil, tanda berubah menjadi <b>Terkirim</b>. Bila masih gagal, hubungi tim IT, lalu hubungi pasien lewat telepon untuk konfirmasi manual.
 
-<div class="callout penting"><b>Penting</b><p>Konfirmasi, kehadiran, dan pembatalan janji dilakukan di SIMRS. Backoffice tidak menyediakan tombol untuk mengubah atau menghapus janji, supaya data di loket dan di website selalu sama.</p></div>
+<a id="appointments-3" class="anchor"></a>
+
+## 15.3 Mengubah status janji (mode manual)
+
+1. Klik ikon pensil di baris janji temu.
+2. Periksa data pasien, dokter, waktu, dan keluhan.
+3. Ubah <b>Status janji</b>: <b>Dikonfirmasi</b> setelah dicek petugas, <b>Hadir</b> saat pasien datang, <b>Selesai</b> setelah dilayani, atau <b>Batal</b>.
+4. Klik <b>Simpan</b>.
+
+<figure><a href="/docs/img/appt_edit_manual.jpg" target="_blank"><img src="/docs/img/appt_edit_manual.jpg" width="1200" height="906" alt="Gambar 15.2  Mengubah status janji temu dalam mode manual." loading="lazy"></a><figcaption>Gambar 15.2  Mengubah status janji temu dalam mode manual.</figcaption></figure>
+
+- Nomor antrean dibuat otomatis per dokter per tanggal, diawali huruf depan nama poli, misalnya <b>A-001</b> untuk Poli Anak.
+- Janji berstatus <b>Batal</b> membebaskan kembali kuota jam tersebut.
+
+<div class="callout penting"><b>Penting</b><p>Dalam mode SIMRS, konfirmasi, kehadiran, dan pembatalan dilakukan di SIMRS. Backoffice hanya untuk memantau, supaya data di loket dan di website selalu sama.</p></div>

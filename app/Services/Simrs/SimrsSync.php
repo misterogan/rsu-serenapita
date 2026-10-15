@@ -18,6 +18,9 @@ class SimrsSync
 
     public function run(string $source = 'berkala'): array
     {
+        if (\App\Support\DataSource::manual()) {
+            return ['ok' => false, 'manual' => true, 'message' => 'Mode data manual aktif. Dokter dan jadwal dikelola di backoffice, sinkron SIMRS tidak dijalankan.'];
+        }
         try {
             $polis = $this->simrs->polis();
             $doctors = $this->simrs->doctors();

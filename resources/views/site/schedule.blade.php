@@ -11,8 +11,8 @@
       @foreach($p->doctors as $doc)
       <tr><th style="text-align:left;font-weight:600">{{ $doc->name }}</th>
         @foreach($days as $d)
-          @php $slot = $doc->slotFor($d->dayOfWeek); @endphp
-          @if($doc->onLeave($d))<td class="cuti">Cuti</td>@elseif($slot)<td class="on">{{ $slot[1] }}–{{ $slot[2] }}</td>@else<td class="off">—</td>@endif
+          @php $hours = $doc->hoursText($d->dayOfWeek); @endphp
+          @if($doc->onLeave($d))<td class="cuti">Cuti</td>@elseif($hours)<td class="on">{!! str_replace(', ', '<br>', e($hours)) !!}</td>@else<td class="off">—</td>@endif
         @endforeach
         <td>@if(\App\Support\Links::enabled('appointment'))<a href="{{ route('appointment', ['doctor' => $doc->id]) }}" style="font-weight:700;font-size:13px">Buat janji</a>@endif</td></tr>
       @endforeach

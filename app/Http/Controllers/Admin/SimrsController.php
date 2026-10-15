@@ -36,8 +36,15 @@ class SimrsController extends Controller
         return back()->with('ok', 'Pengaturan SIMRS disimpan.');
     }
 
-    public function test(SimrsClient $simrs)
+    /** Klien SIMRS sungguhan (bukan mode manual), untuk uji koneksi sebelum berpindah sumber data. */
+    protected function realClient(): SimrsClient
     {
+        return config('serenapita.simrs.driver') === 'http' ? new \App\Services\Simrs\HttpSimrsClient : new \App\Services\Simrs\FakeSimrsClient;
+    }
+
+    public function test()
+    {
+        $simrs = $this->realClient();
         try {
             $ms = $simrs->ping();
             SyncLog::create(['ok' => true, 'message' => "Uji koneksi berhasil, respons {$ms} ms"]);
@@ -56,8 +63,33 @@ class SimrsController extends Controller
     public function sync(SimrsSync $sync)
     {
         $r = $sync->run('manual');
+        if (! empty($r['manual'])) {
+            return back()->with('err', $r['message']);
+        }
         ActivityLog::record('Menjalankan sinkronisasi SIMRS manual');
 
         return back()->with($r['ok'] ? 'ok' : 'err', $r['message']);
+    }
+
+    /** Pindah sumber data dokter dan jadwal: manual (backoffice) atau SIMRS. */
+    public function source(Request $request)
+    {
+        $source = $request->validate(['source' => 'required|in:manual,simrs'])['source'];
+        $s = SiteSettings::get('simrs');
+        if (($s['source'] ?? 'manual') === $source) {
+            return back()->with('ok', 'Sumber data tidak berubah.');
+        }
+        $s['source'] = $source;
+        SiteSettings::put('simrs', $s);
+        ActivityLog::record($source === 'simrs' ? 'Mengubah sumber data dokter dan jadwal ke SIMRS' : 'Mengubah sumber data dokter dan jadwal ke manual');
+
+        if ($source === 'manual') {
+            return back()->with('ok', 'Mode manual aktif. Dokter, poliklinik, jadwal, cuti, dan status janji temu sekarang dikelola di backoffice.');
+        }
+        $r = app(SimrsSync::class)->run('perpindahan ke SIMRS');
+
+        return back()->with($r['ok'] ? 'ok' : 'err', $r['ok']
+            ? 'Mode SIMRS aktif. '.$r['message'].'. Dokter yang kodenya tidak ada di SIMRS otomatis dinonaktifkan.'
+            : 'Mode SIMRS aktif, tetapi sinkron pertama gagal: '.$r['message'].'. Periksa koneksi atau kembalikan ke mode manual.');
     }
 }

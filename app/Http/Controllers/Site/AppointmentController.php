@@ -46,8 +46,8 @@ class AppointmentController extends Controller
         if ($date->lt(today()->addDay()) || $date->gt(today()->addDays(self::MAX_DAYS))) {
             return response()->json(['times' => [], 'message' => 'Pilih tanggal mulai besok sampai '.self::MAX_DAYS.' hari ke depan.']);
         }
-        if (! $doctor->slotFor($date->dayOfWeek)) {
-            $days = collect($doctor->schedule ?? [])->map(fn ($s) => Doctor::DAYS[$s[0]])->implode(', ');
+        if (! $doctor->slotsFor($date->dayOfWeek)) {
+            $days = collect($doctor->schedule ?? [])->map(fn ($s) => (int) $s[0])->unique()->sortBy(fn ($d) => ($d + 6) % 7)->map(fn ($d) => Doctor::DAYS[$d])->implode(', ');
 
             return response()->json(['times' => [], 'message' => "Dokter tidak praktik hari ".Doctor::DAYS[$date->dayOfWeek].". Pilih $days."]);
         }
