@@ -66,6 +66,12 @@ class SiteSettings
             'label' => 'Petugas RSU Serenapita',
             'hours' => '07.00 – 21.00',
             'welcome' => 'Halo {nama}, terima kasih sudah menghubungi RSU Serenapita. Petugas kami akan segera membalas.',
+            'filter_profanity' => true,
+            'filter_spam' => true,
+            'block_words' => '',
+            'allow_words' => '',
+            'max_strikes' => 3,
+            'block_hours' => 24,
             'canned' => [
                 'Baik, kami bantu cek terlebih dahulu ya.',
                 'Jadwal dokter terbaru bisa dilihat di menu Jadwal pada situs kami.',

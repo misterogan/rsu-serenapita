@@ -18,6 +18,7 @@
 | <b>Profil tidak bisa disimpan: "Centang minimal satu nomor untuk Kotak IGD".</b>  | Centang kolom <b>Kotak IGD</b> pada salah satu nomor telepon, biasanya nomor IGD.  |
 | <b>Angka merah live chat tidak berkurang.</b>  | Angka menghitung chat berstatus Menunggu dan chat aktif yang belum dibaca. Buka percakapannya, lalu klik <b>Ambil percakapan</b> atau <b>Selesaikan</b>.  |
 | <b>Pengunjung bilang balasan saya tidak sampai.</b>  | Pastikan percakapan tidak berstatus <b>Selesai</b>. Bila sudah selesai, klik <b>Buka lagi</b>. Minta pengunjung tetap membuka halaman chat, karena pesan baru muncul dalam beberapa detik.  |
+| <b>Pesan pasien yang wajar ikut tersaring di live chat.</b>  | Tambahkan kata tersebut di kolom <b>Kata yang tetap diizinkan</b> di <b>Live chat → Pengaturan</b>. Bila nomor pasien sempat terblokir, buka percakapannya lalu klik <b>Buka blokir</b>.  |
 | <b>Chatbot menjawab "Maaf, saya belum memahami".</b>  | Tambahkan entri FAQ dengan kata kunci dari pertanyaan tersebut ([Bab 18](#chatbot)), lalu uji di panel uji coba.  |
 | <b>Janji temu berstatus "Gagal" di kolom Pengiriman.</b>  | Klik <b>Kirim ulang</b>. Bila masih gagal, hubungi tim IT dan konfirmasi ke pasien lewat telepon.  |
 | <b>Saya lupa kata sandi.</b>  | Hubungi Administrator untuk dibuatkan kata sandi baru ([Bab 21](#users)).  |

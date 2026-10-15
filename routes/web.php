@@ -54,6 +54,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/{conversation}/send', [Admin\LiveChatController::class, 'send'])->name('send');
             Route::post('/{conversation}/status', [Admin\LiveChatController::class, 'status'])->name('status');
             Route::post('/{conversation}/note', [Admin\LiveChatController::class, 'note'])->name('note');
+            Route::post('/{conversation}/unblock', [Admin\LiveChatController::class, 'unblock'])->name('unblock');
         });
 
         Route::get('/schedule', Admin\ScheduleController::class)->middleware('module:schedule')->name('schedule');

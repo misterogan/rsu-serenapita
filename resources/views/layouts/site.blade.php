@@ -158,7 +158,7 @@ window.SERENA = {
   routes: { chatbot: @json(route('chatbot')), times: @json(route('appointment.times')), lcStart: @json(route('livechat.start')), lcPoll: @json(route('livechat.poll')), lcSend: @json(route('livechat.send')), lcEnd: @json(route('livechat.end')) }
 };
 </script>
-<script src="{{ asset('js/site.js') }}?v=3" defer></script>
+<script src="{{ asset('js/site.js') }}?v=4" defer></script>
 @if($sec['chatbot'] && !$site['chatbot']['enabled'])<script>document.addEventListener("DOMContentLoaded",()=>document.querySelector('[data-ct="live"]')?.click());</script>@endif
 </body>
 </html>

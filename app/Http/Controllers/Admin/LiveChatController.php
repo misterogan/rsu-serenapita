@@ -21,10 +21,16 @@ class LiveChatController extends Controller
         $data = $request->validate([
             'label' => 'required|string|max:60', 'hours' => 'nullable|string|max:60',
             'welcome' => 'required|string|max:300', 'canned' => 'nullable|string|max:3000',
+            'block_words' => 'nullable|string|max:3000', 'allow_words' => 'nullable|string|max:3000',
+            'max_strikes' => 'required|integer|min:1|max:10', 'block_hours' => 'required|integer|min:1|max:720',
         ]);
         $data['canned'] = array_values(array_filter(array_map('trim', preg_split('/\R/', $data['canned'] ?? ''))));
         $data['enabled'] = $request->boolean('enabled');
-        SiteSettings::put('livechat', $data);
+        $data['filter_profanity'] = $request->boolean('filter_profanity');
+        $data['filter_spam'] = $request->boolean('filter_spam');
+        $data['block_words'] = $data['block_words'] ?? '';
+        $data['allow_words'] = $data['allow_words'] ?? '';
+        SiteSettings::put('livechat', array_merge(SiteSettings::get('livechat'), $data));
         ActivityLog::record('Memperbarui pengaturan live chat');
 
         return back()->with('ok', 'Pengaturan live chat disimpan.');
@@ -76,10 +82,24 @@ class LiveChatController extends Controller
                 'topic' => $conversation->topic, 'status' => $conversation->status, 'sessions' => $conversation->sessions, 'note' => $conversation->note,
                 'started_at' => $conversation->started_at?->translatedFormat('d M Y H.i'), 'created_at' => $conversation->created_at?->translatedFormat('d M Y H.i'),
                 'agent' => $conversation->agent?->name,
+                'moderation' => [
+                    'strikes' => $conversation->strikes, 'filtered' => $conversation->filtered_total,
+                    'blocked' => $conversation->isBlocked(), 'blocked_until' => $conversation->blocked_until?->translatedFormat('d M Y H.i'),
+                    'recent' => \App\Models\ChatFiltered::where(fn ($q) => $q->where('conversation_id', $conversation->id)->orWhere(fn ($w) => $w->whereNull('conversation_id')->where('phone_norm', $conversation->phone_norm)))
+                        ->latest('id')->limit(5)->get()->map(fn ($f) => (\App\Models\ChatFiltered::REASONS[$f->reason] ?? $f->reason).' · '.$f->created_at->translatedFormat('d M H.i').($f->excerpt ? ' · '.$f->excerpt : '')),
+                ],
                 'others' => $others, 'appointments' => $appts->map(fn ($a) => $a->code.' · '.($a->doctor?->name ?? '').' · '.$a->date->translatedFormat('d M Y').' · '.$a->status),
             ],
             'messages' => $messages->map->toClient(),
         ]);
+    }
+
+    public function unblock(ChatConversation $conversation)
+    {
+        ChatConversation::where('phone_norm', $conversation->phone_norm)->update(['blocked_until' => null, 'strikes' => 0]);
+        ActivityLog::record('Membuka blokir live chat '.$conversation->name.' ('.$conversation->phone.')');
+
+        return response()->json(['ok' => true]);
     }
 
     public function send(Request $request, ChatConversation $conversation)

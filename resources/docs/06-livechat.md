@@ -62,7 +62,7 @@ Di website, pengunjung mengklik tombol <b>Chat dengan kami</b> di pojok kanan ba
 
 Klik tombol <b>Pengaturan</b> di kanan atas halaman Live chat.
 
-<figure><a href="/docs/img/livechat_set.jpg" target="_blank"><img src="/docs/img/livechat_set.jpg" width="1200" height="906" alt="Gambar 6.3  Pengaturan live chat." loading="lazy"></a><figcaption>Gambar 6.3  Pengaturan live chat.</figcaption></figure>
+<figure><a href="/docs/img/livechat_set.jpg" target="_blank"><img src="/docs/img/livechat_set.jpg" width="1200" height="1396" alt="Gambar 6.3  Pengaturan live chat." loading="lazy"></a><figcaption>Gambar 6.3  Pengaturan live chat.</figcaption></figure>
 
 | Kolom / tombol | Penjelasan | Aturan |
 |---|---|---|
@@ -74,3 +74,46 @@ Klik tombol <b>Pengaturan</b> di kanan atas halaman Live chat.
 | <b>Simpan pengaturan</b> | Menyimpan semua perubahan di atas. | Tombol |
 
 <div class="callout tips"><b>Tips</b><p>Tombol <b>Coba sebagai pengunjung</b> membuka website, sehingga Anda bisa mencoba live chat seperti pasien. Buka backoffice di jendela lain untuk membalas.</p></div>
+
+<a id="livechat-6" class="anchor"></a>
+
+## 6.6 Penyaring pesan kasar dan asal-asalan
+
+Pesan dari pengunjung diperiksa otomatis sebelum sampai ke petugas, tanpa AI. Pesan yang tersaring <b>tidak diteruskan</b> ke petugas dan tidak memunculkan notifikasi. Pengunjung langsung melihat pemberitahuan merah agar memperbaiki pesannya.
+
+<figure><a href="/docs/img/site_livechat_filtered.jpg" target="_blank"><img src="/docs/img/site_livechat_filtered.jpg" width="630" height="1200" alt="Gambar 6.4  Pemberitahuan yang dilihat pengunjung saat pesannya tersaring." loading="lazy"></a><figcaption>Gambar 6.4  Pemberitahuan yang dilihat pengunjung saat pesannya tersaring.</figcaption></figure>
+
+| Yang disaring | Contoh | Keterangan |
+|---|---|---|
+| <b>Kata kasar</b> | Makian dan kata kotor, termasuk yang disamarkan: g0bl0k, a.n.j.i.n.g, k o n t o l | Kata yang juga punya arti biasa, seperti "anjing" atau "tai", hanya disaring bila dipakai untuk memaki. Pesan "anak saya digigit anjing" tetap sampai ke petugas. |
+| <b>Pesan asal-asalan</b> | asdfghjkl, aaaaaaaa, ????????, wkwkwkwkwk | Ketikan acak, huruf berulang, hanya simbol, atau tawa tanpa isi. |
+| <b>Pesan terlalu cepat</b> | Lebih dari 6 pesan dalam 30 detik | Pengunjung diminta menunggu. Tidak dihitung sebagai peringatan. |
+| <b>Pesan berulang</b> | Pesan yang sama persis dikirim lagi dalam 3 menit | Ditolak tanpa peringatan. |
+| <b>Nama tidak pantas</b> | Nama berisi kata kasar atau ketikan acak | Chat tidak bisa dimulai sampai nama diperbaiki. |
+
+### Peringatan dan blokir otomatis
+
+- Setiap pesan kasar atau asal-asalan dihitung sebagai <b>peringatan</b>. Pengunjung melihat urutannya, misalnya "Peringatan 1 dari 3".
+- Bila batas peringatan tercapai, chat <b>dihentikan otomatis</b> dan nomor HP pengunjung <b>diblokir sementara</b>, bawaannya 24 jam. Selama diblokir, nomor itu tidak bisa memulai live chat dan diarahkan ke nomor telepon rumah sakit.
+- Bila pesan pertama saat memulai chat sudah tersaring, percakapan tidak dibuat sama sekali, sehingga tidak muncul di daftar petugas.
+
+### Yang dilihat petugas
+
+<figure><a href="/docs/img/livechat_mod.jpg" target="_blank"><img src="/docs/img/livechat_mod.jpg" width="1200" height="750" alt="Gambar 6.5  Bagian Penyaringan pesan di panel data pengunjung." loading="lazy"></a><figcaption>Gambar 6.5  Bagian Penyaringan pesan di panel data pengunjung.</figcaption></figure>
+
+Di panel kanan muncul bagian <b>Penyaringan pesan</b> berisi jumlah pesan yang tidak diteruskan, jumlah peringatan, dan lima catatan terakhir. Kata kasar di catatan sudah <b>disamarkan</b>, misalnya g*****. Bila pengunjung sedang diblokir, tersedia tombol <b>Buka blokir</b>, misalnya bila ternyata ada salah paham.
+
+### Mengatur penyaring
+
+Buka <b>Live chat → Pengaturan</b>, lalu atur bagian <b>Penyaring pesan</b>:
+
+| Kolom / tombol | Penjelasan | Aturan |
+|---|---|---|
+| <b>Saring kata kasar</b> | Menyalakan atau mematikan penyaring kata kasar. | Sakelar, bawaan menyala |
+| <b>Saring pesan asal-asalan</b> | Menyalakan atau mematikan penyaring ketikan acak dan pesan tanpa isi. | Sakelar, bawaan menyala |
+| <b>Batas peringatan sebelum diblokir</b> | Jumlah pesan tersaring dalam satu sesi sebelum chat dihentikan. | 1 sampai 10, bawaan 3 |
+| <b>Lama blokir (jam)</b> | Berapa lama nomor HP tidak bisa memulai live chat. | 1 sampai 720 jam, bawaan 24 |
+| <b>Kata tambahan yang disaring</b> | Kata lain yang ingin disaring, misalnya makian dalam bahasa daerah. Satu kata per baris. | Opsional |
+| <b>Kata yang tetap diizinkan</b> | Bila ada kata wajar yang ikut tersaring, tulis di sini supaya diloloskan. Satu kata per baris. | Opsional |
+
+<div class="callout catatan"><b>Catatan</b><p>Asisten Serena juga tidak melayani kata kasar. Bila pengunjung memaki di chatbot, Serena meminta pengunjung memakai bahasa yang sopan.</p></div>

@@ -206,7 +206,7 @@
         st.busy = true; ta.value = "";
         try {
           const r = await post(C.routes.lcSend, { token: st.token, message: text });
-          if (!r.ok) { ta.value = text; await errors(r, err); } else { err.textContent = ""; st.justSent = true; await poll(); }
+          if (!r.ok) { ta.value = r.status === 423 ? "" : text; await errors(r, err); if (r.status === 423) await poll(); } else { err.textContent = ""; st.justSent = true; await poll(); }
         } catch (x) { ta.value = text; err.textContent = "Pesan gagal terkirim. Coba lagi."; }
         st.busy = false; ta.focus();
       }

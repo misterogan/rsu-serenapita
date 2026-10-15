@@ -14,6 +14,10 @@ class ChatbotController extends Controller
         abort_unless(SiteSettings::get('chatbot')['enabled'], 404);
         $data = $request->validate(['message' => 'required|string|max:500', 'history' => 'nullable|array|max:20']);
 
+        if ((new \App\Services\ChatModerator)->profanity($data['message'])) {
+            return response()->json(['answer' => 'Mohon gunakan bahasa yang sopan ya. Saya siap membantu informasi jadwal dokter, layanan, BPJS, dan cara membuat janji temu.']);
+        }
+
         return response()->json(['answer' => $bot->answer($data['message'], $data['history'] ?? [])]);
     }
 }

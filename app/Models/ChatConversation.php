@@ -8,8 +8,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ChatConversation extends Model
 {
-    protected $fillable = ['token', 'name', 'phone', 'phone_norm', 'topic', 'status', 'sessions', 'started_at', 'last_at', 'last_text', 'last_from', 'agent_seen_at', 'agent_id', 'note'];
-    protected $casts = ['started_at' => 'datetime', 'last_at' => 'datetime', 'agent_seen_at' => 'datetime'];
+    public function isBlocked(): bool
+    {
+        return $this->blocked_until && $this->blocked_until->isFuture();
+    }
+
+    protected $fillable = ['token', 'name', 'phone', 'phone_norm', 'topic', 'status', 'sessions', 'started_at', 'last_at', 'last_text', 'last_from', 'agent_seen_at', 'agent_id', 'note', 'strikes', 'filtered_total', 'blocked_until'];
+    protected $casts = ['started_at' => 'datetime', 'last_at' => 'datetime', 'agent_seen_at' => 'datetime', 'blocked_until' => 'datetime'];
     protected $hidden = ['token', 'note'];
 
     public function messages(): HasMany

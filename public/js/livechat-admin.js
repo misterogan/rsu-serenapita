@@ -85,8 +85,16 @@
       <span class="lc-pill">${c.sessions > 1 ? `Pengunjung kembali · ${c.sessions} sesi chat` : "Pengunjung baru · sesi pertama"}</span>
       ${c.others.length ? `<span class="lc-pill warn">Nomor yang sama dipakai ${c.others.length} percakapan lain: ${c.others.map(esc).join(", ")}</span>` : ""}
       ${c.appointments.length ? c.appointments.map(a => `<span class="lc-pill">Janji temu ${esc(a)}</span>`).join("") : '<span class="lc-pill">Tidak ada janji temu dengan nomor ini.</span>'}
+      ${modHTML(c.moderation)}
       <h3>Catatan internal</h3><textarea id="lcNote" rows="4" placeholder="Hanya terlihat oleh petugas">${esc(c.note || "")}</textarea>
       <div style="font-size:11px;color:var(--muted);margin-top:4px">Tersimpan otomatis saat Anda pindah dari kolom ini.</div>`;
+  }
+  function modHTML(m) {
+    if (!m || (!m.filtered && !m.blocked && !m.recent.length)) return "";
+    return `<h3>Penyaringan pesan</h3>
+      ${m.blocked ? `<span class="lc-pill warn">Diblokir otomatis sampai ${esc(m.blocked_until)}</span><button class="btn sm" type="button" data-unblock style="margin:4px 0 8px">Buka blokir</button>` : ""}
+      <span class="lc-pill">${m.filtered} pesan tidak diteruskan${m.strikes ? ` · ${m.strikes} peringatan di sesi ini` : ""}</span>
+      ${m.recent.map(r => `<div class="lc-filtered">${esc(r)}</div>`).join("")}`;
   }
   async function loadDetail(full) {
     if (!S.sel) return;
@@ -114,7 +122,11 @@
   }
 
   document.addEventListener("click", async e => {
-    const t = e.target.closest("[data-conv],[data-f],[data-act],[data-canned],#lcBack"); if (!t) return;
+    const t = e.target.closest("[data-conv],[data-f],[data-act],[data-canned],[data-unblock],#lcBack"); if (!t) return;
+    if (t.hasAttribute("data-unblock")) {
+      try { await req(C.routes.unblock.replace("__id__", S.sel), "POST", {}); window.toast("Blokir dibuka"); await loadDetail(true); renderInfo(); } catch (x) { window.toast("Gagal membuka blokir"); }
+      return;
+    }
     if (t.dataset.conv) return select(+t.dataset.conv);
     if (t.dataset.f) { S.tab = t.dataset.f; return renderList(true); }
     if (t.dataset.canned) { const i = $("#lcIn"); i.value = C.canned[+t.dataset.canned]; return i.focus(); }

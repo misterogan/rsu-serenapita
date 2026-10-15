@@ -13,6 +13,13 @@
   <div class="fld half"><label for="hours">Jam layanan live chat</label><input id="hours" name="hours" value="{{ old('hours', $cfg['hours']) }}"></div>
   <div class="fld"><label for="welcome">Pesan sambutan otomatis</label><textarea id="welcome" name="welcome" rows="2">{{ old('welcome', $cfg['welcome']) }}</textarea><div class="hint">Tulis {nama} untuk menyebut nama depan pengunjung.</div></div>
   <div class="fld"><label for="canned">Balasan cepat petugas</label><textarea id="canned" name="canned" rows="6">{{ old('canned', implode("\n", $cfg['canned'])) }}</textarea><div class="hint">Satu balasan per baris.</div></div>
+  <div class="fld"><h3 style="margin:10px 0 2px;font-size:15px">Penyaring pesan</h3><div class="hint" style="margin:0">Pesan yang tersaring tidak diteruskan ke petugas. Pengunjung mendapat pemberitahuan agar memperbaiki pesannya.</div></div>
+  <div class="fld"><div class="tog-row"><div><b>Saring kata kasar</b><small>Makian dan kata kotor, termasuk yang disamarkan seperti a.n.j.i.n.g atau g0bl0k. Kata seperti "anjing" tetap lolos bila dipakai wajar, misalnya "digigit anjing".</small></div><label class="switch"><input type="checkbox" name="filter_profanity" value="1" @checked($cfg['filter_profanity'] ?? true)><span></span></label></div></div>
+  <div class="fld"><div class="tog-row"><div><b>Saring pesan asal-asalan</b><small>Ketikan acak (asdfgh), huruf berulang (aaaaaa), hanya simbol, atau tawa tanpa isi (wkwkwkwk).</small></div><label class="switch"><input type="checkbox" name="filter_spam" value="1" @checked($cfg['filter_spam'] ?? true)><span></span></label></div></div>
+  <div class="fld half"><label for="max_strikes">Batas peringatan sebelum diblokir</label><input id="max_strikes" type="number" name="max_strikes" min="1" max="10" value="{{ old('max_strikes', $cfg['max_strikes'] ?? 3) }}"><div class="hint">Setelah sekian pesan tersaring dalam satu sesi, chat dihentikan otomatis.</div></div>
+  <div class="fld half"><label for="block_hours">Lama blokir (jam)</label><input id="block_hours" type="number" name="block_hours" min="1" max="720" value="{{ old('block_hours', $cfg['block_hours'] ?? 24) }}"><div class="hint">Selama diblokir, nomor HP tersebut tidak bisa memulai live chat.</div></div>
+  <div class="fld half"><label for="block_words">Kata tambahan yang disaring</label><textarea id="block_words" name="block_words" rows="4" placeholder="Satu kata per baris">{{ old('block_words', $cfg['block_words'] ?? '') }}</textarea><div class="hint">Misalnya makian dalam bahasa daerah. Satu kata per baris.</div></div>
+  <div class="fld half"><label for="allow_words">Kata yang tetap diizinkan</label><textarea id="allow_words" name="allow_words" rows="4" placeholder="Satu kata per baris">{{ old('allow_words', $cfg['allow_words'] ?? '') }}</textarea><div class="hint">Bila ada kata wajar yang ikut tersaring. Satu kata per baris.</div></div>
 </div><div class="save-bar"><button class="btn pri">Simpan pengaturan</button></div></form>
 @else
 <div class="lc" id="lc">
@@ -31,11 +38,12 @@ window.LC_CONFIG = {
     show: @json(route('admin.livechat.show', '__id__')),
     send: @json(route('admin.livechat.send', '__id__')),
     status: @json(route('admin.livechat.status', '__id__')),
-    note: @json(route('admin.livechat.note', '__id__'))
+    note: @json(route('admin.livechat.note', '__id__')),
+    unblock: @json(route('admin.livechat.unblock', '__id__'))
   }
 };
 </script>
-<script src="{{ asset('js/livechat-admin.js') }}?v=2"></script>
+<script src="{{ asset('js/livechat-admin.js') }}?v=3"></script>
 @endpush
 @endif
 @endsection
