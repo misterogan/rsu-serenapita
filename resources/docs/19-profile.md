@@ -19,7 +19,7 @@
 | <b>Gambar saat link dibagikan</b> | Gambar yang muncul saat link website dibagikan di WhatsApp atau Facebook. | JPG atau PNG, maks. 600 KB |
 | <b>Pakai bawaan</b> | Centang untuk menghapus gambar yang diunggah dan kembali ke gambar bawaan. | Kotak centang |
 
-<div class="callout tips"><b>Tips</b><p>Ukuran ideal setiap gambar ada di <b>[Bab 25](#gambar)</b>. Logo dengan latar transparan (PNG) akan terlihat paling rapi.</p></div>
+<div class="callout tips"><b>Tips</b><p>Ukuran ideal setiap gambar ada di <b>[Bab 29](#gambar)</b>. Logo dengan latar transparan (PNG) akan terlihat paling rapi.</p></div>
 
 <a id="profile-2" class="anchor"></a>
 

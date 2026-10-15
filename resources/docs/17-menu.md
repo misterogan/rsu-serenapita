@@ -34,7 +34,7 @@
 
 <div class="callout tips"><b>Tips</b><p>Menu <b>Buat Janji</b> juga otomatis nonaktif bila tidak ada satu pun dokter yang tampil, misalnya semua sakelar Tampil di Profil dokter dimatikan. Chatbot pun akan mengarahkan pasien ke loket atau telepon.</p></div>
 
-<div class="callout awas"><b>Hati-hati</b><p>Backoffice hanya mengatur <b>7 menu bawaan</b>: Beranda, Berita, Dokter, Jadwal, Layanan, Buat Janji, dan Kontak. Halaman atau menu baru, misalnya "Karier", belum bisa dibuat dari backoffice dan perlu dibuatkan oleh tim pengembang.</p></div>
+<div class="callout catatan"><b>Catatan</b><p>Menu di bagian atas website ada 8: Beranda, Berita, Dokter, Jadwal, Layanan, Buat Janji, Kontak, dan Tentang Kami. Halaman Galeri, Panduan Pasien &amp; FAQ, Pengaduan &amp; Saran, dan Karier tampil di kolom <b>Informasi</b> pada footer, dan masing-masing bisa dinonaktifkan lewat sakelar di bawah. Halaman baru di luar itu masih perlu dibuatkan oleh tim pengembang.</p></div>
 
 <a id="menu-4" class="anchor"></a>
 
@@ -53,6 +53,9 @@
 |  | Berita di footer | Tiga berita terakhir di bagian bawah halaman. |
 |  | Tautan cepat di footer | Daftar tautan pintas di bagian bawah halaman. |
 |  | Halaman karier | Tautan Karier di footer dan halaman lowongan kerja untuk pelamar. |
+|  | Halaman galeri | Galeri foto dan video beserta tautannya di footer. |
+|  | Halaman panduan pasien &amp; FAQ | Panduan pasien dan FAQ beserta tautannya di footer. |
+|  | Halaman pengaduan &amp; saran | Formulir pengaduan dan cek status tiket beserta tautannya di footer. |
 |  | Mode gelap otomatis | Bila aktif, website tampil gelap di HP atau komputer pengunjung yang memakai mode gelap. Bawaannya <b>mati</b>, sehingga website selalu tampil terang dan logo tetap jelas. |
 
 Geser sakelarnya, lalu klik <b>Simpan perubahan</b>.

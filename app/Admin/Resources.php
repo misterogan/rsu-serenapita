@@ -4,6 +4,10 @@ namespace App\Admin;
 
 use App\Models\Appointment;
 use App\Models\Doctor;
+use App\Models\Faq;
+use App\Models\Feedback;
+use App\Models\GalleryItem;
+use App\Models\Guide;
 use App\Models\JobApplication;
 use App\Models\JobOpening;
 use App\Models\News;
@@ -386,6 +390,112 @@ class Resources
                     ['name' => 'note', 'label' => 'Catatan internal', 'type' => 'textarea', 'rows' => 4, 'rules' => 'nullable|string|max:2000', 'hint' => 'Hanya terlihat oleh petugas. Misalnya hasil wawancara atau jadwal tes.'],
                 ],
                 'label' => fn ($r) => $r->code.' '.$r->name,
+            ],
+
+            'gallery' => [
+                'model' => GalleryItem::class, 'one' => 'item galeri', 'title' => 'Galeri', 'sortable' => true,
+                'desc' => 'Foto dan video kegiatan, fasilitas, dan suasana rumah sakit yang tampil di halaman Galeri.',
+                'order' => ['sort', 'asc'], 'search' => ['title', 'album', 'caption'],
+                'filters' => [
+                    'type' => ['label' => 'Foto dan video', 'options' => fn () => ['photo' => 'Foto', 'video' => 'Video']],
+                    'album' => ['label' => 'Semua album', 'options' => fn () => GalleryItem::whereNotNull('album')->distinct()->orderBy('album')->pluck('album', 'album')->all()],
+                ],
+                'columns' => [
+                    'Item' => fn ($r) => '<div class="cellrow"><div class="mini-thumb">'.($r->thumbUrl() ? '<img src="'.e($r->thumbUrl()).'" alt="">' : '').'</div><div><span class="main">'.e($r->title).'</span><span class="sub">'.($r->type === 'video' ? 'Video' : 'Foto').($r->album ? ' · '.e($r->album) : '').'</span></div></div>',
+                    'Tanggal' => fn ($r) => $r->taken_at ? $r->taken_at->translatedFormat('d M Y') : '—',
+                    'Tampil' => fn ($r) => self::toggle('gallery', $r, 'show'),
+                ],
+                'fields' => [
+                    ['name' => 'type', 'label' => 'Jenis', 'type' => 'select', 'half' => true, 'rules' => 'required|in:photo,video', 'options' => fn () => ['photo' => 'Foto', 'video' => 'Video YouTube']],
+                    ['name' => 'album', 'label' => 'Album', 'type' => 'text', 'half' => true, 'rules' => 'nullable|string|max:60', 'hint' => 'Pengelompokan, misalnya Fasilitas, Kegiatan, atau HUT RS. Dipakai sebagai penyaring di halaman Galeri.'],
+                    ['name' => 'title', 'label' => 'Judul', 'type' => 'text', 'rules' => 'required|string|max:120'],
+                    ['name' => 'image', 'label' => 'Foto', 'type' => 'image', 'dir' => 'gallery', 'rules' => fn ($m) => ($m->image ? 'nullable' : 'required_if:type,photo').'|nullable|image|mimes:jpg,jpeg,png,webp|max:3072', 'hint' => 'Wajib untuk jenis Foto. Ukuran ideal 1600 × 1067 px, maksimal 3 MB. Untuk video, foto ini opsional sebagai gambar sampul.'],
+                    ['name' => 'video_url', 'label' => 'Tautan video YouTube', 'type' => 'text', 'rules' => 'nullable|required_if:type,video|url|max:255', 'hint' => 'Wajib untuk jenis Video. Contoh: https://www.youtube.com/watch?v=xxxx atau https://youtu.be/xxxx'],
+                    ['name' => 'caption', 'label' => 'Keterangan', 'type' => 'textarea', 'rows' => 2, 'rules' => 'nullable|string|max:400'],
+                    ['name' => 'taken_at', 'label' => 'Tanggal', 'type' => 'date', 'half' => true, 'rules' => 'nullable|date'],
+                    ['name' => 'show', 'label' => 'Tampilkan di situs', 'type' => 'toggle', 'default' => true],
+                ],
+                'before' => function ($model, array &$data, bool $isNew) {
+                    if (($data['type'] ?? '') === 'video' && ! GalleryItem::youtubeId($data['video_url'] ?? '')) {
+                        throw \Illuminate\Validation\ValidationException::withMessages(['video_url' => 'Tautan YouTube tidak dikenali. Salin tautan dari tombol Bagikan di YouTube.']);
+                    }
+                    if (($data['type'] ?? '') === 'photo') {
+                        $data['video_url'] = null;
+                    }
+                },
+                'label' => fn ($r) => $r->title,
+            ],
+
+            'guides' => [
+                'model' => Guide::class, 'one' => 'panduan', 'title' => 'Panduan pasien', 'sortable' => true,
+                'desc' => 'Panduan untuk pasien dan keluarga, misalnya alur pendaftaran, BPJS, rawat inap, dan tata tertib besuk.',
+                'order' => ['sort', 'asc'], 'search' => ['title', 'content'],
+                'filters' => ['category' => ['label' => 'Semua kategori', 'options' => fn () => array_combine(Guide::CATEGORIES, Guide::CATEGORIES)]],
+                'columns' => [
+                    'Panduan' => fn ($r) => '<span class="main">'.e($r->title).'</span><span class="sub">'.e(Str::limit(preg_replace('/\s+/', ' ', (string) $r->content), 90)).'</span>',
+                    'Kategori' => fn ($r) => e($r->category),
+                    'Tampil' => fn ($r) => self::toggle('guides', $r, 'show'),
+                ],
+                'fields' => [
+                    ['name' => 'title', 'label' => 'Judul panduan', 'type' => 'text', 'rules' => 'required|string|max:120'],
+                    ['name' => 'category', 'label' => 'Kategori', 'type' => 'select', 'half' => true, 'rules' => 'required|in:'.implode(',', Guide::CATEGORIES), 'options' => fn () => array_combine(Guide::CATEGORIES, Guide::CATEGORIES)],
+                    ['name' => 'content', 'label' => 'Isi panduan', 'type' => 'textarea', 'rows' => 10, 'rules' => 'required|string|max:8000', 'hint' => 'Pisahkan paragraf dengan satu baris kosong. Untuk daftar poin, awali setiap baris dengan tanda minus (-).'],
+                    ['name' => 'show', 'label' => 'Tampilkan di situs', 'type' => 'toggle', 'default' => true],
+                ],
+                'label' => fn ($r) => $r->title,
+            ],
+
+            'faqs' => [
+                'model' => Faq::class, 'one' => 'pertanyaan', 'title' => 'FAQ', 'sortable' => true,
+                'desc' => 'Pertanyaan yang sering diajukan beserta jawabannya. Tampil di halaman Panduan Pasien dan bisa dicari pengunjung.',
+                'order' => ['sort', 'asc'], 'search' => ['question', 'answer'],
+                'filters' => ['category' => ['label' => 'Semua kategori', 'options' => fn () => Faq::distinct()->orderBy('category')->pluck('category', 'category')->all()]],
+                'columns' => [
+                    'Pertanyaan' => fn ($r) => '<span class="main">'.e($r->question).'</span><span class="sub">'.e(Str::limit($r->answer, 100)).'</span>',
+                    'Kategori' => fn ($r) => e($r->category),
+                    'Tampil' => fn ($r) => self::toggle('faqs', $r, 'show'),
+                ],
+                'fields' => [
+                    ['name' => 'question', 'label' => 'Pertanyaan', 'type' => 'text', 'rules' => 'required|string|max:200'],
+                    ['name' => 'answer', 'label' => 'Jawaban', 'type' => 'textarea', 'rows' => 5, 'rules' => 'required|string|max:2000'],
+                    ['name' => 'category', 'label' => 'Kategori', 'type' => 'text', 'half' => true, 'rules' => 'required|string|max:40', 'default' => 'Umum', 'hint' => 'Misalnya Umum, Pendaftaran, BPJS, Rawat inap, IGD.'],
+                    ['name' => 'show', 'label' => 'Tampilkan di situs', 'type' => 'toggle', 'default' => true],
+                ],
+                'label' => fn ($r) => Str::limit($r->question, 60),
+            ],
+
+            'feedback' => [
+                'model' => Feedback::class, 'one' => 'pengaduan', 'title' => 'Pengaduan & saran', 'noCreate' => true, 'files' => ['attachment'],
+                'desc' => 'Pengaduan, saran, pujian, dan pertanyaan dari halaman Pengaduan & Saran. Tanggapan yang Anda tulis bisa dilihat pelapor lewat nomor tiketnya.',
+                'order' => ['id', 'desc'], 'search' => ['code', 'name', 'phone', 'message', 'unit'],
+                'filters' => [
+                    'status' => ['label' => 'Semua status', 'options' => fn () => array_combine(Feedback::STATUSES, Feedback::STATUSES)],
+                    'type' => ['label' => 'Semua jenis', 'options' => fn () => array_combine(Feedback::TYPES, Feedback::TYPES)],
+                    'category' => ['label' => 'Semua kategori', 'options' => fn () => array_combine(Feedback::CATEGORIES, Feedback::CATEGORIES)],
+                ],
+                'columns' => [
+                    'Tiket' => fn ($r) => '<span class="main">'.e($r->code).'</span><span class="sub">'.$r->created_at->translatedFormat('d M Y H.i').'</span>',
+                    'Pelapor' => fn ($r) => '<span class="main">'.e($r->name).'</span><span class="sub">'.e($r->phone).'</span>',
+                    'Jenis' => fn ($r) => e($r->type).'<span class="sub">'.e($r->category).($r->unit ? ' · '.e($r->unit) : '').'</span>',
+                    'Isi' => fn ($r) => e(Str::limit($r->message, 80)),
+                    'Status' => fn ($r) => self::badge($r->status),
+                ],
+                'fields' => [
+                    ['name' => 'code', 'label' => 'Tiket', 'type' => 'readonly', 'half' => true, 'lock' => false, 'value' => fn ($r) => e($r->code).' · '.$r->created_at->translatedFormat('d M Y H.i')],
+                    ['name' => 'type', 'label' => 'Jenis dan kategori', 'type' => 'readonly', 'half' => true, 'lock' => false, 'value' => fn ($r) => e($r->type.' · '.$r->category).($r->unit ? '<br>Unit: '.e($r->unit) : '')],
+                    ['name' => 'name', 'label' => 'Pelapor', 'type' => 'readonly', 'lock' => false, 'value' => fn ($r) => e($r->name).' · <a href="tel:'.e($r->phone).'">'.e($r->phone).'</a> · <a href="https://wa.me/62'.e(substr($r->phone, 1)).'" target="_blank" rel="noopener">WhatsApp</a>'.($r->email ? ' · <a href="mailto:'.e($r->email).'">'.e($r->email).'</a>' : '')],
+                    ['name' => 'message', 'label' => 'Isi laporan', 'type' => 'readonly', 'lock' => false, 'value' => fn ($r) => ($r->incident_date ? '<b>Tanggal kejadian:</b> '.$r->incident_date->translatedFormat('d F Y').'<br>' : '').nl2br(e($r->message))],
+                    ['name' => 'attachment', 'label' => 'Lampiran', 'type' => 'readonly', 'lock' => false, 'value' => fn ($r) => $r->attachment ? '<a class="btn sm" href="'.e(route('admin.feedback.file', $r)).'" target="_blank">Buka lampiran</a>' : '<span style="color:var(--muted)">Tidak ada</span>'],
+                    ['name' => 'status', 'label' => 'Status', 'type' => 'select', 'half' => true, 'rules' => 'required|in:'.implode(',', Feedback::STATUSES), 'options' => fn () => array_combine(Feedback::STATUSES, Feedback::STATUSES)],
+                    ['name' => 'response', 'label' => 'Tanggapan untuk pelapor', 'type' => 'textarea', 'rows' => 5, 'rules' => 'nullable|string|max:3000', 'hint' => 'Terlihat oleh pelapor saat mengecek tiket di halaman Pengaduan & Saran. Tulis dengan sopan dan jelas.'],
+                    ['name' => 'note', 'label' => 'Catatan internal', 'type' => 'textarea', 'rows' => 3, 'rules' => 'nullable|string|max:2000', 'hint' => 'Hanya terlihat oleh petugas, misalnya unit yang menindaklanjuti.'],
+                ],
+                'before' => function ($model, array &$data, bool $isNew) {
+                    if (trim((string) ($data['response'] ?? '')) !== trim((string) $model->response)) {
+                        $data['responded_at'] = filled($data['response'] ?? null) ? now() : null;
+                    }
+                },
+                'label' => fn ($r) => $r->code,
             ],
 
             'users' => [

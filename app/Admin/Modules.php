@@ -6,11 +6,12 @@ namespace App\Admin;
 class Modules
 {
     public const GROUPS = [
-        'Utama' => ['dashboard' => 'Dasbor', 'livechat' => 'Live chat'],
+        'Utama' => ['dashboard' => 'Dasbor', 'livechat' => 'Live chat', 'feedback' => 'Pengaduan & saran'],
         'Konten situs' => ['news' => 'Berita', 'categories' => 'Kategori berita', 'slides' => 'Slider beranda', 'info' => 'Kotak info & jam', 'services' => 'Layanan & fasilitas'],
         'Pelayanan medis' => ['doctors' => 'Profil dokter', 'clinics' => 'Poliklinik', 'schedule' => 'Jadwal dokter', 'leaves' => 'Cuti dokter'],
         'Pendaftaran' => ['appointments' => 'Janji temu', 'appointment-form' => 'Formulir janji temu'],
         'Karier' => ['jobs' => 'Lowongan kerja', 'applications' => 'Pelamar'],
+        'Informasi situs' => ['about' => 'Tentang kami', 'gallery' => 'Galeri', 'guides' => 'Panduan pasien', 'faqs' => 'FAQ'],
         'Tampilan situs' => ['menu' => 'Menu & tampilan', 'chatbot' => 'Chatbot Serena', 'profile' => 'Profil & kontak'],
         'Sistem' => ['simrs' => 'Integrasi SIMRS', 'users' => 'Pengguna', 'roles' => 'Hak akses', 'logs' => 'Log aktivitas'],
     ];
@@ -30,6 +31,11 @@ class Modules
         'appointment-form' => 'M6 3h12v18H6zM9 8h6M9 12h6M9 16h3',
         'menu' => 'M4 6h16M4 12h16M4 18h10',
         'jobs' => 'M4 8h16v11H4zM9 8V5h6v3M4 13h16',
+        'about' => 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 11v6M12 7.5h.01',
+        'gallery' => 'M4 5h16v14H4zM4 15l4-4 4 4 3-3 5 5M15.5 9.5h.01',
+        'guides' => 'M5 4h11l3 3v13H5zM9 9h6M9 13h6M9 17h4',
+        'faqs' => 'M8 9a4 4 0 1 1 5.5 3.7c-.9.4-1.5 1.2-1.5 2.2V16M12 19.5h.01',
+        'feedback' => 'M4 5h16v11H8l-4 4zM8 9h8M8 12h5',
         'leaves' => 'M5 5h14v15H5zM5 9h14M9 3v4M15 3v4M9 14l6 0',
         'applications' => 'M9 4h6v3H9zM7 5H5v16h14V5h-2M8 12h8M8 16h5',
         'chatbot' => 'M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z',

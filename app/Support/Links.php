@@ -7,7 +7,7 @@ use App\Models\Menu;
 
 class Links
 {
-    public const ROUTES = ['home' => 'home', 'news' => 'news.index', 'doctors' => 'doctors', 'schedule' => 'schedule', 'services' => 'services', 'appointment' => 'appointment', 'contact' => 'contact'];
+    public const ROUTES = ['home' => 'home', 'news' => 'news.index', 'doctors' => 'doctors', 'schedule' => 'schedule', 'services' => 'services', 'appointment' => 'appointment', 'contact' => 'contact', 'about' => 'about'];
 
     /** Kunci lama (bahasa Indonesia) tetap dikenali agar data lama tidak rusak. */
     public const LEGACY = ['beranda' => 'home', 'berita' => 'news', 'dokter' => 'doctors', 'jadwal' => 'schedule', 'layanan' => 'services', 'janji' => 'appointment', 'kontak' => 'contact'];

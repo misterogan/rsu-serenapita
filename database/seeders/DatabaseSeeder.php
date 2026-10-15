@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
     {
         /* Peran & pengguna */
         $admin = Role::create(['name' => Role::ADMIN, 'permissions' => array_keys(Modules::all())]);
-        $humas = Role::create(['name' => 'Humas', 'permissions' => ['dashboard', 'livechat', 'news', 'categories', 'slides', 'info', 'services', 'menu', 'chatbot', 'profile']]);
+        $humas = Role::create(['name' => 'Humas', 'permissions' => ['dashboard', 'livechat', 'feedback', 'news', 'categories', 'slides', 'info', 'services', 'about', 'gallery', 'guides', 'faqs', 'menu', 'chatbot', 'profile']]);
         $daftar = Role::create(['name' => 'Pendaftaran', 'permissions' => ['dashboard', 'livechat', 'appointments', 'appointment-form', 'schedule']]);
         Role::create(['name' => 'Pelayanan Medis', 'permissions' => ['dashboard', 'doctors', 'clinics', 'schedule', 'leaves', 'appointments']]);
 
@@ -35,8 +35,8 @@ class DatabaseSeeder extends Seeder
 
         /* Menu situs */
         $n = 0;
-        foreach (['home' => 'Beranda', 'news' => 'Berita', 'doctors' => 'Dokter', 'schedule' => 'Jadwal', 'services' => 'Layanan', 'appointment' => 'Buat Janji', 'contact' => 'Kontak'] as $key => $label) {
-            Menu::create(['key' => $key, 'label' => $label, 'route' => $key, 'visible' => true, 'locked' => $key === 'home', 'sort' => ++$n]);
+        foreach (['home' => 'Beranda', 'news' => 'Berita', 'doctors' => 'Dokter', 'schedule' => 'Jadwal', 'services' => 'Layanan', 'appointment' => 'Buat Janji', 'contact' => 'Kontak', 'about' => 'Tentang Kami'] as $key => $label) {
+            Menu::updateOrCreate(['route' => $key], ['key' => $key, 'label' => $label, 'visible' => true, 'locked' => $key === 'home', 'sort' => ++$n]);
         }
 
         /* Nomor telepon (ganti dengan nomor asli di menu Profil & kontak) */

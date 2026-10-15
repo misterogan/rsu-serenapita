@@ -60,7 +60,7 @@
 <link rel="icon" href="{{ $site['logo'] ?? 'data:image/svg+xml,'.rawurlencode('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path d="M20 2 36 11v18L20 38 4 29V11z" fill="#35A3D8"/><path d="M17 12h6v5h5v6h-5v5h-6v-5h-5v-6h5z" fill="#fff"/></svg>') }}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('css/site.css') }}?v=9">
+<link rel="stylesheet" href="{{ asset('css/site.css') }}?v=11">
 </head>
 <body>
 @if($sec['loader'])
@@ -114,8 +114,19 @@
         @if(Links::enabled('appointment'))<li><a href="{{ route('appointment') }}">Buat janji temu</a></li>@endif
         @if(Links::enabled('doctors'))<li><a href="{{ route('doctors') }}">Daftar dokter</a></li>@endif
         @if(Links::enabled('services'))<li><a href="{{ route('services') }}">Layanan dan fasilitas</a></li>@endif
-        @if($sec['careers'] ?? true)<li><a href="{{ route('careers.index') }}">Karier &amp; lowongan kerja</a></li>@endif
         @if($sec['chatbot'])<li><a href="#" data-open-chat>Tanya {{ $site['chatbot']['name'] }} atau petugas</a></li>@endif
+      </ul>
+      @endif
+    </div>
+    <div>
+      @if($sec['footer_links'])
+      <h4>Informasi</h4>
+      <ul>
+        @if(Links::enabled('about'))<li><a href="{{ route('about') }}">Tentang kami</a></li>@endif
+        @if($sec['guide'] ?? true)<li><a href="{{ route('guide') }}">Panduan pasien &amp; FAQ</a></li>@endif
+        @if($sec['gallery'] ?? true)<li><a href="{{ route('gallery') }}">Galeri foto &amp; video</a></li>@endif
+        @if($sec['feedback'] ?? true)<li><a href="{{ route('feedback') }}">Pengaduan &amp; saran</a></li>@endif
+        @if($sec['careers'] ?? true)<li><a href="{{ route('careers.index') }}">Karier &amp; lowongan kerja</a></li>@endif
       </ul>
       @endif
     </div>

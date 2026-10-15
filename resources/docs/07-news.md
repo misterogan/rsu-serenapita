@@ -24,7 +24,7 @@
 | <b>Kategori</b> | Kelompok berita, misalnya Kegiatan, Pengumuman, atau Tips Kesehatan. | Wajib |
 | <b>Tanggal terbit</b> | Tanggal yang ditampilkan pada berita. Berita tidak akan tampil sebelum tanggal ini. | Wajib |
 | <b>Status</b> | <b>Draf</b>: tersimpan tetapi tidak tampil. <b>Terbit</b>: tampil bila tanggal terbit sudah tiba. <b>Terjadwal</b>: tampil otomatis pada tanggal terbit. | Wajib |
-| <b>Foto sampul</b> | Foto utama berita, juga bisa berupa poster. Di halaman detail berita gambar tampil utuh. Bila kosong, website memakai ilustrasi berwarna yang dipilih di bawahnya. Untuk mengganti foto, unggah foto baru. Untuk menghapus foto, centang <b>Hapus gambar</b>. | Opsional, JPG, PNG, atau WebP, maks. 3 MB. Lihat [Bab 25](#gambar). |
+| <b>Foto sampul</b> | Foto utama berita, juga bisa berupa poster. Di halaman detail berita gambar tampil utuh. Bila kosong, website memakai ilustrasi berwarna yang dipilih di bawahnya. Untuk mengganti foto, unggah foto baru. Untuk menghapus foto, centang <b>Hapus gambar</b>. | Opsional, JPG, PNG, atau WebP, maks. 3 MB. Lihat [Bab 29](#gambar). |
 | <b>Ilustrasi sampul</b> | Gambar berwarna pengganti bila tidak ada foto. Ada 7 pilihan, klik salah satu. | Wajib dipilih |
 | <b>Ringkasan</b> | 1 sampai 2 kalimat yang tampil di kartu berita dan saat link dibagikan ke WhatsApp. | Wajib, maks. 400 karakter |
 | <b>Isi berita</b> | Isi lengkap berita. Pisahkan paragraf dengan <b>satu baris kosong</b>, yaitu tekan Enter dua kali. | Opsional |
@@ -50,4 +50,4 @@
 - Tulis judul singkat yang langsung menjelaskan isi. Usahakan di bawah 70 karakter supaya tidak terpotong di WhatsApp.
 - Paragraf pertama menjawab: apa, kapan, di mana, dan untuk siapa.
 - Hindari menulis data pribadi pasien, seperti nama dan penyakit, tanpa izin tertulis.
-- Gunakan foto yang jelas dan tidak buram, dengan ukuran sesuai [Bab 25](#gambar).
+- Gunakan foto yang jelas dan tidak buram, dengan ukuran sesuai [Bab 29](#gambar).

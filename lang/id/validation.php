@@ -17,13 +17,17 @@ return [
     'image' => ':attribute harus berupa gambar.',
     'in' => ':attribute yang dipilih tidak valid.',
     'integer' => ':attribute harus berupa bilangan bulat.',
+    'required_if' => ':attribute wajib diisi.',
+    'after_or_equal' => ':attribute harus sama dengan atau setelah :date.',
+    'mimes' => ':attribute harus berupa berkas dengan format: :values.',
+    'url' => ':attribute harus berupa tautan yang valid.',
+    'uploaded' => ':attribute gagal diunggah. Periksa ukuran berkas.',
     'max' => [
         'array' => ':attribute maksimal :max item.',
         'file' => ':attribute maksimal :max kilobita.',
         'numeric' => ':attribute maksimal :max.',
         'string' => ':attribute maksimal :max karakter.',
     ],
-    'mimes' => ':attribute harus berupa berkas: :values.',
     'min' => [
         'array' => ':attribute minimal :min item.',
         'file' => ':attribute minimal :min kilobita.',
@@ -38,7 +42,11 @@ return [
     ],
     'string' => ':attribute harus berupa teks.',
     'unique' => ':attribute sudah digunakan.',
-    'url' => 'Format :attribute tidak valid.',
+
+    'custom' => [
+        'image' => ['required_if' => 'Foto wajib diunggah untuk jenis Foto.'],
+        'video_url' => ['required_if' => 'Tautan video wajib diisi untuk jenis Video.'],
+    ],
 
     'attributes' => [
         'email' => 'email',

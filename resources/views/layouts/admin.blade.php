@@ -37,6 +37,7 @@
         @foreach($visible as $key => $name)
           <a href="{{ $routeFor($key) }}" data-label="{{ $name }}" class="{{ $current === $key ? 'active' : '' }}" @if($current === $key) aria-current="page" @endif>
             <svg class="i" viewBox="0 0 24 24"><path d="{{ $icons[$key] }}"/></svg>{{ $name }}
+            @if($key === 'feedback')@php $fbNew = \App\Models\Feedback::where('status', 'Baru')->count(); @endphp @if($fbNew)<span class="cnt" title="Laporan baru">{{ $fbNew }}</span>@endif @endif
             @if($key === 'livechat')<span class="cnt" id="lcBadge" data-n="{{ $lcCount }}" @if(!$lcCount) hidden @endif>{{ $lcCount ?: '' }}</span>@endif
           </a>
         @endforeach
@@ -55,7 +56,7 @@
     <header class="top">
       <button class="burger" id="burger" aria-label="Buka menu"><svg class="i" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
       <div class="top-acts">
-        @php $helpAnchor = ['applications' => 'jobs', 'leaves' => 'schedule', 'help' => ''][$current] ?? $current; @endphp
+        @php $helpAnchor = ['applications' => 'jobs', 'leaves' => 'schedule', 'faqs' => 'guides', 'help' => ''][$current] ?? $current; @endphp
         @if($current !== 'help')<a class="btn sm" href="{{ route('admin.help') }}{{ $helpAnchor ? '#'.$helpAnchor : '' }}" title="Panduan untuk halaman ini"><svg class="i" viewBox="0 0 24 24"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4.5M12 17.5h.01"/></svg>Panduan</a>@endif
         <a class="btn sm" href="{{ route('home') }}" target="_blank" rel="noopener"><svg class="i" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"/></svg>Lihat situs</a>
       </div>

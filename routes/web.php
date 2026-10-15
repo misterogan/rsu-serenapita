@@ -19,6 +19,12 @@ Route::get('/appointments', [Site\AppointmentController::class, 'create'])->midd
 Route::get('/appointments/times', [Site\AppointmentController::class, 'times'])->middleware('page:appointment')->name('appointment.times');
 Route::post('/appointments', [Site\AppointmentController::class, 'store'])->middleware(['throttle:10,1', 'page:appointment'])->name('appointment.store');
 
+Route::get('/about', [Site\InfoController::class, 'about'])->middleware('page:about')->name('about');
+Route::get('/gallery', [Site\InfoController::class, 'gallery'])->name('gallery');
+Route::get('/patient-guide', [Site\InfoController::class, 'guide'])->name('guide');
+Route::get('/feedback', [Site\InfoController::class, 'feedback'])->name('feedback');
+Route::post('/feedback', [Site\InfoController::class, 'storeFeedback'])->middleware('throttle:5,1')->name('feedback.store');
+Route::get('/feedback/status', [Site\InfoController::class, 'feedbackStatus'])->middleware('throttle:20,1')->name('feedback.status');
 Route::get('/careers', [Site\CareerController::class, 'index'])->name('careers.index');
 Route::get('/careers/{slug}', [Site\CareerController::class, 'show'])->name('careers.show');
 Route::post('/careers/{slug}/apply', [Site\CareerController::class, 'apply'])->middleware('throttle:5,1')->name('careers.apply');
@@ -67,6 +73,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/menu', [Admin\ContentController::class, 'menu'])->name('menu');
             Route::post('/menu', [Admin\ContentController::class, 'saveMenu']);
         });
+        Route::middleware('module:about')->group(function () {
+            Route::get('/about', [Admin\ContentController::class, 'about'])->name('about');
+            Route::post('/about', [Admin\ContentController::class, 'saveAbout']);
+        });
+        Route::get('/feedback/{feedback}/file', Admin\FeedbackFileController::class)->middleware('module:feedback')->name('feedback.file');
         Route::middleware('module:profile')->group(function () {
             Route::get('/profile', [Admin\ContentController::class, 'profile'])->name('profile');
             Route::post('/profile', [Admin\ContentController::class, 'saveProfile']);

@@ -32,7 +32,7 @@
 | Peran | Menu yang bisa dibuka | Cocok untuk |
 |---|---|---|
 | Administrator | Semua menu | Tim IT atau penanggung jawab website |
-| Humas | Dasbor, Live chat, Berita, Kategori berita, Slider beranda, Kotak info &amp; jam, Layanan &amp; fasilitas, Menu &amp; tampilan, Chatbot, Profil &amp; kontak | Bagian Humas dan pemasaran |
+| Humas | Dasbor, Live chat, Pengaduan &amp; saran, Berita, Kategori berita, Slider beranda, Kotak info &amp; jam, Layanan &amp; fasilitas, Tentang kami, Galeri, Panduan pasien, FAQ, Menu &amp; tampilan, Chatbot, Profil &amp; kontak | Bagian Humas dan pemasaran |
 | Pendaftaran | Dasbor, Live chat, Janji temu, Formulir janji temu, Jadwal dokter | Petugas loket dan pendaftaran |
 | Pelayanan Medis | Dasbor, Profil dokter, Poliklinik, Jadwal dokter, Cuti dokter, Janji temu | Bagian pelayanan medis |
 

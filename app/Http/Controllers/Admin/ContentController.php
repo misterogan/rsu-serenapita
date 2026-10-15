@@ -32,6 +32,9 @@ class ContentController extends Controller
             'footer_news' => ['Berita di footer', 'Tiga berita terakhir di footer.'],
             'footer_links' => ['Tautan cepat di footer', 'Daftar tautan pintas di footer.'],
             'careers' => ['Halaman karier', 'Tautan Karier di footer dan halaman lowongan kerja untuk pelamar.'],
+            'gallery' => ['Halaman galeri', 'Galeri foto dan video di alamat /gallery, beserta tautannya di footer.'],
+            'guide' => ['Halaman panduan pasien & FAQ', 'Panduan pasien dan pertanyaan yang sering diajukan di alamat /patient-guide.'],
+            'feedback' => ['Halaman pengaduan & saran', 'Formulir pengaduan dan cek status tiket di alamat /feedback.'],
             'dark_mode' => ['Mode gelap otomatis', 'Website tampil gelap bila HP atau komputer pengunjung memakai mode gelap. Matikan agar website selalu tampil terang dan logo tetap jelas.'],
         ],
     ];
@@ -100,6 +103,45 @@ class ContentController extends Controller
         ActivityLog::record('Memperbarui menu & tampilan situs');
 
         return back()->with('ok', 'Menu dan tampilan disimpan.');
+    }
+
+    /* ---------- Tentang kami ---------- */
+    public function about()
+    {
+        return view('admin.content.about', ['a' => SiteSettings::get('about')]);
+    }
+
+    public function saveAbout(Request $request)
+    {
+        $data = $request->validate([
+            'intro' => 'required|string|max:600', 'history' => 'nullable|string|max:6000',
+            'vision' => 'nullable|string|max:600', 'mission' => 'nullable|string|max:3000', 'values' => 'nullable|string|max:2000',
+            'accreditation' => 'nullable|string|max:300', 'awards' => 'nullable|string|max:3000',
+            'director_name' => 'nullable|string|max:120', 'director_title' => 'nullable|string|max:80', 'director_message' => 'nullable|string|max:3000',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3072', 'accreditation_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3072',
+            'director_photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', 'org_chart' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
+        ], [], ['intro' => 'ringkasan', 'image' => 'foto rumah sakit', 'accreditation_image' => 'sertifikat akreditasi', 'director_photo' => 'foto direktur', 'org_chart' => 'struktur organisasi']);
+        $a = SiteSettings::get('about');
+        foreach (['image', 'accreditation_image', 'director_photo', 'org_chart'] as $k) {
+            unset($data[$k]);
+            if ($request->boolean($k.'_remove') && ! empty($a[$k])) {
+                Storage::disk('public')->delete($a[$k]);
+                $a[$k] = null;
+            }
+            if ($request->hasFile($k)) {
+                if (! empty($a[$k])) {
+                    Storage::disk('public')->delete($a[$k]);
+                }
+                $a[$k] = $request->file($k)->store('about', 'public');
+            }
+        }
+        foreach ($data as $k => $v) {
+            $a[$k] = $v ?? '';
+        }
+        SiteSettings::put('about', $a);
+        ActivityLog::record('Memperbarui halaman Tentang Kami');
+
+        return back()->with('ok', 'Halaman Tentang Kami disimpan.');
     }
 
     /* ---------- Profil, logo & kontak ---------- */

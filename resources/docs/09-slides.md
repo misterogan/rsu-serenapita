@@ -24,7 +24,7 @@
 | <b>Label tab</b> | Teks kecil di garis penanda slide, misalnya "BPJS". Bila kosong, tertulis "Slide 1", "Slide 2", dan seterusnya. | Maks. 30 karakter |
 | <b>Teks tombol</b> | Tulisan pada tombol putih, misalnya "Buat janji temu". Kosongkan bila tidak perlu tombol. | Maks. 40 karakter |
 | <b>Tujuan tombol</b> | Halaman yang dibuka saat tombol diklik: Beranda, Berita, Dokter, Jadwal, Layanan, Buat Janji, atau Kontak. | Pilihan |
-| <b>Foto latar</b> | Foto di belakang tulisan, misalnya foto gedung atau kegiatan rumah sakit. Foto otomatis diberi lapisan gelap agar tulisan putih tetap terbaca. Bila kosong, slide memakai latar biru bawaan. Centang <b>Hapus gambar</b> untuk kembali ke latar bawaan. | Opsional, JPG, PNG, atau WebP, maks. 2 MB. Lihat [Bab 25](#gambar). |
+| <b>Foto latar</b> | Foto di belakang tulisan, misalnya foto gedung atau kegiatan rumah sakit. Foto otomatis diberi lapisan gelap agar tulisan putih tetap terbaca. Bila kosong, slide memakai latar biru bawaan. Centang <b>Hapus gambar</b> untuk kembali ke latar bawaan. | Opsional, JPG, PNG, atau WebP, maks. 2 MB. Lihat [Bab 29](#gambar). |
 | <b>Cara menampilkan foto</b> | <b>Otomatis</b>: foto mendatar dibuat penuh selebar banner, sedangkan foto tegak atau persegi ditampilkan <b>utuh di sisi kanan</b> dengan latar foto yang sama diburamkan. Bisa juga dipilih manual: <b>Penuh</b> (foto dipotong) atau <b>Utuh</b> (foto tidak dipotong). | Pilihan, bawaan Otomatis |
 | <b>Bagian foto yang diutamakan</b> | Bagian foto yang tetap terlihat saat foto dipotong, terutama di layar HP: Tengah, Kanan, Kiri, Atas, atau Bawah. | Pilihan |
 | <b>Tampilkan slide</b> | Matikan untuk menyembunyikan slide tanpa menghapusnya. | Sakelar |

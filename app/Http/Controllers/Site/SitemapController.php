@@ -32,6 +32,15 @@ class SitemapController extends Controller
 
             return true;
         }));
+        $secs = SiteSettings::get('sections');
+        foreach (['gallery' => 'gallery', 'guide' => 'guide', 'feedback' => 'feedback'] as $key => $route) {
+            if ($secs[$key] ?? true) {
+                $pages[] = ['loc' => route($route), 'freq' => 'monthly', 'prio' => '0.6', 'mod' => null];
+            }
+        }
+        if (\App\Support\Links::enabled('about')) {
+            $pages[] = ['loc' => route('about'), 'freq' => 'monthly', 'prio' => '0.7', 'mod' => null];
+        }
         if (SiteSettings::get('sections')['careers'] ?? true) {
             $pages[] = ['loc' => route('careers.index'), 'freq' => 'weekly', 'prio' => '0.6', 'mod' => JobOpening::published()->max('updated_at')];
             foreach (JobOpening::where('status', 'Dibuka')->get(['slug', 'updated_at']) as $j) {
