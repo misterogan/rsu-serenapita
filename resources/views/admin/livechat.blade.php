@@ -34,12 +34,12 @@ window.LC_CONFIG = {
   pollMs: @json(config('serenapita.livechat.agent_poll_ms')),
   canned: @json($cfg['canned']),
   routes: {
-    feed: @json(route('admin.livechat.feed')),
-    show: @json(route('admin.livechat.show', '__id__')),
-    send: @json(route('admin.livechat.send', '__id__')),
-    status: @json(route('admin.livechat.status', '__id__')),
-    note: @json(route('admin.livechat.note', '__id__')),
-    unblock: @json(route('admin.livechat.unblock', '__id__'))
+    feed: @json(route('admin.livechat.feed', [], false)),
+    show: @json(route('admin.livechat.show', '__id__', false)),
+    send: @json(route('admin.livechat.send', '__id__', false)),
+    status: @json(route('admin.livechat.status', '__id__', false)),
+    note: @json(route('admin.livechat.note', '__id__', false)),
+    unblock: @json(route('admin.livechat.unblock', '__id__', false))
   }
 };
 </script>

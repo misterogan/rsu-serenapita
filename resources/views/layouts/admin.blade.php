@@ -16,7 +16,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('css/admin.css') }}?v=5">
 </head>
-<body data-lc-count="{{ $me->canModule('livechat') ? route('admin.livechat.count') : '' }}">
+<body data-lc-count="{{ $me->canModule('livechat') ? route('admin.livechat.count', [], false) : '' }}">
 <div id="loader" role="status" aria-hidden="true"><div class="ld-card">
   <div class="ld-logo">@include('partials.logo-mark', ['size' => 60])</div>
   <svg class="ld-ecg" viewBox="0 0 200 46" aria-hidden="true"><path class="base" d="M0 25h50l8-14 10 30 10-38 9 30 7-8h106"/><path class="trace" d="M0 25h50l8-14 10 30 10-38 9 30 7-8h106"/></svg>

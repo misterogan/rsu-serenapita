@@ -13,6 +13,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Percayai Cloudflare Tunnel agar Laravel tahu pengunjung memakai HTTPS
+        $middleware->trustProxies(at: '*');
+
         $middleware->alias([
             'staff' => EnsureStaff::class,
             'module' => ModuleAccess::class,

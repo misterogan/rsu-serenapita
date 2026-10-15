@@ -155,7 +155,7 @@ window.SERENA = {
   pollMs: @json(config('serenapita.livechat.visitor_poll_ms')),
   bot: { greeting: @json($site['chatbot']['greeting']) },
   livechat: { enabled: @json((bool) $site['livechat']['enabled']), label: @json($site['livechat']['label']), hours: @json($site['livechat']['hours']) },
-  routes: { chatbot: @json(route('chatbot')), times: @json(route('appointment.times')), lcStart: @json(route('livechat.start')), lcPoll: @json(route('livechat.poll')), lcSend: @json(route('livechat.send')), lcEnd: @json(route('livechat.end')) }
+  routes: { chatbot: @json(route('chatbot', [], false)), times: @json(route('appointment.times', [], false)), lcStart: @json(route('livechat.start', [], false)), lcPoll: @json(route('livechat.poll', [], false)), lcSend: @json(route('livechat.send', [], false)), lcEnd: @json(route('livechat.end', [], false)) }
 };
 </script>
 <script src="{{ asset('js/site.js') }}?v=4" defer></script>
