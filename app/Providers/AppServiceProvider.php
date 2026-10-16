@@ -25,6 +25,17 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // Koneksi baca ke database SIMRS Khanza (Dasbor manajemen)
+        $kz = config('serenapita.khanza');
+        if (! empty($kz['host']) && ! empty($kz['database'])) {
+            config(['database.connections.khanza' => [
+                'driver' => 'mysql', 'host' => $kz['host'], 'port' => $kz['port'], 'database' => $kz['database'],
+                'username' => $kz['username'], 'password' => $kz['password'], 'charset' => $kz['charset'], 'collation' => null,
+                'prefix' => '', 'strict' => false, 'engine' => null,
+                'options' => [\PDO::ATTR_TIMEOUT => 5],
+            ]]);
+        }
+
         Carbon::setLocale('id');
         Paginator::defaultView('partials.pagination');
 

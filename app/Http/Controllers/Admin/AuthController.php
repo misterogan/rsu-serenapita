@@ -47,6 +47,9 @@ class AuthController extends Controller
     /** Arahkan ke menu pertama yang boleh dibuka peran ini. */
     public function home(Request $request)
     {
+        if ($request->user()->isExecutive()) {
+            return redirect()->route('admin.management');
+        }
         foreach (array_keys(Modules::all()) as $key) {
             if ($request->user()->canModule($key)) {
                 return redirect()->to(url('admin/'.$key));

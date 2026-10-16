@@ -500,9 +500,10 @@ class Resources
 
             'users' => [
                 'model' => User::class, 'one' => 'pengguna', 'title' => 'Pengguna',
+                'scope' => fn ($q) => $q->where(fn ($w) => $w->whereNull('role_id')->orWhereNotIn('role_id', Role::executiveIds())),
                 'desc' => 'Akun petugas yang dapat masuk ke backoffice. Hak akses diatur per peran.',
                 'with' => ['role'], 'order' => ['name', 'asc'], 'search' => ['name', 'email'],
-                'filters' => ['role_id' => ['label' => 'Semua peran', 'options' => fn () => Role::orderBy('name')->pluck('name', 'id')->all()]],
+                'filters' => ['role_id' => ['label' => 'Semua peran', 'options' => fn () => Role::orderBy('name')->get()->reject->isExecutive()->pluck('name', 'id')->all()]],
                 'columns' => [
                     'Pengguna' => fn ($r) => '<div class="cellrow">'.self::avatar(self::COLORS[crc32($r->email) % count(self::COLORS)], $r->initials()).'<div><span class="main">'.e($r->name).'</span><span class="sub">'.e($r->email).'</span></div></div>',
                     'Peran' => fn ($r) => e($r->role?->name ?? '—'),
@@ -512,7 +513,7 @@ class Resources
                 'fields' => [
                     ['name' => 'name', 'label' => 'Nama', 'type' => 'text', 'rules' => 'required|string|max:100'],
                     ['name' => 'email', 'label' => 'Email', 'type' => 'email', 'rules' => fn ($m) => 'required|email|max:150|unique:users,email,'.($m->id ?? 'NULL')],
-                    ['name' => 'role_id', 'label' => 'Peran', 'type' => 'select', 'half' => true, 'rules' => 'required|exists:roles,id', 'options' => fn () => Role::orderBy('name')->pluck('name', 'id')->all()],
+                    ['name' => 'role_id', 'label' => 'Peran', 'type' => 'select', 'half' => true, 'rules' => fn () => 'required|in:'.implode(',', Role::all()->reject->isExecutive()->pluck('id')->all()), 'options' => fn () => Role::orderBy('name')->get()->reject->isExecutive()->pluck('name', 'id')->all()],
                     ['name' => 'password', 'label' => 'Kata sandi', 'type' => 'password', 'half' => true, 'rules' => fn ($m) => ($m->exists ? 'nullable' : 'required').'|string|min:8', 'hint' => 'Minimal 8 karakter. Kosongkan saat mengubah jika tidak diganti.'],
                     ['name' => 'is_active', 'label' => 'Akun aktif', 'type' => 'toggle', 'default' => true, 'desc' => 'Akun nonaktif tidak dapat masuk.'],
                 ],

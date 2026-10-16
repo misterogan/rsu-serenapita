@@ -37,7 +37,7 @@ class DashboardController extends Controller
             'perPoli' => $perPoli,
             'max' => max(1, $perPoli->max(1) ?? 1),
             'leaves' => DoctorLeave::with('doctor')->whereDate('date_to', '>=', $today)->orderBy('date_from')->get(),
-            'logs' => ActivityLog::latest('id')->limit(6)->get(),
+            'logs' => ActivityLog::latest('id')->whereNotIn('user_id', \App\Models\User::whereIn('role_id', \App\Models\Role::executiveIds())->pluck('id'))->limit(6)->get(),
             'simrs' => SiteSettings::get('simrs'),
         ]);
     }

@@ -10,7 +10,7 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $fillable = ['name', 'email', 'password', 'role_id', 'is_active', 'last_login_at'];
+    protected $fillable = ['name', 'email', 'password', 'role_id', 'is_active', 'last_login_at', 'must_change_password'];
     protected $hidden = ['password', 'remember_token'];
 
     protected function casts(): array
@@ -20,6 +20,7 @@ class User extends Authenticatable
             'last_login_at' => 'datetime',
             'password' => 'hashed',
             'is_active' => 'bool',
+            'must_change_password' => 'bool',
         ];
     }
 
@@ -31,6 +32,11 @@ class User extends Authenticatable
     public function canModule(string $module): bool
     {
         return (bool) $this->role?->allows($module);
+    }
+
+    public function isExecutive(): bool
+    {
+        return (bool) $this->role?->isExecutive();
     }
 
     public function initials(): string

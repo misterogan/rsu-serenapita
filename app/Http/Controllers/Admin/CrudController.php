@@ -22,13 +22,21 @@ class CrudController extends Controller
 
     protected function find(array $res, $id): Model
     {
-        return $res['model']::query()->with($res['with'] ?? [])->findOrFail($id);
+        $q = $res['model']::query()->with($res['with'] ?? []);
+        if (isset($res['scope'])) {
+            ($res['scope'])($q);
+        }
+
+        return $q->findOrFail($id);
     }
 
     public function index(Request $request, string $resource)
     {
         $res = $this->res($resource);
         $q = $res['model']::query()->with($res['with'] ?? []);
+        if (isset($res['scope'])) {
+            ($res['scope'])($q);
+        }
         if (! empty($res['withCount'])) {
             $q->withCount($res['withCount']);
         }

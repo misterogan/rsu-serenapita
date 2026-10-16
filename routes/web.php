@@ -49,6 +49,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/', [Admin\AuthController::class, 'home'])->name('home');
 
         Route::get('/help', Admin\HelpController::class)->name('help');
+        Route::get('/password', [Admin\AccountController::class, 'edit'])->name('password');
+        Route::post('/password', [Admin\AccountController::class, 'update'])->middleware('throttle:10,1')->name('password.save');
+        Route::middleware('module:management')->group(function () {
+            Route::get('/management', [Admin\ManagementController::class, 'index'])->name('management');
+            Route::get('/management/export/{report}', [Admin\ManagementController::class, 'export'])->name('management.export');
+        });
         Route::get('/dashboard', Admin\DashboardController::class)->middleware('module:dashboard')->name('dashboard');
 
         Route::middleware('module:livechat')->prefix('livechat')->name('livechat.')->group(function () {

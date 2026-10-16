@@ -15,8 +15,15 @@ class HelpController extends Controller
 {
     public function __invoke()
     {
-        $files = glob(resource_path('docs/*.md')) ?: [];
-        sort($files);
+        // Bab yang tampil ditentukan index.json, supaya file lama yang tertinggal tidak ikut tampil
+        $index = resource_path('docs/index.json');
+        $list = is_file($index) ? json_decode((string) file_get_contents($index), true) : null;
+        $files = is_array($list)
+            ? array_values(array_filter(array_map(fn ($f) => resource_path('docs/'.basename((string) $f)), $list), 'is_file'))
+            : (glob(resource_path('docs/*.md')) ?: []);
+        if (! is_array($list)) {
+            sort($files);
+        }
         $sig = md5(collect($files)->map(fn ($f) => basename($f).filemtime($f))->implode('|'));
 
         $chapters = Cache::rememberForever('help.chapters.'.$sig, function () use ($files) {

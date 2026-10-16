@@ -12,14 +12,14 @@ class RoleController extends Controller
 {
     public function index()
     {
-        return view('admin.roles', ['roles' => Role::withCount('users')->orderBy('id')->get()]);
+        return view('admin.roles', ['roles' => Role::withCount('users')->orderBy('id')->get()->reject->isExecutive()->values()]);
     }
 
     public function save(Request $request)
     {
         $valid = array_keys(Modules::all());
         $perm = $request->input('perm', []);
-        foreach (Role::where('name', '!=', Role::ADMIN)->get() as $role) {
+        foreach (Role::where('name', '!=', Role::ADMIN)->get()->reject->isExecutive() as $role) {
             $mods = array_values(array_intersect($valid, array_keys($perm[$role->id] ?? [])));
             $role->update(['permissions' => $mods]);
         }
@@ -39,6 +39,7 @@ class RoleController extends Controller
 
     public function destroy(Role $role)
     {
+        abort_if($role->isExecutive(), 404);
         if ($role->name === Role::ADMIN) {
             return back()->with('err', 'Peran Administrator tidak bisa dihapus.');
         }

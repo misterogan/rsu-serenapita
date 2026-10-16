@@ -22,6 +22,10 @@ class EnsureStaff
             return redirect()->route('admin.login')->withErrors(['email' => 'Akun Anda dinonaktifkan. Hubungi administrator.']);
         }
 
+        if ($user->must_change_password && ! $request->routeIs('admin.password', 'admin.password.save', 'admin.logout')) {
+            return redirect()->route('admin.password')->with('err', 'Silakan ganti kata sandi Anda sebelum melanjutkan.');
+        }
+
         return $next($request);
     }
 }
