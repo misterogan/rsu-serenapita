@@ -31,6 +31,23 @@ KONEKSI KE DATABASE KHANZA
      KHANZA_QUERY_TIMEOUT=30         (opsional, detik per query)
 4. Jalankan: php artisan config:clear
 
+ISI DASBOR (per tab, dimuat saat tab dibuka)
+  Ringkasan           peringatan otomatis, kartu utama, indikator mutu, target vs realisasi,
+                      perbandingan tahun lalu, tren 12 bulan kunjungan dan pendapatan
+  Pelayanan           tren harian, poli (klik untuk rincian dokter dan diagnosa), cara bayar,
+                      kinerja dokter, ketepatan jam praktik, jam sibuk, antrean online,
+                      diagnosa, rujukan masuk, wilayah, demografi
+  Rawat inap          BOR/ALOS/TOI/BTO/GDR/NDR, dirawat ulang <= 30 hari, okupansi, status pulang, DPJP
+  Penunjang & farmasi lama hasil lab/radiologi, waktu tunggu resep, lab per kategori, operasi,
+                      obat terbanyak, stok di bawah minimal, obat kedaluwarsa
+  Keuangan            pembayaran, piutang baru, umur piutang, pelunasan, pendapatan per poli dan dokter,
+                      komposisi tagihan, jasa tindakan dokter, hutang supplier, pengeluaran harian,
+                      margin farmasi
+  Klaim BPJS          tarif INA-CBG dibandingkan biaya RS per CBG
+
+Hak akses: Komisaris semua tab dan bisa mengisi target bulanan; Direktur tab Ringkasan,
+Pelayanan, Rawat inap, Penunjang (tanpa rupiah); Akunting tab Ringkasan, Keuangan, Klaim BPJS.
+
 Semua query ada di laporan-manajemen.sql (folder ini) dan di
 app/Services/Khanza/KhanzaReports.php. Bila ada laporan yang tidak bisa dibaca
 karena versi Khanza berbeda, dasbor menampilkan pesan errornya.

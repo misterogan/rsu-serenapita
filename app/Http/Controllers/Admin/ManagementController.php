@@ -5,16 +5,39 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ActivityLog;
 use App\Services\Khanza\KhanzaReports;
+use App\Support\SiteSettings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Throwable;
 
-/** Dasbor manajemen: laporan dari database SIMRS Khanza. */
+/** Dasbor manajemen: laporan dari database SIMRS Khanza, dibagi per tab dan dimuat saat tab dibuka. */
 class ManagementController extends Controller
 {
     public const PRESETS = ['hari-ini' => 'Hari ini', '7-hari' => '7 hari terakhir', 'bulan-ini' => 'Bulan ini', 'bulan-lalu' => 'Bulan lalu', 'tahun-ini' => 'Tahun ini'];
 
-    /** @return array{0: string, 1: string, 2: string} dari, sampai, preset */
+    /** Tab => [judul, bagian yang dibutuhkan: ops / finance / any]. */
+    public const TABS = [
+        'ringkasan' => ['Ringkasan', 'any'],
+        'pelayanan' => ['Pelayanan', 'ops'],
+        'ranap' => ['Rawat inap', 'ops'],
+        'penunjang' => ['Penunjang & farmasi', 'ops'],
+        'keuangan' => ['Keuangan', 'finance'],
+        'bpjs' => ['Klaim BPJS (INA-CBG)', 'finance'],
+    ];
+
+    protected function scope(Request $request): array
+    {
+        $role = $request->user()->role;
+
+        return ['ops' => $role->canSee('ops'), 'fin' => $role->canSee('finance')];
+    }
+
+    protected function tabsFor(array $sc): array
+    {
+        return array_filter(self::TABS, fn ($t) => $t[1] === 'any' || ($t[1] === 'ops' && $sc['ops']) || ($t[1] === 'finance' && $sc['fin']));
+    }
+
+    /** @return array{0: string, 1: string, 2: string} */
     protected function period(Request $request): array
     {
         $p = $request->query('periode', 'bulan-ini');
@@ -46,75 +69,139 @@ class ManagementController extends Controller
         }
     }
 
+    protected function pq(string $from, string $to, string $preset): array
+    {
+        return ['periode' => $preset] + ($preset === 'custom' ? ['dari' => $from, 'sampai' => $to] : []);
+    }
+
     public function index(Request $request)
     {
         [$from, $to, $preset] = $this->period($request);
-        $role = $request->user()->role;
-        $ops = $role->canSee('ops');
-        $fin = $role->canSee('finance');
-        $scope = ['ops' => $ops, 'fin' => $fin];
+        $sc = $this->scope($request);
+        $base = ['from' => $from, 'to' => $to, 'preset' => $preset, 'presets' => self::PRESETS, 'tabs' => $this->tabsFor($sc), 'pq' => $this->pq($from, $to, $preset)] + $sc;
         if (! KhanzaReports::configured()) {
-            return view('admin.management', ['configured' => false, 'from' => $from, 'to' => $to, 'preset' => $preset, 'presets' => self::PRESETS] + $scope);
+            return view('admin.management', $base + ['configured' => false]);
         }
-        $fresh = $request->boolean('segarkan');
-        $r = new KhanzaReports($from, $to, $fresh);
         $connError = null;
         try {
             KhanzaReports::ping();
         } catch (Throwable $e) {
             $connError = mb_substr($e->getMessage(), 0, 240);
         }
-        if ($fresh) {
+        if ($request->boolean('segarkan')) {
             ActivityLog::record('Memuat ulang data Dasbor manajemen');
         }
-        $data = [];
-        if (! $connError) {
-            // Hanya jalankan query untuk bagian yang boleh dilihat peran ini
-            if ($ops) {
-                $data += [
-                    'summary' => $r->summary(), 'prev' => $r->previousSummary(), 'trend' => $r->trend(),
-                    'clinics' => $r->byClinic(), 'payers' => $r->byPayer(), 'doctors' => $r->doctors(),
-                    'antrolStatus' => $r->antrolStatus(), 'antrolClinic' => $r->antrolClinic(), 'antrolTimes' => $r->antrolTimes(),
-                    'now' => $r->inpatientNow(), 'ind' => $r->inpatientIndicators(), 'wards' => $r->wards(), 'discharge' => $r->dischargeStatus(),
-                    'diagnoses' => $r->topDiagnoses(), 'regions' => $r->regions(), 'demography' => $r->demography(),
-                ];
-            }
-            if ($fin) {
-                $data += ['payments' => $r->payments(), 'receivables' => $r->receivables(), 'billing' => $r->billingCategories()];
-            }
-            $data += ['support' => $r->support(), 'drugs' => $r->topDrugs()];
+
+        return view('admin.management', $base + ['configured' => true, 'connError' => $connError, 'fresh' => $request->boolean('segarkan')]);
+    }
+
+    /** Isi satu tab (HTML), dimuat lewat JavaScript saat tab dibuka. */
+    public function section(Request $request, string $tab)
+    {
+        $sc = $this->scope($request);
+        abort_unless(isset($this->tabsFor($sc)[$tab]) && KhanzaReports::configured(), 404);
+        [$from, $to, $preset] = $this->period($request);
+        $r = new KhanzaReports($from, $to, $request->boolean('segarkan'));
+        $ops = $sc['ops'];
+        $fin = $sc['fin'];
+        $d = [];
+        switch ($tab) {
+            case 'ringkasan':
+                if ($ops) {
+                    $d += ['summary' => $r->summary(), 'prev' => $r->previousSummary(), 'ly' => $r->lastYear()->summary(), 'now' => $r->inpatientNow(),
+                        'ind' => $r->inpatientIndicators(), 'wait' => $r->waitCompliance(), 'readm' => $r->readmission(),
+                        'lowStock' => $r->lowStock(), 'expiring' => $r->expiring(), 'months' => $r->monthlyVisits()];
+                }
+                if ($fin) {
+                    $ly = $r->lastYear();
+                    $d += ['payments' => $r->payments(), 'receivables' => $r->receivables(), 'lyPayments' => $ly->payments(), 'lyReceivables' => $ly->receivables(),
+                        'aging' => $r->receivableAging(), 'payables' => $r->payables(), 'revMonths' => $r->monthlyRevenue()];
+                }
+                $d['targets'] = SiteSettings::get('mg_targets');
+                break;
+            case 'pelayanan':
+                $d = ['trend' => $r->trend(), 'clinics' => $r->byClinic(), 'payers' => $r->byPayer(), 'doctors' => $r->doctors(),
+                    'punctuality' => $r->doctorPunctuality(), 'busy' => $r->busyHours(), 'antrolStatus' => $r->antrolStatus(),
+                    'antrolClinic' => $r->antrolClinic(), 'antrolTimes' => $r->antrolTimes(), 'diagnoses' => $r->topDiagnoses(),
+                    'regions' => $r->regions(), 'demography' => $r->demography(), 'referrals' => $r->referralsIn(), 'wait' => $r->waitCompliance()];
+                break;
+            case 'ranap':
+                $d = ['now' => $r->inpatientNow(), 'ind' => $r->inpatientIndicators(), 'wards' => $r->wards(), 'discharge' => $r->dischargeStatus(),
+                    'dpjp' => $r->inpatientByDoctor(), 'readm' => $r->readmission()];
+                break;
+            case 'penunjang':
+                $d = ['support' => $r->support(), 'tat' => $r->resultTurnaround(), 'rx' => $r->prescriptionWait(), 'surg' => $r->surgeries(),
+                    'labCat' => $r->labCategories(), 'drugs' => $r->topDrugs(), 'lowStock' => $r->lowStock(), 'expiring' => $r->expiring()];
+                break;
+            case 'keuangan':
+                $d = ['payments' => $r->payments(), 'receivables' => $r->receivables(), 'aging' => $r->receivableAging(), 'paid' => $r->receivablePayments(),
+                    'billing' => $r->billingCategories(), 'byClinic' => $r->revenueByClinic(), 'byDoctor' => $r->revenueByDoctor(), 'fees' => $r->doctorFees(),
+                    'payables' => $r->payables(), 'expenses' => $r->expenses(), 'margin' => $r->pharmacyMargin(), 'support' => $r->support(), 'drugs' => $r->topDrugs()];
+                break;
+            case 'bpjs':
+                $d = ['cbg' => $r->inacbg()];
+                break;
         }
 
-        return view('admin.management', $data + $scope + [
-            'configured' => true, 'connError' => $connError, 'errors_' => $r->errors, 'from' => $from, 'to' => $to, 'days' => $r->days,
-            'preset' => $preset, 'presets' => self::PRESETS, 'loadedAt' => now(),
+        return view('admin.management.tab-'.$tab, $d + $sc + [
+            'errors_' => $r->errors, 'from' => $from, 'to' => $to, 'days' => $r->days, 'pq' => $this->pq($from, $to, $preset),
+            'canTarget' => $ops && $fin,
         ]);
     }
 
-    /** Unduh satu laporan sebagai CSV (dibuka langsung di Excel). */
+    /** Rincian satu poliklinik (dokter dan diagnosa), ditampilkan dalam jendela kecil. */
+    public function clinic(Request $request, string $kd)
+    {
+        abort_unless($this->scope($request)['ops'] && KhanzaReports::configured(), 403);
+        abort_unless(preg_match('/^[A-Za-z0-9_\-]{1,10}$/', $kd), 404);
+        [$from, $to] = $this->period($request);
+        $r = new KhanzaReports($from, $to);
+
+        return view('admin.management.clinic', $r->clinicDetail($kd) + ['name' => (string) $request->query('nama', $kd), 'errors_' => $r->errors]);
+    }
+
+    /** Target bulanan (hanya Komisaris). */
+    public function targets(Request $request)
+    {
+        $sc = $this->scope($request);
+        abort_unless($sc['ops'] && $sc['fin'], 403);
+        $data = $request->validate([
+            'kunjungan' => 'nullable|integer|min:0|max:10000000', 'pendapatan' => 'nullable|integer|min:0|max:1000000000000',
+            'bor' => 'nullable|numeric|min:0|max:100',
+        ]);
+        SiteSettings::put('mg_targets', ['kunjungan' => (int) ($data['kunjungan'] ?? 0), 'pendapatan' => (int) ($data['pendapatan'] ?? 0), 'bor' => (float) ($data['bor'] ?? 0)]);
+        ActivityLog::record('Memperbarui target Dasbor manajemen');
+
+        return back()->with('ok', 'Target bulanan disimpan.');
+    }
+
+    /** Unduh satu laporan sebagai CSV. */
     public function export(Request $request, string $report)
     {
         $map = KhanzaReports::exports();
         abort_unless(isset($map[$report]) && KhanzaReports::configured(), 404);
-        $role = $request->user()->role;
-        $finance = ['pembayaran', 'piutang', 'billing'];
-        $shared = ['obat'];
-        $allowed = in_array($report, $finance, true) ? $role->canSee('finance') : (in_array($report, $shared, true) ? true : $role->canSee('ops'));
+        $sc = $this->scope($request);
+        [$title, $method, $need] = $map[$report];
+        $key = $map[$report][3] ?? null;
+        $allowed = match ($need) { 'finance' => $sc['fin'], 'ops' => $sc['ops'], default => $sc['ops'] || $sc['fin'] };
         abort_unless($allowed, 403, 'Laporan ini tidak termasuk hak akses Anda.');
         [$from, $to] = $this->period($request);
         $r = new KhanzaReports($from, $to);
-        [$title, $method] = $map[$report];
         $rows = $r->{$method}();
-        if ($report === 'obat' && ! $role->canSee('finance')) {
-            $rows = array_map(fn ($x) => array_diff_key($x, ['nilai' => 1]), $rows); // tanpa nilai rupiah
+        if ($key) {
+            $rows = $rows[$key] ?? [];
+        } elseif ($rows && ! array_is_list($rows)) {
+            $rows = [$rows];
         }
-        abort_if(isset($r->errors) && $r->errors && ! $rows, 500, 'Laporan tidak bisa dibaca dari database Khanza.');
+        if ($report === 'obat' && ! $sc['fin']) {
+            $rows = array_map(fn ($x) => array_diff_key($x, ['nilai' => 1]), $rows);
+        }
+        abort_if($r->errors && ! $rows, 500, 'Laporan tidak bisa dibaca dari database Khanza.');
         ActivityLog::record('Mengunduh laporan '.$title.' ('.$from.' s/d '.$to.')');
-        $name = 'laporan-'.$report.'-'.$from.'-sd-'.$to.'.csv';
 
         return response()->streamDownload(function () use ($rows, $title, $from, $to) {
             $out = fopen('php://output', 'w');
-            fwrite($out, "\xEF\xBB\xBF"); // BOM agar Excel membaca UTF-8
+            fwrite($out, "\xEF\xBB\xBF");
             fputcsv($out, [$title.' · '.$from.' s/d '.$to], ';');
             if ($rows) {
                 fputcsv($out, array_keys($rows[0]), ';');
@@ -123,6 +210,6 @@ class ManagementController extends Controller
                 }
             }
             fclose($out);
-        }, $name, ['Content-Type' => 'text/csv; charset=UTF-8']);
+        }, 'laporan-'.$report.'-'.$from.'-sd-'.$to.'.csv', ['Content-Type' => 'text/csv; charset=UTF-8']);
     }
 }

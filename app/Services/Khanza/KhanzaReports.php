@@ -143,7 +143,7 @@ class KhanzaReports
     /** Kunjungan per poliklinik. */
     public function byClinic(): array
     {
-        return $this->run('poli', "SELECT pl.nm_poli AS poliklinik,
+        return $this->run('poli', "SELECT rp.kd_poli AS kode, pl.nm_poli AS poliklinik,
                 SUM(rp.stts <> 'Batal') AS kunjungan,
                 SUM(rp.stts <> 'Batal' AND rp.stts_daftar = 'Baru') AS baru,
                 SUM(rp.stts <> 'Batal' AND rp.stts_daftar = 'Lama') AS lama,
@@ -422,17 +422,358 @@ class KhanzaReports
             ORDER BY FIELD(kelompok_umur, '0 th', '1-5 th', '6-14 th', '15-24 th', '25-44 th', '45-64 th', '65+ th')");
     }
 
-    /** Daftar laporan yang bisa diunduh sebagai CSV. */
+
+    /* ======================= TAMBAHAN: OPERASIONAL ======================= */
+
+    /** Periode yang sama tahun lalu (untuk perbandingan). */
+    public function lastYear(): self
+    {
+        return new static(Carbon::parse($this->from)->subYear()->toDateString(), Carbon::parse($this->to)->subYear()->toDateString(), $this->fresh);
+    }
+
+    /** Jumlah kunjungan per hari dan jam (peta jam sibuk). */
+    public function busyHours(): array
+    {
+        return $this->run('jam_sibuk', "SELECT DAYOFWEEK(rp.tgl_registrasi) AS hari, HOUR(rp.jam_reg) AS jam,
+                SUM(rp.kd_poli <> {$this->igd()}) AS rawat_jalan, SUM(rp.kd_poli = {$this->igd()}) AS igd, COUNT(*) AS total
+            FROM reg_periksa rp
+            WHERE rp.stts <> 'Batal' AND rp.tgl_registrasi BETWEEN '{$this->from}' AND '{$this->to}'
+            GROUP BY DAYOFWEEK(rp.tgl_registrasi), HOUR(rp.jam_reg)");
+    }
+
+    /** Kepatuhan waktu tunggu rawat jalan: persentase pasien diperiksa dalam 60 menit setelah mendaftar. */
+    public function waitCompliance(): array
+    {
+        return $this->one('tunggu_60', "SELECT COUNT(*) AS pasien, SUM(x.menit <= 60) AS tepat, ROUND(AVG(x.menit)) AS rata_menit
+            FROM (SELECT TIMESTAMPDIFF(MINUTE, CONCAT(rp.tgl_registrasi, ' ', rp.jam_reg), MIN(CONCAT(pr.tgl_perawatan, ' ', pr.jam_rawat))) AS menit
+                  FROM reg_periksa rp
+                  JOIN pemeriksaan_ralan pr ON pr.no_rawat = rp.no_rawat
+                  WHERE rp.stts <> 'Batal' AND rp.status_lanjut = 'Ralan' AND rp.kd_poli <> {$this->igd()}
+                    AND rp.tgl_registrasi BETWEEN '{$this->from}' AND '{$this->to}'
+                  GROUP BY rp.no_rawat, rp.tgl_registrasi, rp.jam_reg) x
+            WHERE x.menit BETWEEN 0 AND 600");
+    }
+
+    /** Waktu tunggu resep rawat jalan (resep ditulis sampai diserahkan), racikan dan non-racikan. */
+    public function prescriptionWait(): array
+    {
+        return $this->run('resep_tunggu', "SELECT x.jenis, COUNT(*) AS resep, ROUND(AVG(x.menit)) AS rata_menit,
+                SUM(x.menit <= x.standar) AS sesuai_standar, MAX(x.standar) AS standar_menit
+            FROM (SELECT CASE WHEN EXISTS (SELECT 1 FROM resep_dokter_racikan rk WHERE rk.no_resep = ro.no_resep) THEN 'Racikan' ELSE 'Non-racikan' END AS jenis,
+                         CASE WHEN EXISTS (SELECT 1 FROM resep_dokter_racikan rk WHERE rk.no_resep = ro.no_resep) THEN 60 ELSE 30 END AS standar,
+                         TIMESTAMPDIFF(MINUTE, CONCAT(ro.tgl_peresepan, ' ', ro.jam_peresepan), CONCAT(ro.tgl_penyerahan, ' ', ro.jam_penyerahan)) AS menit
+                  FROM resep_obat ro
+                  WHERE ro.status = 'ralan' AND ro.tgl_peresepan BETWEEN '{$this->from}' AND '{$this->to}'
+                    AND ro.tgl_penyerahan > '0000-00-00') x
+            WHERE x.menit BETWEEN 0 AND 600
+            GROUP BY x.jenis ORDER BY x.jenis");
+    }
+
+    /** Lama hasil laboratorium dan radiologi keluar (permintaan sampai hasil). */
+    public function resultTurnaround(): array
+    {
+        $part = fn ($tb, $label) => "SELECT '{$label}' AS penunjang, p.status AS layanan,
+                TIMESTAMPDIFF(MINUTE, CONCAT(p.tgl_permintaan, ' ', p.jam_permintaan), CONCAT(p.tgl_hasil, ' ', p.jam_hasil)) AS menit
+              FROM {$tb} p
+              WHERE p.tgl_permintaan BETWEEN '{$this->from}' AND '{$this->to}' AND p.tgl_hasil > '0000-00-00'";
+
+        return $this->run('tat', "SELECT penunjang, layanan, COUNT(*) AS pemeriksaan, ROUND(AVG(menit)) AS rata_menit,
+                SUM(menit <= 60) AS sd_60_menit, SUM(menit > 60 AND menit <= 120) AS sd_120_menit,
+                SUM(menit > 120 AND menit <= 240) AS sd_240_menit, SUM(menit > 240) AS lebih_240_menit
+            FROM ({$part('permintaan_lab', 'Laboratorium')} UNION ALL {$part('permintaan_radiologi', 'Radiologi')}) x
+            WHERE menit BETWEEN 0 AND 4320
+            GROUP BY penunjang, layanan ORDER BY penunjang, layanan");
+    }
+
+    /** Ketepatan jam mulai praktik dokter: pemeriksaan pertama dibandingkan jam mulai di jadwal. */
+    public function doctorPunctuality(): array
+    {
+        return $this->run('ketepatan_dokter', "SELECT d.nm_dokter AS dokter, COUNT(*) AS hari_praktik,
+                ROUND(AVG(y.selisih)) AS rata_selisih_menit, SUM(y.selisih <= 15) AS tepat_waktu
+            FROM (SELECT m.kd_dokter, TIMESTAMPDIFF(MINUTE, CONCAT(m.tgl, ' ', j.jam_mulai), CONCAT(m.tgl, ' ', m.mulai)) AS selisih
+                  FROM (SELECT rp.kd_dokter, rp.tgl_registrasi AS tgl, MIN(pr.jam_rawat) AS mulai
+                        FROM reg_periksa rp
+                        JOIN pemeriksaan_ralan pr ON pr.no_rawat = rp.no_rawat AND pr.tgl_perawatan = rp.tgl_registrasi
+                        WHERE rp.stts <> 'Batal' AND rp.status_lanjut = 'Ralan' AND rp.kd_poli <> {$this->igd()}
+                          AND rp.tgl_registrasi BETWEEN '{$this->from}' AND '{$this->to}'
+                        GROUP BY rp.kd_dokter, rp.tgl_registrasi) m
+                  JOIN (SELECT kd_dokter, hari_kerja, MIN(jam_mulai) AS jam_mulai FROM jadwal GROUP BY kd_dokter, hari_kerja) j
+                    ON j.kd_dokter = m.kd_dokter AND j.hari_kerja = ELT(DAYOFWEEK(m.tgl), 'AKHAD', 'SENIN', 'SELASA', 'RABU', 'KAMIS', 'JUMAT', 'SABTU')) y
+            JOIN dokter d ON d.kd_dokter = y.kd_dokter
+            WHERE y.selisih BETWEEN -120 AND 480
+            GROUP BY y.kd_dokter, d.nm_dokter ORDER BY rata_selisih_menit DESC");
+    }
+
+    /** Pasien dirawat ulang dalam 30 hari setelah pulang (tidak termasuk pasien meninggal). */
+    public function readmission(): array
+    {
+        return $this->one('readmisi', "SELECT COUNT(*) AS pasien_pulang, SUM(x.ulang) AS dirawat_ulang FROM (
+                SELECT e.no_rawat, MAX(CASE WHEN n.no_rawat IS NULL THEN 0 ELSE 1 END) AS ulang
+                FROM (SELECT ki.no_rawat, rp.no_rkm_medis, MAX(ki.tgl_keluar) AS keluar
+                      FROM kamar_inap ki JOIN reg_periksa rp ON rp.no_rawat = ki.no_rawat
+                      WHERE ki.tgl_keluar BETWEEN '{$this->from}' AND '{$this->to}' AND ki.stts_pulang NOT IN ('-', 'Pindah Kamar', 'Meninggal')
+                      GROUP BY ki.no_rawat, rp.no_rkm_medis) e
+                LEFT JOIN (SELECT ki.no_rawat, rp.no_rkm_medis, MIN(ki.tgl_masuk) AS masuk
+                           FROM kamar_inap ki JOIN reg_periksa rp ON rp.no_rawat = ki.no_rawat
+                           WHERE ki.tgl_masuk BETWEEN '{$this->from}' AND DATE_ADD('{$this->to}', INTERVAL 30 DAY)
+                           GROUP BY ki.no_rawat, rp.no_rkm_medis) n
+                  ON n.no_rkm_medis = e.no_rkm_medis AND n.no_rawat <> e.no_rawat AND n.masuk >= e.keluar AND DATEDIFF(n.masuk, e.keluar) <= 30
+                GROUP BY e.no_rawat) x");
+    }
+
+    /** Rawat inap per dokter penanggung jawab (DPJP). */
+    public function inpatientByDoctor(): array
+    {
+        return $this->run('dpjp', "SELECT d.nm_dokter AS dokter, COUNT(*) AS pasien_pulang, ROUND(AVG(x.lama), 1) AS rata_lama_hari,
+                SUM(x.meninggal) AS meninggal, SUM(x.aps) AS pulang_paksa_aps
+            FROM (SELECT ki.no_rawat, SUM(ki.lama) AS lama, MAX(ki.stts_pulang = 'Meninggal') AS meninggal,
+                         MAX(ki.stts_pulang IN ('APS', 'Atas Permintaan Sendiri', 'Pulang Paksa')) AS aps
+                  FROM kamar_inap ki
+                  WHERE ki.no_rawat IN (SELECT no_rawat FROM kamar_inap WHERE tgl_keluar BETWEEN '{$this->from}' AND '{$this->to}' AND stts_pulang NOT IN ('-', 'Pindah Kamar'))
+                  GROUP BY ki.no_rawat) x
+            JOIN dpjp_ranap dp ON dp.no_rawat = x.no_rawat
+            JOIN dokter d ON d.kd_dokter = dp.kd_dokter
+            GROUP BY dp.kd_dokter, d.nm_dokter ORDER BY pasien_pulang DESC");
+    }
+
+    /** 10 perujuk (puskesmas, klinik) terbanyak. */
+    public function referralsIn(): array
+    {
+        return $this->run('rujukan_masuk', "SELECT rm.perujuk, COUNT(*) AS pasien, SUM(rp.status_lanjut = 'Ranap') AS dirawat
+            FROM rujuk_masuk rm JOIN reg_periksa rp ON rp.no_rawat = rm.no_rawat
+            WHERE rp.tgl_registrasi BETWEEN '{$this->from}' AND '{$this->to}'
+            GROUP BY rm.perujuk ORDER BY pasien DESC LIMIT 10");
+    }
+
+    /** Operasi per kategori dan per operator. */
+    public function surgeries(): array
+    {
+        $cat = $this->run('operasi_kategori', "SELECT o.kategori, COUNT(*) AS operasi FROM operasi o
+            WHERE o.tgl_operasi BETWEEN '{$this->from}' AND '{$this->toEnd}' GROUP BY o.kategori ORDER BY operasi DESC");
+        $op = $this->run('operasi_operator', "SELECT d.nm_dokter AS operator, COUNT(*) AS operasi FROM operasi o
+            JOIN dokter d ON d.kd_dokter = o.operator1
+            WHERE o.tgl_operasi BETWEEN '{$this->from}' AND '{$this->toEnd}' GROUP BY o.operator1, d.nm_dokter ORDER BY operasi DESC LIMIT 10");
+
+        return ['kategori' => $cat, 'operator' => $op];
+    }
+
+    /** Laboratorium per kategori: PK (patologi klinik), PA (patologi anatomi), MB (mikrobiologi). */
+    public function labCategories(): array
+    {
+        return $this->run('lab_kategori', "SELECT pl.kategori, COUNT(DISTINCT pl.no_rawat) AS pasien, COUNT(*) AS pemeriksaan
+            FROM periksa_lab pl WHERE pl.tgl_periksa BETWEEN '{$this->from}' AND '{$this->to}' GROUP BY pl.kategori ORDER BY pemeriksaan DESC");
+    }
+
+    /** Obat dengan stok di bawah stok minimal (semua lokasi). */
+    public function lowStock(): array
+    {
+        return $this->run('stok_menipis', "SELECT b.kode_brng AS kode, b.nama_brng AS obat, b.stokminimal AS stok_minimal, COALESCE(SUM(g.stok), 0) AS stok
+            FROM databarang b LEFT JOIN gudangbarang g ON g.kode_brng = b.kode_brng
+            WHERE b.status = '1' AND b.stokminimal > 0
+            GROUP BY b.kode_brng, b.nama_brng, b.stokminimal
+            HAVING stok < b.stokminimal
+            ORDER BY stok / b.stokminimal, b.nama_brng LIMIT 50");
+    }
+
+    /** Batch obat yang sudah atau akan kedaluwarsa dalam 90 hari dan masih ada sisanya. */
+    public function expiring(): array
+    {
+        return $this->run('kedaluwarsa', "SELECT b.nama_brng AS obat, db.no_batch, db.tgl_kadaluarsa AS kedaluwarsa,
+                DATEDIFF(db.tgl_kadaluarsa, CURDATE()) AS sisa_hari, db.sisa
+            FROM data_batch db JOIN databarang b ON b.kode_brng = db.kode_brng
+            WHERE db.sisa > 0 AND db.tgl_kadaluarsa > '0000-00-00' AND db.tgl_kadaluarsa <= DATE_ADD(CURDATE(), INTERVAL 90 DAY)
+            ORDER BY db.tgl_kadaluarsa LIMIT 50");
+    }
+
+    /** Tren 12 bulan sampai bulan tanggal selesai. */
+    public function monthlyVisits(): array
+    {
+        $start = Carbon::parse($this->to)->startOfMonth()->subMonths(11)->toDateString();
+
+        return $this->run('tren_bulanan', "SELECT DATE_FORMAT(rp.tgl_registrasi, '%Y-%m') AS bulan, COUNT(*) AS kunjungan,
+                SUM(rp.stts_daftar = 'Baru') AS pasien_baru, SUM(rp.kd_poli = {$this->igd()}) AS igd, SUM(rp.status_lanjut = 'Ranap') AS lanjut_ranap
+            FROM reg_periksa rp
+            WHERE rp.stts <> 'Batal' AND rp.tgl_registrasi BETWEEN '{$start}' AND '{$this->to}'
+            GROUP BY DATE_FORMAT(rp.tgl_registrasi, '%Y-%m') ORDER BY bulan");
+    }
+
+    /** Rincian satu poliklinik: dokter dan diagnosa terbanyak. */
+    public function clinicDetail(string $kdPoli): array
+    {
+        $kd = DB::connection('khanza')->getPdo()->quote($kdPoli);
+        $docs = $this->run('poli_dokter_'.md5($kdPoli), "SELECT d.nm_dokter AS dokter, COUNT(*) AS pasien, SUM(rp.stts_daftar = 'Baru') AS baru
+            FROM reg_periksa rp JOIN dokter d ON d.kd_dokter = rp.kd_dokter
+            WHERE rp.stts <> 'Batal' AND rp.kd_poli = {$kd} AND rp.tgl_registrasi BETWEEN '{$this->from}' AND '{$this->to}'
+            GROUP BY rp.kd_dokter, d.nm_dokter ORDER BY pasien DESC");
+        $diag = $this->run('poli_diagnosa_'.md5($kdPoli), "SELECT p.kd_penyakit AS kode, p.nm_penyakit AS diagnosa, COUNT(*) AS total
+            FROM diagnosa_pasien dp JOIN reg_periksa rp ON rp.no_rawat = dp.no_rawat JOIN penyakit p ON p.kd_penyakit = dp.kd_penyakit
+            WHERE dp.prioritas = 1 AND rp.kd_poli = {$kd} AND rp.tgl_registrasi BETWEEN '{$this->from}' AND '{$this->to}'
+            GROUP BY dp.kd_penyakit, p.nm_penyakit ORDER BY total DESC LIMIT 10");
+
+        return ['doctors' => $docs, 'diagnoses' => $diag];
+    }
+
+    /* ======================= TAMBAHAN: KEUANGAN ======================= */
+
+    /** Umur piutang yang belum lunas per penjamin (posisi hari ini). */
+    public function receivableAging(): array
+    {
+        return $this->run('umur_piutang', "SELECT COALESCE(pj.png_jawab, rp.kd_pj) AS penjamin, COUNT(*) AS pasien,
+                SUM(CASE WHEN DATEDIFF(CURDATE(), p.tgl_piutang) <= 30 THEN p.sisapiutang ELSE 0 END) AS hari_0_30,
+                SUM(CASE WHEN DATEDIFF(CURDATE(), p.tgl_piutang) BETWEEN 31 AND 60 THEN p.sisapiutang ELSE 0 END) AS hari_31_60,
+                SUM(CASE WHEN DATEDIFF(CURDATE(), p.tgl_piutang) BETWEEN 61 AND 90 THEN p.sisapiutang ELSE 0 END) AS hari_61_90,
+                SUM(CASE WHEN DATEDIFF(CURDATE(), p.tgl_piutang) > 90 THEN p.sisapiutang ELSE 0 END) AS lebih_90,
+                SUM(p.sisapiutang) AS total_sisa
+            FROM piutang_pasien p
+            JOIN reg_periksa rp ON rp.no_rawat = p.no_rawat
+            LEFT JOIN penjab pj ON pj.kd_pj = rp.kd_pj
+            WHERE p.sisapiutang > 0
+            GROUP BY rp.kd_pj, pj.png_jawab ORDER BY total_sisa DESC");
+    }
+
+    /** Pelunasan piutang yang diterima pada periode. */
+    public function receivablePayments(): array
+    {
+        return $this->run('pelunasan', "SELECT COALESCE(pj.png_jawab, rp.kd_pj) AS penjamin, COUNT(*) AS transaksi,
+                SUM(bp.besar_cicilan) AS diterima, SUM(bp.diskon_piutang) AS diskon, SUM(bp.tidak_terbayar) AS tidak_terbayar
+            FROM bayar_piutang bp
+            JOIN reg_periksa rp ON rp.no_rawat = bp.no_rawat
+            LEFT JOIN penjab pj ON pj.kd_pj = rp.kd_pj
+            WHERE bp.tgl_bayar BETWEEN '{$this->from}' AND '{$this->to}'
+            GROUP BY rp.kd_pj, pj.png_jawab ORDER BY diterima DESC");
+    }
+
+    /** Pendapatan (tagihan) per poliklinik. */
+    public function revenueByClinic(): array
+    {
+        return $this->run('pendapatan_poli', "SELECT pl.nm_poli AS poliklinik, COUNT(DISTINCT b.no_rawat) AS pasien, SUM(b.totalbiaya) AS pendapatan
+            FROM billing b
+            JOIN reg_periksa rp ON rp.no_rawat = b.no_rawat
+            JOIN poliklinik pl ON pl.kd_poli = rp.kd_poli
+            WHERE b.tgl_byr BETWEEN '{$this->from}' AND '{$this->to}' AND b.status NOT IN ('-', 'Tagihan') AND b.status NOT LIKE 'Ttl%'
+            GROUP BY rp.kd_poli, pl.nm_poli ORDER BY pendapatan DESC");
+    }
+
+    /** Pendapatan (tagihan) per dokter pendaftaran. */
+    public function revenueByDoctor(): array
+    {
+        return $this->run('pendapatan_dokter', "SELECT d.nm_dokter AS dokter, COUNT(DISTINCT b.no_rawat) AS pasien, SUM(b.totalbiaya) AS pendapatan
+            FROM billing b
+            JOIN reg_periksa rp ON rp.no_rawat = b.no_rawat
+            JOIN dokter d ON d.kd_dokter = rp.kd_dokter
+            WHERE b.tgl_byr BETWEEN '{$this->from}' AND '{$this->to}' AND b.status NOT IN ('-', 'Tagihan') AND b.status NOT LIKE 'Ttl%'
+            GROUP BY rp.kd_dokter, d.nm_dokter ORDER BY pendapatan DESC LIMIT 20");
+    }
+
+    /** Jasa tindakan dokter (rawat jalan, rawat inap, dan operator operasi). */
+    public function doctorFees(): array
+    {
+        $tind = fn ($tb) => "SELECT kd_dokter, tarif_tindakandr AS jasa FROM {$tb} WHERE tgl_perawatan BETWEEN '{$this->from}' AND '{$this->to}'";
+
+        return $this->run('jasa_medis', "SELECT d.nm_dokter AS dokter, COUNT(*) AS tindakan, SUM(x.jasa) AS jasa_tindakan
+            FROM ({$tind('rawat_jl_dr')} UNION ALL {$tind('rawat_jl_drpr')} UNION ALL {$tind('rawat_inap_dr')} UNION ALL {$tind('rawat_inap_drpr')}
+                  UNION ALL SELECT operator1, biayaoperator1 FROM operasi WHERE tgl_operasi BETWEEN '{$this->from}' AND '{$this->toEnd}') x
+            JOIN dokter d ON d.kd_dokter = x.kd_dokter
+            GROUP BY x.kd_dokter, d.nm_dokter ORDER BY jasa_tindakan DESC");
+    }
+
+    /** Hutang ke supplier obat yang belum lunas (posisi hari ini). */
+    public function payables(): array
+    {
+        return $this->run('hutang', "SELECT COALESCE(s.nama_suplier, p.kode_suplier) AS supplier, COUNT(*) AS faktur,
+                SUM(p.tagihan) AS tagihan, SUM(COALESCE(bp.dibayar, 0)) AS dibayar, SUM(p.tagihan - COALESCE(bp.dibayar, 0)) AS sisa,
+                SUM(CASE WHEN p.tgl_tempo < CURDATE() THEN p.tagihan - COALESCE(bp.dibayar, 0) ELSE 0 END) AS lewat_jatuh_tempo
+            FROM pemesanan p
+            LEFT JOIN datasuplier s ON s.kode_suplier = p.kode_suplier
+            LEFT JOIN (SELECT no_faktur, SUM(besar_bayar) AS dibayar FROM bayar_pemesanan GROUP BY no_faktur) bp ON bp.no_faktur = p.no_faktur
+            WHERE p.status <> 'Sudah Dibayar'
+            GROUP BY p.kode_suplier, s.nama_suplier
+            HAVING sisa > 0
+            ORDER BY sisa DESC");
+    }
+
+    /** Pengeluaran harian per kategori. */
+    public function expenses(): array
+    {
+        return $this->run('pengeluaran', "SELECT COALESCE(k.nama_kategori, ph.kode_kategori) AS kategori, COUNT(*) AS transaksi, SUM(ph.biaya) AS total
+            FROM pengeluaran_harian ph LEFT JOIN kategori_pengeluaran_harian k ON k.kode_kategori = ph.kode_kategori
+            WHERE ph.tanggal BETWEEN '{$this->from}' AND '{$this->toEnd}'
+            GROUP BY ph.kode_kategori, k.nama_kategori ORDER BY total DESC");
+    }
+
+    /** Margin farmasi: penjualan obat dibandingkan harga beli. */
+    public function pharmacyMargin(): array
+    {
+        return $this->run('margin_farmasi', "SELECT d.status AS layanan, SUM(d.total) AS penjualan, SUM(d.h_beli * d.jml) AS modal,
+                SUM(d.total - d.h_beli * d.jml) AS margin
+            FROM detail_pemberian_obat d WHERE d.tgl_perawatan BETWEEN '{$this->from}' AND '{$this->to}'
+            GROUP BY d.status");
+    }
+
+    /** Tarif INA-CBG dibandingkan biaya riil rumah sakit (dari billing) per kasus BPJS. */
+    public function inacbg(): array
+    {
+        $base = "SELECT s.no_sep, s.no_rawat, s.jnspelayanan,
+                    COALESCE(g12.code_cbg, g1.code_cbg) AS cbg, COALESCE(g12.deskripsi, g1.deskripsi) AS deskripsi,
+                    COALESCE(g12.tarif, g1.tarif) AS tarif, b.biaya
+                 FROM bridging_sep s
+                 LEFT JOIN inacbg_grouping_stage12 g12 ON g12.no_sep = s.no_sep
+                 LEFT JOIN inacbg_grouping_stage1 g1 ON g1.no_sep = s.no_sep
+                 LEFT JOIN (SELECT no_rawat, SUM(totalbiaya) AS biaya FROM billing
+                            WHERE no_rawat IN (SELECT no_rawat FROM bridging_sep WHERE tglsep BETWEEN '{$this->from}' AND '{$this->to}')
+                              AND status NOT IN ('-', 'Tagihan') AND status NOT LIKE 'Ttl%'
+                            GROUP BY no_rawat) b ON b.no_rawat = s.no_rawat
+                 WHERE s.tglsep BETWEEN '{$this->from}' AND '{$this->to}'";
+        $sum = $this->run('inacbg_ringkas', "SELECT CASE x.jnspelayanan WHEN '1' THEN 'Rawat inap' ELSE 'Rawat jalan' END AS layanan,
+                COUNT(*) AS sep, SUM(x.tarif IS NOT NULL) AS sudah_grouping, SUM(x.tarif IS NOT NULL AND x.biaya IS NOT NULL) AS dibandingkan,
+                SUM(CASE WHEN x.tarif IS NOT NULL AND x.biaya IS NOT NULL THEN x.tarif END) AS tarif_inacbg,
+                SUM(CASE WHEN x.tarif IS NOT NULL AND x.biaya IS NOT NULL THEN x.biaya END) AS biaya_rs,
+                SUM(CASE WHEN x.tarif IS NOT NULL AND x.biaya IS NOT NULL THEN x.tarif - x.biaya END) AS selisih
+            FROM ({$base}) x GROUP BY x.jnspelayanan ORDER BY x.jnspelayanan");
+        $cbg = $this->run('inacbg_cbg', "SELECT x.cbg, MAX(x.deskripsi) AS deskripsi, COUNT(*) AS kasus,
+                SUM(x.tarif) AS tarif_inacbg, SUM(x.biaya) AS biaya_rs, SUM(x.tarif - x.biaya) AS selisih
+            FROM ({$base}) x WHERE x.tarif IS NOT NULL AND x.biaya IS NOT NULL
+            GROUP BY x.cbg ORDER BY selisih");
+
+        return ['summary' => $sum, 'cbg' => $cbg];
+    }
+
+    /** Tren pendapatan 12 bulan: pembayaran diterima dan piutang baru. */
+    public function monthlyRevenue(): array
+    {
+        $start = Carbon::parse($this->to)->startOfMonth()->subMonths(11)->toDateString();
+
+        return $this->run('tren_pendapatan', "SELECT bulan, SUM(bayar) AS pembayaran, SUM(piutang) AS piutang, SUM(bayar + piutang) AS total FROM (
+                SELECT DATE_FORMAT(n.tanggal, '%Y-%m') AS bulan, d.besar_bayar AS bayar, 0 AS piutang FROM nota_jalan n JOIN detail_nota_jalan d ON d.no_rawat = n.no_rawat WHERE n.tanggal BETWEEN '{$start}' AND '{$this->to}'
+                UNION ALL SELECT DATE_FORMAT(n.tanggal, '%Y-%m'), d.besar_bayar, 0 FROM nota_inap n JOIN detail_nota_inap d ON d.no_rawat = n.no_rawat WHERE n.tanggal BETWEEN '{$start}' AND '{$this->to}'
+                UNION ALL SELECT DATE_FORMAT(tgl_piutang, '%Y-%m'), 0, totalpiutang FROM piutang_pasien WHERE tgl_piutang BETWEEN '{$start}' AND '{$this->to}'
+            ) x GROUP BY bulan ORDER BY bulan");
+    }
+
+    /** Daftar laporan CSV: [judul, method, bagian (ops / finance / both), kunci data opsional]. */
     public static function exports(): array
     {
         return [
-            'tren' => ['Tren kunjungan harian', 'trend'], 'poli' => ['Kunjungan per poliklinik', 'byClinic'],
-            'penjab' => ['Kunjungan per cara bayar', 'byPayer'], 'dokter' => ['Kinerja dokter rawat jalan', 'doctors'],
-            'antrol' => ['Antrean online per poli', 'antrolClinic'], 'bangsal' => ['Okupansi per bangsal', 'wards'],
-            'status-pulang' => ['Status pulang rawat inap', 'dischargeStatus'], 'pembayaran' => ['Pembayaran', 'payments'],
-            'piutang' => ['Piutang per penjamin', 'receivables'], 'billing' => ['Komposisi tagihan', 'billingCategories'],
-            'obat' => ['10 obat terbanyak', 'topDrugs'], 'diagnosa' => ['10 diagnosa terbanyak', 'topDiagnoses'],
-            'wilayah' => ['Asal pasien per kecamatan', 'regions'], 'demografi' => ['Demografi pasien', 'demography'],
+            'tren' => ['Tren kunjungan harian', 'trend', 'ops'], 'poli' => ['Kunjungan per poliklinik', 'byClinic', 'ops'],
+            'penjab' => ['Kunjungan per cara bayar', 'byPayer', 'ops'], 'dokter' => ['Kinerja dokter rawat jalan', 'doctors', 'ops'],
+            'ketepatan-dokter' => ['Ketepatan jam praktik dokter', 'doctorPunctuality', 'ops'], 'jam-sibuk' => ['Jam sibuk pendaftaran', 'busyHours', 'ops'],
+            'antrol' => ['Antrean online per poli', 'antrolClinic', 'ops'], 'diagnosa' => ['10 diagnosa terbanyak', 'topDiagnoses', 'ops'],
+            'wilayah' => ['Asal pasien per kecamatan', 'regions', 'ops'], 'demografi' => ['Demografi pasien', 'demography', 'ops'],
+            'rujukan-masuk' => ['Rujukan masuk', 'referralsIn', 'ops'], 'tren-bulanan' => ['Tren kunjungan 12 bulan', 'monthlyVisits', 'ops'],
+            'bangsal' => ['Okupansi per bangsal', 'wards', 'ops'], 'status-pulang' => ['Status pulang rawat inap', 'dischargeStatus', 'ops'],
+            'dpjp' => ['Rawat inap per DPJP', 'inpatientByDoctor', 'ops'],
+            'resep' => ['Waktu tunggu resep', 'prescriptionWait', 'ops'], 'hasil-penunjang' => ['Lama hasil lab dan radiologi', 'resultTurnaround', 'ops'],
+            'lab-kategori' => ['Laboratorium per kategori', 'labCategories', 'ops'],
+            'operasi-kategori' => ['Operasi per kategori', 'surgeries', 'ops', 'kategori'], 'operasi-operator' => ['Operasi per operator', 'surgeries', 'ops', 'operator'],
+            'stok' => ['Obat di bawah stok minimal', 'lowStock', 'ops'], 'kedaluwarsa' => ['Obat kedaluwarsa ≤ 90 hari', 'expiring', 'ops'],
+            'obat' => ['10 obat terbanyak', 'topDrugs', 'both'],
+            'pembayaran' => ['Pembayaran', 'payments', 'finance'], 'piutang' => ['Piutang per penjamin', 'receivables', 'finance'],
+            'umur-piutang' => ['Umur piutang', 'receivableAging', 'finance'], 'pelunasan' => ['Pelunasan piutang', 'receivablePayments', 'finance'],
+            'billing' => ['Komposisi tagihan', 'billingCategories', 'finance'], 'pendapatan-poli' => ['Pendapatan per poliklinik', 'revenueByClinic', 'finance'],
+            'pendapatan-dokter' => ['Pendapatan per dokter', 'revenueByDoctor', 'finance'], 'jasa-medis' => ['Jasa tindakan dokter', 'doctorFees', 'finance'],
+            'inacbg' => ['Selisih tarif INA-CBG per CBG', 'inacbg', 'finance', 'cbg'], 'hutang' => ['Hutang supplier', 'payables', 'finance'],
+            'pengeluaran' => ['Pengeluaran harian', 'expenses', 'finance'], 'margin-farmasi' => ['Margin farmasi', 'pharmacyMargin', 'finance'],
+            'tren-pendapatan' => ['Tren pendapatan 12 bulan', 'monthlyRevenue', 'finance'],
         ];
     }
 }

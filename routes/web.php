@@ -54,6 +54,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::middleware('module:management')->group(function () {
             Route::get('/management', [Admin\ManagementController::class, 'index'])->name('management');
             Route::get('/management/export/{report}', [Admin\ManagementController::class, 'export'])->name('management.export');
+            Route::get('/management/tab/{tab}', [Admin\ManagementController::class, 'section'])->name('management.tab');
+            Route::get('/management/poli/{kd}', [Admin\ManagementController::class, 'clinic'])->name('management.clinic');
+            Route::post('/management/targets', [Admin\ManagementController::class, 'targets'])->name('management.targets');
         });
         Route::get('/dashboard', Admin\DashboardController::class)->middleware('module:dashboard')->name('dashboard');
 

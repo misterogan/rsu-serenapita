@@ -406,3 +406,40 @@ svg.i{width:18px;height:18px;flex:0 0 18px;fill:none;stroke:currentColor;stroke-
 @media (max-width:980px){.mg-grid{grid-template-columns:1fr}}
 
 .side-key{color:inherit;opacity:.75;display:flex;padding:6px}.side-key:hover{opacity:1}
+/* Dasbor manajemen v2 */
+.mg-tabs{display:flex;gap:4px;border-bottom:2px solid var(--line);margin:0 0 18px;overflow-x:auto}
+.mg-tabs button{background:none;border:0;padding:10px 16px;font-weight:700;font-size:14px;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap}
+.mg-tabs button[aria-selected=true]{color:var(--blue);border-bottom-color:var(--blue)}
+.mg-loading{display:flex;align-items:center;gap:10px;padding:40px;justify-content:center;color:var(--muted)}
+.mg-spin{width:18px;height:18px;border:3px solid var(--line);border-top-color:var(--blue);border-radius:50%;animation:mgspin .8s linear infinite}
+@keyframes mgspin{to{transform:rotate(360deg)}}
+.mg-alerts{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+.mg-alert{padding:10px 14px;border-radius:6px;font-size:13.5px;font-weight:600;border-left:4px solid}
+.mg-alert.hot{background:rgba(200,51,46,.08);border-color:var(--red);color:#9c2420}
+.mg-alert.warn{background:rgba(201,132,24,.1);border-color:#C98418;color:#7d5410}
+.mg-alert.ok{background:rgba(46,139,106,.08);border-color:var(--green);color:var(--green);margin-bottom:18px}
+.mg-kpi b.sm{font-size:21px}
+.mg-prog{position:relative;height:18px;background:var(--bg);border-radius:9px;overflow:hidden}
+.mg-prog i{position:absolute;inset:0 auto 0 0;background:#C98418;border-radius:9px}
+.mg-prog i.ok{background:var(--green)}.mg-prog i.hot{background:var(--red)}
+.mg-prog span{position:relative;font-size:11px;font-weight:700;padding-left:8px;line-height:18px}
+.mg-bars{width:100%;height:auto;display:block}
+.mg-bars .grid{stroke:var(--line)}.mg-bars .ax{font-size:11px;fill:var(--muted)}
+.mg-bars .b1{fill:#35A3D8}.mg-bars .b2{fill:#1C3B70}
+.mg-legend .k-b1::before{background:#35A3D8}.mg-legend .k-b2::before{background:#1C3B70}
+.mg-heat{border-collapse:separate;border-spacing:2px;font-size:11px;width:100%}
+.mg-heat th{font-weight:600;color:var(--muted);padding:2px 4px;text-align:center}
+.mg-heat tbody th{text-align:left;white-space:nowrap}
+.mg-heat td{text-align:center;padding:6px 2px;border-radius:3px;min-width:26px;background:var(--bg)}
+.mg-split{display:flex;height:14px;border-radius:7px;overflow:hidden;background:var(--bg)}
+.mg-split.sm{height:6px;margin-top:6px;max-width:220px}
+.mg-split i{display:block;min-width:0}
+.mg-split .s0,.mg-legend .k-s0::before{background:#2E8B6A}.mg-split .s1,.mg-legend .k-s1::before{background:#7FB8A0}
+.mg-split .s2,.mg-legend .k-s2::before{background:#C98418}.mg-split .s3,.mg-legend .k-s3::before{background:#C8332E}
+.tag.bad{background:rgba(200,51,46,.12);color:var(--red)}
+.mg-scroll{max-height:420px;overflow-y:auto}
+.mg-drill{font-weight:600}
+.mg-dialog{border:0;border-radius:10px;padding:22px;width:min(860px,94vw);box-shadow:0 30px 80px rgba(0,0,0,.3)}
+.mg-dialog::backdrop{background:rgba(10,20,40,.45)}
+.mg-dialog form{text-align:right;margin-top:14px}
+.mg-target-form summary{cursor:pointer;font-weight:700;font-size:13px;margin-top:12px;color:var(--blue)}

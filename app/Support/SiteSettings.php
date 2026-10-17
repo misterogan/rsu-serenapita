@@ -43,6 +43,7 @@ class SiteSettings
             'director_message' => '',
             'org_chart' => null,
         ],
+        'mg_targets' => ['kunjungan' => 0, 'pendapatan' => 0, 'bor' => 0],
         'sections' => [
             'slider' => true, 'boxes' => true, 'news' => true, 'poli_side' => true, 'book_side' => true,
             'topbar' => true, 'chatbot' => true, 'loader' => true, 'footer_news' => true, 'footer_links' => true, 'dark_mode' => false, 'careers' => true,
