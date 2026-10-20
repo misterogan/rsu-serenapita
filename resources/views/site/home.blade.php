@@ -72,8 +72,8 @@
     @if($sec['poli_side'] && $featuredPoli)
     <h2 class="sec">Poliklinik</h2>
     <div class="dept-feature"><h4>{{ $featuredPoli->name }}</h4><div class="body">{{ $featuredPoli->description }}</div>
-      @if(Links::enabled('doctors') || Links::enabled('appointment'))<div class="acts">@if(Links::enabled('doctors'))<a href="{{ route('doctors', ['clinic' => $featuredPoli->id]) }}">Dokter</a>@endif @if(Links::enabled('appointment'))<a href="{{ route('appointment') }}">Buat janji</a>@endif</div>@endif</div>
-    <ul class="dept-list">@foreach($polis->where('id', '!=', $featuredPoli->id) as $p)<li>@if(Links::enabled('doctors'))<a href="{{ route('doctors', ['clinic' => $p->id]) }}">{{ $p->name }}<span aria-hidden="true">+</span></a>@else<span class="dept-plain">{{ $p->name }}</span>@endif</li>@endforeach</ul>
+      @if(Links::enabled('doctors') || Links::enabled('appointment'))<div class="acts">@if(Links::enabled('doctors'))<a href="{{ route('clinics.show', $featuredPoli->slug()) }}">Dokter &amp; jadwal</a>@endif @if(Links::enabled('appointment'))<a href="{{ route('appointment', ['poli' => $featuredPoli->id]) }}">Buat janji</a>@endif</div>@endif</div>
+    <ul class="dept-list">@foreach($polis->where('id', '!=', $featuredPoli->id) as $p)<li>@if(Links::enabled('doctors'))<a href="{{ route('clinics.show', $p->slug()) }}">{{ $p->name }}<span aria-hidden="true">+</span></a>@else<span class="dept-plain">{{ $p->name }}</span>@endif</li>@endforeach</ul>
     @endif
     @if($sec['book_side'])
     <h2 class="sec" style="margin-top:40px">Buat janji temu</h2>

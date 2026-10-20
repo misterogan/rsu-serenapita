@@ -1,6 +1,8 @@
 @extends('layouts.site')
 @php use App\Models\Doctor; @endphp
-@section('title', 'Dokter')
+@section('title', 'Dokter spesialis di '.$site['seo']['city'])
+@section('breadcrumb', 'Dokter')
+@section('description', 'Daftar dokter umum dan dokter spesialis di '.$site['profile']['name'].', '.$site['seo']['city'].': '.$polis->pluck('name')->implode(', ').'. Lihat jadwal praktik dan buat janji online.')
 @section('content')
 <div class="page-head"><div class="wrap"><div class="crumb"><a href="{{ route('home') }}">Beranda</a> / Dokter</div><h1>Dokter kami</h1><p>Cari dokter berdasarkan nama atau poliklinik, lalu buat janji pada jam praktiknya.</p></div></div>
 <div class="section"><div class="wrap">
@@ -11,16 +13,7 @@
   @if($doctors->isEmpty())<p class="empty">Tidak ada dokter yang cocok. Coba kata kunci lain atau pilih semua poliklinik.</p>@endif
   <div class="doc-grid">
     @foreach($doctors as $d)
-    <div class="doc">
-      <div class="avatar">@if($d->photo)<img src="{{ asset('storage/'.$d->photo) }}" alt="">@else<div style="background:{{ $d->color }}">{{ $d->initials() }}</div>@endif</div>
-      <div class="info">
-        <h3>{{ $d->name }}</h3><div class="spec">{{ $d->poli?->name }}</div>
-        @if($leave = $d->leaves->first(fn($l) => $l->date_to->gte(today())))<div class="leave-note">Cuti {{ $leave->date_from->translatedFormat('d M') }} – {{ $leave->date_to->translatedFormat('d M Y') }}</div>@endif
-        @if($d->bio)<p class="bio">{{ $d->bio }}</p>@endif
-        <ul>@foreach(collect($d->schedule ?? [])->sortBy(fn ($s) => (($s[0] + 6) % 7).$s[1]) as $s)<li><span>{{ Doctor::DAYS[$s[0]] }}</span><span>{{ $s[1] }} – {{ $s[2] }}</span></li>@endforeach</ul>
-        @if(\App\Support\Links::enabled('appointment'))<a class="btn ghost" href="{{ route('appointment', ['doctor' => $d->id]) }}">Buat janji</a>@endif
-      </div>
-    </div>
+    @include('site.partials.doctor-card', ['d' => $d])
     @endforeach
   </div>
 </div></div>

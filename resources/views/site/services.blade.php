@@ -1,6 +1,8 @@
 @extends('layouts.site')
 @php use App\Admin\Resources; @endphp
-@section('title', 'Layanan')
+@section('title', 'Layanan dan fasilitas')
+@section('breadcrumb', 'Layanan')
+@section('description', 'Layanan dan fasilitas '.$site['profile']['name'].': IGD 24 jam, rawat jalan, rawat inap, laboratorium, radiologi, farmasi, dan layanan BPJS di '.$site['seo']['city'].'.')
 @section('content')
 <div class="page-head"><div class="wrap"><div class="crumb"><a href="{{ route('home') }}">Beranda</a> / Layanan</div><h1>Layanan rumah sakit</h1><p>Fasilitas penunjang dan poliklinik yang tersedia.</p></div></div>
 <div class="section"><div class="wrap">

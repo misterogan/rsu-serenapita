@@ -69,4 +69,27 @@ Setiap nomor punya keterangan, jenis, dan pilihan tempat tampil. Jumlah nomor be
 | <b>Jam besuk</b> | Tampil di halaman Kontak dan dipakai chatbot. | Maks. 120 karakter |
 | <b>Teks pendek di footer</b> | Kalimat singkat tentang rumah sakit di bagian bawah halaman. | Maks. 300 karakter |
 
+<a id="profile-5" class="anchor"></a>
+
+## 19.5 Media sosial resmi
+
+| Kolom / tombol | Penjelasan | Aturan |
+|---|---|---|
+| <b>Instagram, Facebook, YouTube, TikTok</b> | Alamat lengkap akun resmi rumah sakit, misalnya https://www.instagram.com/rs.serenapita/. Tampil sebagai ikon di footer, dan memberi tahu Google bahwa akun-akun itu milik rumah sakit yang sama. Kosongkan bila tidak punya akun. | Harus diawali https:// |
+
+<a id="profile-6" class="anchor"></a>
+
+## 19.6 Pencarian Google (SEO)
+
+Bagian ini mengatur cara website tampil di hasil pencarian Google.
+
+| Kolom / tombol | Penjelasan | Aturan |
+|---|---|---|
+| <b>Judul beranda di Google</b> | Judul biru yang tampil di hasil pencarian untuk halaman beranda. Sebutkan nama rumah sakit dan kota. | Maks. 70 karakter, idealnya sekitar 60 |
+| <b>Deskripsi beranda di Google</b> | Kalimat ringkas di bawah judul pada hasil pencarian. Sebutkan layanan utama dan lokasi. | Maks. 200 karakter, idealnya sekitar 150 |
+| <b>Nama lain rumah sakit</b> | Berbagai cara orang menyebut rumah sakit, misalnya Rumah Sakit Serenapita, RSU Serenapita, dan Serenapita. Membantu Google mengenali semua sebutan itu sebagai rumah sakit yang sama. | Satu nama per baris |
+| <b>Kota untuk judul halaman</b> | Dipakai di judul halaman poli dan dokter, misalnya "Poli Anak di Sidikalang". | Maks. 40 karakter |
+
+<div class="callout tips"><b>Tips</b><p>Hasil perubahan judul dan deskripsi tidak langsung tampil di Google. Google memperbaruinya saat membaca ulang website, biasanya dalam beberapa hari sampai beberapa minggu.</p></div>
+
 Setelah selesai, klik <b>Simpan profil</b>. Perubahan langsung berlaku di seluruh website.

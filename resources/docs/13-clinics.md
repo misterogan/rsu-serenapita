@@ -23,4 +23,14 @@
 | <b>Unggulan di beranda</b> | Poli ini tampil sebagai kotak biru di atas daftar poli di beranda. Hanya satu poli yang bisa menjadi unggulan. | Sakelar |
 | <b>Kode poli di SIMRS</b> | Hanya di mode manual. Boleh dikosongkan, isi nanti saat SIMRS akan dihubungkan. | Opsional |
 
+<a id="clinics-2" class="anchor"></a>
+
+## 13.2 Halaman poliklinik di website
+
+Setiap poli aktif otomatis punya halaman sendiri, misalnya <b>rsuserenapita.id/poliklinik/poli-anak</b>, berisi deskripsi poli, daftar dokter dengan jadwal praktik, dan tombol <b>Buat janji</b> yang langsung memilih poli tersebut. Daftar semua poli ada di <b>rsuserenapita.id/poliklinik</b>.
+
+- Halaman ini membantu pasien menemukan rumah sakit lewat Google dengan kata kunci seperti "poli anak sidikalang" atau "dokter penyakit dalam sidikalang".
+- Tulis <b>Deskripsi di situs</b> dengan jelas, karena kalimat itu dipakai sebagai deskripsi halaman di hasil pencarian Google.
+- Alamat halaman mengikuti nama poli. Bila nama poli diubah, alamat halamannya ikut berubah.
+
 Gunakan panah atas dan bawah di daftar untuk mengatur urutan poli di website, di formulir janji temu, dan di halaman Layanan. Poli yang masih memiliki dokter tidak bisa dihapus.

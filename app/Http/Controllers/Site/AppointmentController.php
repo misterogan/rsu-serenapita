@@ -30,7 +30,7 @@ class AppointmentController extends Controller
             'simrs' => SiteSettings::get('simrs'),
             'mine' => Appointment::with('doctor')->whereIn('code', session('my_appointments', []))->orderBy('date')->get(),
             'booked' => session('booked') ? Appointment::with('doctor.poli')->where('code', session('booked'))->first() : null,
-            'preselect' => $request->query('doctor'),
+            'preselect' => $request->query('doctor') ?: optional($polis->firstWhere('id', (int) $request->query('poli'))?->doctors->first())->id,
             'minDate' => today()->addDay()->toDateString(),
             'maxDate' => today()->addDays(self::MAX_DAYS)->toDateString(),
         ]);

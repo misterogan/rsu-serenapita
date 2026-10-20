@@ -1,5 +1,6 @@
 @extends('layouts.site')
 @section('title', 'Panduan Pasien & FAQ')
+@section('breadcrumb', 'Panduan Pasien & FAQ')
 @section('description', 'Panduan pendaftaran, BPJS, rawat inap, IGD, dan pertanyaan yang sering diajukan di '.$site['profile']['name'].'.')
 @section('content')
 <div class="page-head"><div class="wrap"><div class="crumb"><a href="{{ route('home') }}">Beranda</a> / Panduan Pasien</div><h1>Panduan pasien &amp; FAQ</h1><p>Informasi yang perlu diketahui sebelum dan selama berobat di {{ $site['profile']['name'] }}.</p></div></div>
@@ -55,4 +56,7 @@
   });
 })();
 </script>
+@if($faqs->isNotEmpty())
+<script type="application/ld+json">{!! json_encode(['@context' => 'https://schema.org', '@type' => 'FAQPage', 'mainEntity' => $faqs->map(fn ($f) => ['@type' => 'Question', 'name' => $f->question, 'acceptedAnswer' => ['@type' => 'Answer', 'text' => $f->answer]])->values()->all()], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+@endif
 @endsection

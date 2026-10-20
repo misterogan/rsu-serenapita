@@ -12,6 +12,8 @@ Route::get('/sitemap.xml', Site\SitemapController::class)->name('sitemap');
 Route::get('/news', [Site\NewsController::class, 'index'])->middleware('page:news')->name('news.index');
 Route::get('/news/{slug}', [Site\NewsController::class, 'show'])->name('news.show');
 Route::get('/doctors', [Site\DoctorController::class, 'index'])->middleware('page:doctors')->name('doctors');
+Route::get('/poliklinik', [Site\ClinicController::class, 'index'])->middleware('page:doctors')->name('clinics.index');
+Route::get('/poliklinik/{slug}', [Site\ClinicController::class, 'show'])->middleware('page:doctors')->name('clinics.show');
 Route::get('/schedule', [Site\DoctorController::class, 'schedule'])->middleware('page:schedule')->name('schedule');
 Route::get('/services', [Site\PageController::class, 'services'])->middleware('page:services')->name('services');
 Route::get('/contact', [Site\PageController::class, 'contact'])->middleware('page:contact')->name('contact');

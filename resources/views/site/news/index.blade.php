@@ -1,5 +1,7 @@
 @extends('layouts.site')
-@section('title', 'Berita')
+@section('title', 'Berita dan informasi kesehatan')
+@section('breadcrumb', 'Berita')
+@section('description', 'Berita kegiatan, pengumuman layanan, dan artikel kesehatan dari '.$site['profile']['name'].', '.$site['seo']['city'].'.')
 @section('content')
 <div class="page-head"><div class="wrap"><div class="crumb"><a href="{{ route('home') }}">Beranda</a> / Berita</div><h1>Berita dan informasi kesehatan</h1><p>Kabar kegiatan rumah sakit, pengumuman layanan, dan tips kesehatan.</p></div></div>
 <div class="section"><div class="wrap">

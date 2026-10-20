@@ -50,6 +50,18 @@
     <div class="fld"><label for="counter_hours">Jam loket pendaftaran</label><input id="counter_hours" name="counter_hours" value="{{ old('counter_hours', $p['counter_hours']) }}"></div>
     <div class="fld"><label for="visiting_hours">Jam besuk</label><input id="visiting_hours" name="visiting_hours" value="{{ old('visiting_hours', $p['visiting_hours']) }}"></div>
     <div class="fld"><label for="footer">Teks pendek di footer</label><textarea id="footer" name="footer" rows="2">{{ old('footer', $p['footer']) }}</textarea></div>
+  </div></div>
+  @php $so = \App\Support\SiteSettings::get('social'); $seo = \App\Support\SiteSettings::get('seo'); @endphp
+  <div class="card"><div class="card-h"><div><h2>Media sosial resmi</h2><p>Tampil sebagai ikon di footer, dan memberi tahu Google bahwa akun-akun ini milik rumah sakit yang sama.</p></div></div><div class="card-b form">
+    @foreach(['instagram' => 'Instagram', 'facebook' => 'Facebook', 'youtube' => 'YouTube', 'tiktok' => 'TikTok'] as $k => $lb)
+    <div class="fld half"><label for="so_{{ $k }}">{{ $lb }}</label><input id="so_{{ $k }}" name="social[{{ $k }}]" type="url" placeholder="https://" value="{{ old('social.'.$k, $so[$k] ?? '') }}">@error('social.'.$k)<div class="err">{{ $message }}</div>@enderror</div>
+    @endforeach
+  </div></div>
+  <div class="card"><div class="card-h"><div><h2>Pencarian Google (SEO)</h2><p>Mengatur cara website tampil di hasil pencarian Google.</p></div></div><div class="card-b form">
+    <div class="fld"><label for="home_title">Judul beranda di Google</label><input id="home_title" name="seo[home_title]" maxlength="70" value="{{ old('seo.home_title', $seo['home_title']) }}"><div class="hint">Maks. sekitar 60 karakter agar tidak terpotong. Sebutkan nama rumah sakit dan kota.</div></div>
+    <div class="fld"><label for="home_description">Deskripsi beranda di Google</label><textarea id="home_description" name="seo[home_description]" rows="3" maxlength="200">{{ old('seo.home_description', $seo['home_description']) }}</textarea><div class="hint">Sekitar 150 karakter. Ringkas layanan utama dan lokasi.</div></div>
+    <div class="fld half"><label for="alt_names">Nama lain rumah sakit</label><textarea id="alt_names" name="seo[alt_names]" rows="5">{{ old('seo.alt_names', $seo['alt_names']) }}</textarea><div class="hint">Satu nama per baris. Membantu Google mengenali berbagai cara orang menyebut rumah sakit.</div></div>
+    <div class="fld half"><label for="city">Kota untuk judul halaman</label><input id="city" name="seo[city]" value="{{ old('seo.city', $seo['city']) }}"><div class="hint">Dipakai di judul halaman poli dan dokter, misalnya "Poli Anak di Sidikalang".</div></div>
   </div><div class="save-bar"><button class="btn pri">Simpan profil</button></div></div>
 </div>
 </form>

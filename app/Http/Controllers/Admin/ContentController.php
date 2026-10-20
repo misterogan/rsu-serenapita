@@ -172,6 +172,10 @@ class ContentController extends Controller
             'phones.*.label' => 'required|string|max:40',
             'phones.*.number' => ['required', 'string', 'max:20', 'regex:/^[0-9+()\-\s.]{6,20}$/'],
             'phones.*.kind' => 'required|in:tel,wa',
+            'social.instagram' => 'nullable|url:https|max:255', 'social.facebook' => 'nullable|url:https|max:255',
+            'social.youtube' => 'nullable|url:https|max:255', 'social.tiktok' => 'nullable|url:https|max:255',
+            'seo.home_title' => 'nullable|string|max:70', 'seo.home_description' => 'nullable|string|max:200',
+            'seo.alt_names' => 'nullable|string|max:600', 'seo.city' => 'nullable|string|max:40',
         ], [
             'phones.*.number.regex' => 'Nomor telepon hanya boleh berisi angka, spasi, +, -, atau tanda kurung (6–20 karakter).',
         ], ['phones.*.label' => 'keterangan nomor', 'phones.*.number' => 'nomor telepon']);
@@ -194,7 +198,9 @@ class ContentController extends Controller
                 $p[$k] = $request->file($k)->store('branding', 'public');
             }
         }
-        unset($data['logo'], $data['logo_dark'], $data['share_image'], $data['phones']);
+        SiteSettings::put('social', array_map(fn ($v) => (string) ($v ?? ''), array_merge(SiteSettings::get('social'), $request->input('social', []))));
+        SiteSettings::put('seo', array_map(fn ($v) => trim((string) ($v ?? '')), array_merge(SiteSettings::get('seo'), $request->input('seo', []))));
+        unset($data['logo'], $data['logo_dark'], $data['share_image'], $data['phones'], $data['social'], $data['seo']);
         SiteSettings::put('profile', array_merge($p, $data));
 
         DB::transaction(function () use ($phones) {

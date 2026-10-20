@@ -1,5 +1,7 @@
 @extends('layouts.site')
-@section('title', 'Jadwal dokter')
+@section('title', 'Jadwal dokter '.$site['profile']['name'])
+@section('breadcrumb', 'Jadwal dokter')
+@section('description', 'Jadwal praktik dokter umum dan spesialis di '.$site['profile']['name'].', '.$site['seo']['city'].', Kabupaten Dairi. Cek jam praktik hari ini dan buat janji online.')
 @section('content')
 <div class="page-head"><div class="wrap"><div class="crumb"><a href="{{ route('home') }}">Beranda</a> / Jadwal</div><h1>Jadwal praktik dokter</h1><p>Jadwal 7 hari ke depan, diperbarui otomatis dari sistem rumah sakit. Dokter yang cuti ditandai.</p></div></div>
 <div class="section"><div class="wrap">

@@ -1,6 +1,8 @@
 @extends('layouts.site')
 @php use App\Models\Doctor; @endphp
-@section('title', 'Buat janji temu')
+@section('title', 'Buat janji dokter online')
+@section('breadcrumb', 'Buat janji')
+@section('description', 'Daftar berobat online di '.$site['profile']['name'].': pilih poliklinik, dokter, dan jam praktik, lalu dapatkan kode janji dan nomor antrean tanpa antre di loket.')
 @section('content')
 <div class="page-head"><div class="wrap"><div class="crumb"><a href="{{ route('home') }}">Beranda</a> / Buat Janji</div><h1>Buat janji temu dokter</h1><p>Janji temu langsung tercatat di sistem rumah sakit. Tunjukkan kode janji di loket pendaftaran.</p></div></div>
 <div class="section"><div class="wrap book">

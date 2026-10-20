@@ -43,6 +43,18 @@ class SiteSettings
             'director_message' => '',
             'org_chart' => null,
         ],
+        'social' => [
+            'instagram' => 'https://www.instagram.com/rs.serenapita/',
+            'facebook' => 'https://www.facebook.com/p/Rumah-Sakit-Serenapita-100084088734433/',
+            'youtube' => 'https://www.youtube.com/@RumahSakitSerenapita',
+            'tiktok' => '',
+        ],
+        'seo' => [
+            'home_title' => 'RSU Serenapita Sidikalang – Rumah Sakit Umum di Sidikalang, Dairi',
+            'home_description' => 'Rumah Sakit Umum Serenapita Sidikalang melayani rawat jalan, rawat inap, dan IGD 24 jam di Kabupaten Dairi. Lihat jadwal dokter spesialis, buat janji online, dan info layanan BPJS.',
+            'alt_names' => "Rumah Sakit Umum Serenapita\nRumah Sakit Serenapita\nRSU Serenapita\nRS Serenapita\nSerenapita",
+            'city' => 'Sidikalang',
+        ],
         'mg_targets' => ['kunjungan' => 0, 'pendapatan' => 0, 'bor' => 0],
         'sections' => [
             'slider' => true, 'boxes' => true, 'news' => true, 'poli_side' => true, 'book_side' => true,

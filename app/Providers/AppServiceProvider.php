@@ -48,6 +48,8 @@ class AppServiceProvider extends ServiceProvider
                 'logoDark' => SiteSettings::logoUrl(true),
                 'menus' => Menu::where('visible', true)->orderBy('sort')->get(),
                 'sections' => SiteSettings::get('sections'),
+                'seo' => SiteSettings::get('seo'),
+                'social' => array_filter(SiteSettings::get('social')),
                 'phones' => SiteSettings::phones(),
                 'emergency' => SiteSettings::emergencyPhone(),
                 'footerNews' => News::visible()->limit(3)->get(),

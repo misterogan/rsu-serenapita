@@ -1,5 +1,6 @@
 @extends('layouts.site')
 @section('title', $news->title)
+@section('breadcrumb_parent', 'Berita|'.route('news.index'))
 @section('description', $news->excerpt)
 @section('og_type', 'article')
 @if($news->image)@section('og_image', asset('storage/'.$news->image))@endif
@@ -18,4 +19,15 @@
   <ul class="dept-list">@foreach($more as $m)<li><a href="{{ route('news.show', $m->slug) }}">{{ $m->title }}<span aria-hidden="true">›</span></a></li>@endforeach</ul>
   @endif
 </div></div>
+@php
+  $art = array_filter([
+    '@context' => 'https://schema.org', '@type' => 'NewsArticle', 'headline' => \Illuminate\Support\Str::limit($news->title, 110, ''),
+    'description' => $news->excerpt ?: null, 'image' => $news->image ? [asset('storage/'.$news->image)] : null,
+    'datePublished' => optional($news->published_at)->toDateString() ?: $news->created_at->toIso8601String(),
+    'dateModified' => $news->updated_at->toIso8601String(), 'mainEntityOfPage' => url()->current(),
+    'author' => ['@type' => 'Organization', 'name' => $site['profile']['name'], 'url' => url('/')],
+    'publisher' => ['@type' => 'Organization', 'name' => $site['profile']['name'], 'logo' => ['@type' => 'ImageObject', 'url' => $site['logo'] ?? asset('images/og-default.jpg')]],
+  ]);
+@endphp
+<script type="application/ld+json">{!! json_encode($art, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
 @endsection

@@ -1,5 +1,7 @@
 @extends('layouts.site')
-@section('title', 'Kontak')
+@section('title', 'Kontak dan lokasi')
+@section('breadcrumb', 'Kontak')
+@section('description', 'Alamat, nomor telepon IGD dan pendaftaran, jam loket, dan peta lokasi '.$site['profile']['name'].', '.$site['address'].'.')
 @php $p = $site['profile']; @endphp
 @section('content')
 <div class="page-head"><div class="wrap"><div class="crumb"><a href="{{ route('home') }}">Beranda</a> / Kontak</div><h1>Kontak dan lokasi</h1><p>{{ $site['address'] }}</p></div></div>

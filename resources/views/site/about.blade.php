@@ -1,5 +1,6 @@
 @extends('layouts.site')
 @section('title', 'Tentang Kami')
+@section('breadcrumb', 'Tentang Kami')
 @section('description', $a['intro'])
 @section('content')
 <div class="page-head"><div class="wrap"><div class="crumb"><a href="{{ route('home') }}">Beranda</a> / Tentang Kami</div><h1>Tentang {{ $site['profile']['name'] }}</h1><p>{{ $a['intro'] }}</p></div></div>

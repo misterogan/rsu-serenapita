@@ -10,15 +10,21 @@
 <meta name="color-scheme" content="{{ !empty($sec['dark_mode']) ? 'light dark' : 'only light' }}">
 <meta name="theme-color" content="#1C3B70">
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<title>@hasSection('title')@yield('title') · @endif{{ $p['name'] }}</title>
-<meta name="description" content="@yield('description', $p['footer'])">
+@php
+  $seo = $site['seo']; $isHome = request()->routeIs('home');
+  $pageTitle = $isHome ? ($seo['home_title'] ?: $p['name']) : (trim($__env->yieldContent('title')) ? trim($__env->yieldContent('title')).' – '.$p['name'] : $p['name']);
+  $pageDesc = $isHome ? ($seo['home_description'] ?: $p['footer']) : (trim($__env->yieldContent('description')) ?: $p['footer']);
+  $altNames = array_values(array_filter(array_map('trim', preg_split('/\R/', (string) $seo['alt_names']))));
+@endphp
+<title>{{ $pageTitle }}</title>
+<meta name="description" content="{{ \Illuminate\Support\Str::limit($pageDesc, 165) }}">
+<link rel="canonical" href="{{ url()->current() }}">
 @php
   $ogTitle = trim($__env->yieldContent('title')) !== '' ? $__env->yieldContent('title').' · '.$p['name'] : $p['name'].' – '.$p['short'];
-  $ogDesc = trim($__env->yieldContent('description')) ?: $p['footer'];
+  $ogDesc = $pageDesc;
   $ogCustom = trim($__env->yieldContent('og_image'));
   $ogImage = $ogCustom ?: \App\Support\SiteSettings::shareImageUrl();
 @endphp
-<link rel="canonical" href="{{ url()->current() }}">
 <meta property="og:type" content="@yield('og_type', 'website')">
 <meta property="og:site_name" content="{{ $p['name'] }}">
 <meta property="og:locale" content="id_ID">
@@ -32,35 +38,45 @@
 <meta name="twitter:title" content="{{ $ogTitle }}">
 <meta name="twitter:description" content="{{ $ogDesc }}">
 <meta name="twitter:image" content="{{ $ogImage }}">
-@if(request()->routeIs('home'))
 @php
-  $ld = [
-    '@context' => 'https://schema.org',
-    '@type' => 'Hospital',
-    'name' => $p['name'],
-    'url' => url('/'),
-    'image' => $ogImage,
-    'logo' => $site['logo'] ?? asset('images/og-default.jpg'),
-    'telephone' => $site['emergency']?->number,
-    'email' => $p['email'] ?: null,
-    'address' => [
-      '@type' => 'PostalAddress',
-      'streetAddress' => $p['street'],
+  $hospital = array_filter([
+    '@type' => 'Hospital', '@id' => url('/').'#rumah-sakit',
+    'name' => $p['name'], 'alternateName' => $altNames ?: null, 'url' => url('/'),
+    'image' => $ogImage, 'logo' => $site['logo'] ?? asset('images/og-default.jpg'),
+    'description' => $seo['home_description'] ?: null,
+    'telephone' => $site['emergency']?->number, 'email' => $p['email'] ?: null,
+    'address' => ['@type' => 'PostalAddress', 'streetAddress' => $p['street'],
       'addressLocality' => trim(preg_replace('/^Kec(\.|amatan)?\s*/i', '', $p['district'] ?? '')) ?: $p['city'],
-      'addressRegion' => $p['province'],
-      'postalCode' => $p['zip'],
-      'addressCountry' => 'ID',
-    ],
+      'addressRegion' => $p['province'], 'postalCode' => $p['zip'], 'addressCountry' => 'ID'],
     'hasMap' => $p['maps'] ?: null,
+    'openingHours' => 'Mo-Su 00:00-23:59',
     'isAcceptingNewPatients' => true,
-  ];
+    'sameAs' => array_values(array_filter(array_merge(array_values($site['social']), [$p['maps'] ?: null]))) ?: null,
+  ], fn ($v) => $v !== null && $v !== '');
+  if ($isHome) {
+      $polisLd = \App\Models\Poli::where('active', true)->orderBy('sort')->get();
+      if ($polisLd->isNotEmpty() && \App\Support\Links::enabled('doctors')) {
+          $hospital['department'] = $polisLd->map(fn ($pl) => ['@type' => 'MedicalClinic', 'name' => $pl->name, 'url' => route('clinics.show', $pl->slug())])->values()->all();
+      }
+      $graph = [
+        array_filter(['@type' => 'WebSite', '@id' => url('/').'#website', 'name' => $p['name'], 'alternateName' => $altNames ?: null, 'url' => url('/'), 'inLanguage' => 'id-ID', 'publisher' => ['@id' => url('/').'#rumah-sakit']]),
+        $hospital,
+      ];
+  } else {
+      $crumbs = [['Beranda', url('/')]];
+      if ($parent = trim($__env->yieldContent('breadcrumb_parent'))) { [$pl, $pu] = array_pad(explode('|', $parent, 2), 2, null); $crumbs[] = [$pl, $pu]; }
+      $crumbs[] = [trim($__env->yieldContent('breadcrumb')) ?: (trim($__env->yieldContent('title')) ?: $p['name']), url()->current()];
+      $graph = [
+        ['@type' => 'BreadcrumbList', 'itemListElement' => collect($crumbs)->values()->map(fn ($c, $k) => array_filter(['@type' => 'ListItem', 'position' => $k + 1, 'name' => $c[0], 'item' => $c[1]]))->all()],
+        ['@type' => 'Hospital', '@id' => url('/').'#rumah-sakit', 'name' => $p['name'], 'url' => url('/')],
+      ];
+  }
 @endphp
-<script type="application/ld+json">{!! json_encode(array_filter($ld, fn ($v) => $v !== null && $v !== ''), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
-@endif
+<script type="application/ld+json">{!! json_encode(['@context' => 'https://schema.org', '@graph' => $graph], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
 <link rel="icon" href="{{ $site['logo'] ?? 'data:image/svg+xml,'.rawurlencode('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path d="M20 2 36 11v18L20 38 4 29V11z" fill="#35A3D8"/><path d="M17 12h6v5h5v6h-5v5h-6v-5h-5v-6h5z" fill="#fff"/></svg>') }}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('css/site.css') }}?v=12">
+<link rel="stylesheet" href="{{ asset('css/site.css') }}?v=13">
 </head>
 <body>
 @if($sec['loader'])
@@ -121,6 +137,7 @@
       <p style="margin:0 0 14px">{{ $p['footer'] }}</p>
       <p style="margin:0 0 8px">{{ $site['address'] }}</p>
       @foreach($site['phones']->where('show_footer', true) as $ph)<div>{{ $ph->label }}: <a href="{{ $ph->href() }}">{{ $ph->number }}</a></div>@endforeach
+      @if($site['social'])<div class="foot-social">@if(!empty($site['social']['instagram']))<a href="{{ $site['social']['instagram'] }}" target="_blank" rel="noopener me" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7.3a4.7 4.7 0 1 0 0 9.4 4.7 4.7 0 0 0 0-9.4zm0 7.7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm6-7.9a1.1 1.1 0 1 1-2.2 0 1.1 1.1 0 0 1 2.2 0zM12 4.6c2.4 0 2.7 0 3.6.1 2.4.1 3.6 1.3 3.7 3.7.1.9.1 1.2.1 3.6s0 2.7-.1 3.6c-.1 2.4-1.3 3.6-3.7 3.7-.9.1-1.2.1-3.6.1s-2.7 0-3.6-.1c-2.5-.1-3.6-1.3-3.7-3.7-.1-.9-.1-1.2-.1-3.6s0-2.7.1-3.6C4.8 6 6 4.8 8.4 4.7c.9-.1 1.2-.1 3.6-.1zM12 3c-2.4 0-2.7 0-3.7.1C5 3.2 3.2 5 3.1 8.3 3 9.3 3 9.6 3 12s0 2.7.1 3.7c.1 3.3 1.9 5.1 5.2 5.2 1 .1 1.3.1 3.7.1s2.7 0 3.7-.1c3.3-.1 5.1-1.9 5.2-5.2.1-1 .1-1.3.1-3.7s0-2.7-.1-3.7C20.8 5 19 3.2 15.7 3.1 14.7 3 14.4 3 12 3z"/></svg></a>@endif @if(!empty($site['social']['facebook']))<a href="{{ $site['social']['facebook'] }}" target="_blank" rel="noopener me" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.4 21v-8.2h2.8l.4-3.2h-3.2V7.6c0-.9.3-1.6 1.6-1.6h1.7V3.1c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.3H7.2v3.2H10V21h3.4z"/></svg></a>@endif @if(!empty($site['social']['youtube']))<a href="{{ $site['social']['youtube'] }}" target="_blank" rel="noopener me" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2C2 8.8 2 12 2 12s0 3.2.4 4.8a2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8c.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8zM10 15V9l5.2 3L10 15z"/></svg></a>@endif @if(!empty($site['social']['tiktok']))<a href="{{ $site['social']['tiktok'] }}" target="_blank" rel="noopener me" aria-label="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.7 5.7 0 1 0 4.9 5.7V9.1a7.3 7.3 0 0 0 4.3 1.4V7.4a4.3 4.3 0 0 1-3.2-1.6z"/></svg></a>@endif</div>@endif
       @if($p['email'])<div>Email: <a href="mailto:{{ $p['email'] }}">{{ $p['email'] }}</a></div>@endif
     </div>
     <div>
@@ -134,6 +151,7 @@
       <h4>Tautan cepat</h4>
       <ul>
         @if(Links::enabled('schedule'))<li><a href="{{ route('schedule') }}">Jadwal praktik dokter</a></li>@endif
+        @if(Links::enabled('doctors'))<li><a href="{{ route('clinics.index') }}">Poliklinik</a></li>@endif
         @if(Links::enabled('appointment'))<li><a href="{{ route('appointment') }}">Buat janji temu</a></li>@endif
         @if(Links::enabled('doctors'))<li><a href="{{ route('doctors') }}">Daftar dokter</a></li>@endif
         @if(Links::enabled('services'))<li><a href="{{ route('services') }}">Layanan dan fasilitas</a></li>@endif

@@ -38,6 +38,12 @@ class SitemapController extends Controller
                 $pages[] = ['loc' => route($route), 'freq' => 'monthly', 'prio' => '0.6', 'mod' => null];
             }
         }
+        if (\App\Support\Links::enabled('doctors')) {
+            $pages[] = ['loc' => route('clinics.index'), 'freq' => 'weekly', 'prio' => '0.8', 'mod' => $lastDoctor];
+            foreach (\App\Models\Poli::where('active', true)->orderBy('sort')->get() as $pl) {
+                $pages[] = ['loc' => route('clinics.show', $pl->slug()), 'freq' => 'weekly', 'prio' => '0.8', 'mod' => $lastDoctor];
+            }
+        }
         if (\App\Support\Links::enabled('about')) {
             $pages[] = ['loc' => route('about'), 'freq' => 'monthly', 'prio' => '0.7', 'mod' => null];
         }
