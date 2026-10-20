@@ -291,9 +291,12 @@ footer .flogo img{height:34px;width:auto;max-width:150px}
 .chat-head b{display:block;font-size:15px}
 .chat-head small{color:#BFD3EA;font-size:12px}
 .chat-head button{margin-left:auto;background:none;border:0;color:#fff;font-size:22px;cursor:pointer;padding:4px 8px}
-.chat-tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--line)}
-.chat-tabs button{flex:1;background:none;border:0;border-bottom:3px solid transparent;padding:10px 8px;font-weight:700;font-size:13px;color:var(--muted);cursor:pointer}
-.chat-tabs button[aria-selected="true"]{color:var(--blue);border-bottom-color:var(--blue)}
+.to-agent{display:flex;align-items:center;justify-content:center;gap:8px;margin:10px 12px 0;padding:9px 12px;border:1.5px solid var(--blue);background:var(--surface);color:var(--blue);font-weight:700;font-size:13.5px;border-radius:8px;cursor:pointer}
+.to-agent:hover,.to-agent:focus-visible{background:var(--blue);color:#fff}
+.to-agent svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.live-back{align-self:flex-start;background:none;border:0;color:var(--blue);font-weight:700;font-size:13px;padding:10px 14px 6px;cursor:pointer}
+.live-root{display:flex;flex-direction:column;flex:1;min-height:0}
+.vc-intro b{display:block;color:var(--ink);font-size:15px;margin-bottom:4px}
 .pane{display:flex;flex-direction:column;flex:1;min-height:0}
 .pane[hidden]{display:none}
 .chat-log{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:var(--bg)}

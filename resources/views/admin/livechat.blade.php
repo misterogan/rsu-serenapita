@@ -8,7 +8,7 @@
 </x-admin-head>
 @if($tab === 'settings')
 <form class="card" method="post" action="{{ route('admin.livechat.settings') }}">@csrf<div class="card-b form">
-  <div class="fld"><div class="tog-row"><div><b>Aktifkan live chat</b><small>Jika dimatikan, tab Live chat di situs menampilkan nomor telepon.</small></div><label class="switch"><input type="checkbox" name="enabled" value="1" @checked($cfg['enabled'])><span></span></label></div></div>
+  <div class="fld"><div class="tog-row"><div><b>Aktifkan live chat</b><small>Jika dimatikan, tombol Chat dengan petugas disembunyikan dan pengunjung hanya dilayani asisten.</small></div><label class="switch"><input type="checkbox" name="enabled" value="1" @checked($cfg['enabled'])><span></span></label></div></div>
   <div class="fld half"><label for="label">Nama petugas yang dilihat pengunjung</label><input id="label" name="label" value="{{ old('label', $cfg['label']) }}"></div>
   <div class="fld half"><label for="hours">Jam layanan live chat</label><input id="hours" name="hours" value="{{ old('hours', $cfg['hours']) }}"></div>
   <div class="fld"><label for="welcome">Pesan sambutan otomatis</label><textarea id="welcome" name="welcome" rows="2">{{ old('welcome', $cfg['welcome']) }}</textarea><div class="hint">Tulis {nama} untuk menyebut nama depan pengunjung.</div></div>

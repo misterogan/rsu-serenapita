@@ -8,9 +8,16 @@
 
 ## 6.1 Dari sisi pengunjung
 
-Di website, pengunjung mengklik tombol <b>Chat dengan kami</b> di pojok kanan bawah, lalu memilih tab <b>Live chat petugas</b>. Pengunjung mengisi nama, nomor HP, topik, dan pesan, kemudian mencentang persetujuan penyimpanan data.
+Di website, pengunjung mengklik tombol <b>Chat dengan kami</b> di pojok kanan bawah. Alurnya dalam satu jendela:
 
-<figure><a href="/docs/img/site_livechat.jpg" target="_blank"><img src="/docs/img/site_livechat.jpg" width="1200" height="750" alt="Gambar 6.1  Formulir live chat di website, seperti yang dilihat pasien." loading="lazy"></a><figcaption>Gambar 6.1  Formulir live chat di website, seperti yang dilihat pasien.</figcaption></figure>
+1. Jendela chat dibuka dengan <b>asisten Serena</b>. Pengunjung bisa langsung bertanya, misalnya soal jadwal dokter atau BPJS.
+2. Bila butuh bantuan petugas, pengunjung menekan tombol <b>Chat dengan petugas</b> di bawah daftar pertanyaan cepat.
+3. Muncul formulir data diri: nama, nomor HP, topik, dan pesan. Pertanyaan terakhir yang diketik ke Serena otomatis terisi di kolom pesan. Pengunjung mencentang persetujuan, lalu menekan <b>Mulai chat</b>.
+4. Percakapan dengan petugas dimulai. Tombol <b>Kembali ke Serena</b> di atas membawa pengunjung kembali ke asisten tanpa menutup percakapan.
+
+<figure><a href="/docs/img/site_livechat.jpg" target="_blank"><img src="/docs/img/site_livechat.jpg" width="1200" height="620" alt="Gambar 6.1  Alur chat di website: asisten Serena, formulir data diri, lalu percakapan dengan petugas." loading="lazy"></a><figcaption>Gambar 6.1  Alur chat di website: asisten Serena, formulir data diri, lalu percakapan dengan petugas.</figcaption></figure>
+
+Pengunjung yang masih punya percakapan dengan petugas akan langsung kembali ke percakapan itu saat membuka jendela chat lagi.
 
 <a id="livechat-2" class="anchor"></a>
 
@@ -66,7 +73,7 @@ Klik tombol <b>Pengaturan</b> di kanan atas halaman Live chat.
 
 | Kolom / tombol | Penjelasan | Aturan |
 |---|---|---|
-| <b>Aktifkan live chat</b> | Bila dimatikan, tab Live chat di website hanya menampilkan nomor telepon rumah sakit. | Sakelar |
+| <b>Aktifkan live chat</b> | Bila dimatikan, tombol Chat dengan petugas disembunyikan dan pengunjung hanya dilayani asisten Serena. | Sakelar |
 | <b>Nama petugas yang dilihat pengunjung</b> | Nama yang tampil di atas setiap balasan, misalnya "Petugas RSU Serenapita". | Wajib, maks. 60 karakter |
 | <b>Jam layanan live chat</b> | Ditampilkan kepada pengunjung, misalnya "07.00 – 21.00". | Maks. 60 karakter |
 | <b>Pesan sambutan otomatis</b> | Dikirim otomatis saat pengunjung memulai chat. Tulis <b>{nama}</b> untuk menyebut nama depan pengunjung. | Wajib, maks. 300 karakter |

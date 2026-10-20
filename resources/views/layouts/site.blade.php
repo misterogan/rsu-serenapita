@@ -76,7 +76,7 @@
 <link rel="icon" href="{{ $site['logo'] ?? 'data:image/svg+xml,'.rawurlencode('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path d="M20 2 36 11v18L20 38 4 29V11z" fill="#35A3D8"/><path d="M17 12h6v5h5v6h-5v5h-6v-5h-5v-6h5z" fill="#fff"/></svg>') }}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('css/site.css') }}?v=13">
+<link rel="stylesheet" href="{{ asset('css/site.css') }}?v=14">
 </head>
 <body>
 @if($sec['loader'])
@@ -185,17 +185,17 @@
     <div><b>{{ $site['chatbot']['name'] }}</b><small>Asisten informasi</small></div>
     <button id="chatClose" aria-label="Tutup chat">×</button>
   </div>
-  <div class="chat-tabs" role="tablist">
-    @if($site['chatbot']['enabled'])<button role="tab" aria-selected="true" data-ct="bot">Asisten {{ $site['chatbot']['name'] }}</button>@endif
-    <button role="tab" aria-selected="{{ $site['chatbot']['enabled'] ? 'false' : 'true' }}" data-ct="live">Live chat petugas</button>
-  </div>
   <div class="pane" id="botPane" @unless($site['chatbot']['enabled']) hidden @endunless>
     <div class="chat-log" id="botLog" aria-live="polite"></div>
     <div class="quick" id="botQuick">@foreach($site['chatbot']['quick'] as $q)<button type="button">{{ $q }}</button>@endforeach</div>
+    @if($site['livechat']['enabled'])<button type="button" class="to-agent" data-go-live><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm-7 8a7 7 0 0 1 14 0"/></svg>Chat dengan petugas</button>@endif
     <form class="chat-form" id="botForm" data-noload><input id="botIn" placeholder="Tulis pertanyaan Anda" aria-label="Pertanyaan" autocomplete="off" maxlength="500"><button type="submit">Kirim</button></form>
     <div class="chat-note">{{ $site['chatbot']['name'] }} memberi informasi umum, bukan diagnosis. Keadaan darurat: segera ke IGD.</div>
   </div>
-  <div class="pane" id="livePane" @if($site['chatbot']['enabled']) hidden @endif></div>
+  <div class="pane" id="livePane" @if($site['chatbot']['enabled']) hidden @endif>
+    @if($site['chatbot']['enabled'])<button type="button" class="live-back" data-go-bot>← Kembali ke {{ $site['chatbot']['name'] }}</button>@endif
+    <div class="live-root" id="liveRoot"></div>
+  </div>
 </div>
 @endif
 
@@ -205,12 +205,11 @@ window.SERENA = {
   loader: @json((bool) $sec['loader']),
   phone: @json($site['emergency']?->number ?? ''),
   pollMs: @json(config('serenapita.livechat.visitor_poll_ms')),
-  bot: { greeting: @json($site['chatbot']['greeting']) },
+  bot: { enabled: @json((bool) $site['chatbot']['enabled']), name: @json($site['chatbot']['name']), greeting: @json($site['chatbot']['greeting']) },
   livechat: { enabled: @json((bool) $site['livechat']['enabled']), label: @json($site['livechat']['label']), hours: @json($site['livechat']['hours']) },
   routes: { chatbot: @json(route('chatbot', [], false)), times: @json(route('appointment.times', [], false)), lcStart: @json(route('livechat.start', [], false)), lcPoll: @json(route('livechat.poll', [], false)), lcSend: @json(route('livechat.send', [], false)), lcEnd: @json(route('livechat.end', [], false)) }
 };
 </script>
-<script src="{{ asset('js/site.js') }}?v=6" defer></script>
-@if($sec['chatbot'] && !$site['chatbot']['enabled'])<script>document.addEventListener("DOMContentLoaded",()=>document.querySelector('[data-ct="live"]')?.click());</script>@endif
+<script src="{{ asset('js/site.js') }}?v=7" defer></script>
 </body>
 </html>

@@ -456,6 +456,6 @@ class Chatbot
         }
         $igd = SiteSettings::emergencyPhone();
 
-        return "Maaf, saya belum memahami pertanyaan itu. Saya bisa membantu soal:\n• jadwal dokter atau poli (contoh: \"jadwal dokter anak hari sabtu\")\n• dokter yang cuti\n• cara daftar BPJS dan buat janji\n• jam besuk, alamat, dan kontak\nUntuk pertanyaan lain, pilih tab Live chat petugas".($igd ? " atau hubungi {$igd->number}." : '.');
+        return "Maaf, saya belum memahami pertanyaan itu. Saya bisa membantu soal:\n• jadwal dokter atau poli (contoh: \"jadwal dokter anak hari sabtu\")\n• dokter yang cuti\n• cara daftar BPJS dan buat janji\n• jam besuk, alamat, dan kontak\nUntuk pertanyaan lain, tekan tombol \"Chat dengan petugas\" di bawah".($igd ? " atau hubungi {$igd->number}." : '.');
     }
 }

@@ -82,19 +82,29 @@
   /* ---------- Chat widget ---------- */
   const chat = $("#chat"); if (!chat) return;
   const fab = $("#chatFab");
-  const open = () => { chat.classList.add("open"); fab.classList.add("hide"); fab.setAttribute("aria-expanded", "true"); if (!$("#botLog").children.length) botMsg(C.bot.greeting, "bot"); setTimeout(() => $("#botIn")?.focus(), 200); };
+  let mode = null;
+  /** Satu panel: mulai dari asisten, lalu bisa pindah ke petugas (form data diri, lalu percakapan). */
+  function setMode(m) {
+    if (m === "bot" && !C.bot.enabled) m = "live";
+    mode = m;
+    $("#botPane").hidden = m !== "bot"; $("#livePane").hidden = m !== "live";
+    $(".chat-head small").textContent = m === "live" ? "Live chat dengan petugas" : "Asisten informasi";
+    if (m === "live") { Live.start(); } else { Live.stop(); if (!$("#botLog").children.length) botMsg(C.bot.greeting, "bot"); setTimeout(() => $("#botIn")?.focus(), 200); }
+  }
+  const open = () => {
+    chat.classList.add("open"); fab.classList.add("hide"); fab.setAttribute("aria-expanded", "true");
+    // Pengunjung yang masih punya percakapan dengan petugas langsung kembali ke percakapan itu
+    setMode(mode || (C.livechat.enabled && Live.hasToken() ? "live" : "bot"));
+  };
   const close = () => { chat.classList.remove("open"); fab.classList.remove("hide"); fab.setAttribute("aria-expanded", "false"); fab.focus(); };
   fab.addEventListener("click", open);
   $("#chatClose").addEventListener("click", close);
   $$("[data-open-chat]").forEach(a => a.addEventListener("click", e => { e.preventDefault(); open(); }));
   document.addEventListener("keydown", e => { if (e.key === "Escape" && chat.classList.contains("open")) close(); });
-  $$("[data-ct]").forEach(b => b.addEventListener("click", () => {
-    const live = b.dataset.ct === "live";
-    $$("[data-ct]").forEach(x => x.setAttribute("aria-selected", x === b));
-    $("#botPane").hidden = live; $("#livePane").hidden = !live;
-    $(".chat-head small").textContent = live ? "Live chat dengan petugas" : "Asisten informasi";
-    if (live) Live.start(); else Live.stop();
-  }));
+  chat.addEventListener("click", e => {
+    if (e.target.closest("[data-go-live]")) { const q = [...history].reverse().find(h => h.role === "user"); Live.prefill(q ? q.content : ""); setMode("live"); }
+    if (e.target.closest("[data-go-bot]")) setMode("bot");
+  });
 
   /* Chatbot */
   const history = [];
@@ -117,8 +127,8 @@
 
   /* Live chat pengunjung */
   const Live = (() => {
-    const root = $("#livePane"); const KEY = "serenapita_livechat_token";
-    const st = { token: null, conv: null, msgs: [], last: 0, timer: null, busy: false, form: false };
+    const root = $("#liveRoot"); const KEY = "serenapita_livechat_token";
+    const st = { token: null, conv: null, msgs: [], last: 0, timer: null, busy: false, form: false, prefill: "" };
     try { st.token = localStorage.getItem(KEY); } catch (e) {}
     const TOPICS = ["Informasi umum", "Jadwal dokter", "Janji temu", "BPJS dan administrasi", "Lainnya"];
     const statusText = s => s === "aktif" ? "Terhubung dengan " + esc(C.livechat.label) : s === "selesai" ? "Chat selesai" : "Menunggu petugas…";
@@ -131,7 +141,7 @@
     }
     function stop() { clearTimeout(st.timer); st.timer = null; }
     function schedule() { stop(); if (st.token && !document.hidden) st.timer = setTimeout(async () => { await poll(); schedule(); }, C.pollMs || 2500); }
-    document.addEventListener("visibilitychange", () => { if (!$("#livePane").hidden && chat.classList.contains("open")) document.hidden ? stop() : schedule(); });
+    document.addEventListener("visibilitychange", () => { if (mode === "live" && chat.classList.contains("open")) document.hidden ? stop() : schedule(); });
 
     async function poll() {
       try {
@@ -154,11 +164,11 @@
       const c = st.conv;
       if (!c || st.form) {
         root.innerHTML = `<form class="vc-form" novalidate data-noload>
-          <p class="vc-intro">Isi nama dan nomor HP agar petugas bisa mengenali dan menghubungi Anda kembali. Jam layanan ${esc(C.livechat.hours)}.</p>
+          <p class="vc-intro"><b>Chat dengan ${esc(C.livechat.label)}</b>Isi nama dan nomor HP agar petugas bisa mengenali dan menghubungi Anda kembali. Jam layanan ${esc(C.livechat.hours)}.</p>
           <label>Nama lengkap<input name="name" autocomplete="name" value="${esc(c?.name)}"></label>
           <label>Nomor HP / WhatsApp<input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="08xxxxxxxxxx" value="${esc(c?.phone)}"></label>
           <label>Topik<select name="topic">${TOPICS.map(t => `<option${t === c?.topic ? " selected" : ""}>${t}</option>`).join("")}</select></label>
-          <label>Pesan<textarea name="message" rows="3" placeholder="Tulis pertanyaan Anda"></textarea></label>
+          <label>Pesan<textarea name="message" rows="3" placeholder="Tulis pertanyaan Anda">${esc(st.prefill)}</textarea></label>
           <label class="vc-chk"><input type="checkbox" name="consent"> Saya setuju nama dan nomor HP saya disimpan untuk keperluan layanan ini.</label>
           <div class="vc-err" role="alert"></div>
           <button class="vc-btn" type="submit">Mulai chat</button>${c ? '<button type="button" class="vc-link" data-vc="cancel">Kembali ke riwayat chat</button>' : ""}
@@ -228,6 +238,6 @@
       if (b.dataset.vc === "cancel") { st.form = false; render(); }
       if (b.dataset.vc === "end") { await post(C.routes.lcEnd, { token: st.token }); await poll(); }
     });
-    return { start, stop };
+    return { start, stop, hasToken: () => !!st.token, prefill: t => { st.prefill = t || ""; if (!st.conv || st.form) { const ta = root.querySelector('textarea[name="message"]'); if (ta && !ta.value) ta.value = st.prefill; } } };
   })();
 })();
