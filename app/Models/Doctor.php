@@ -12,7 +12,7 @@ class Doctor extends Model
 {
     public const DAYS = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
 
-    protected $fillable = ['simrs_code', 'name', 'poli_id', 'status', 'schedule', 'color', 'bio', 'photo', 'show'];
+    protected $fillable = ['simrs_code', 'name', 'poli_id', 'status', 'schedule', 'color', 'bio', 'photo', 'photo_position', 'show'];
     protected $casts = ['schedule' => 'array', 'show' => 'bool'];
 
     public function poli(): BelongsTo
@@ -94,5 +94,21 @@ class Doctor extends Model
     public function scheduleText(): string
     {
         return collect($this->schedule ?? [])->sortBy(fn ($s) => (($s[0] + 6) % 7).$s[1])->map(fn ($s) => self::DAYS[$s[0]].' '.$s[1].'–'.$s[2])->implode(', ');
+    }
+
+    /** Pilihan bagian foto yang diutamakan di lingkaran avatar. */
+    public const PHOTO_POSITIONS = [
+        'top' => 'Atas (kepala di bagian atas foto)',
+        'upper' => 'Sedikit ke bawah',
+        'center' => 'Tengah',
+        'lower' => 'Bawah',
+    ];
+
+    /** Gaya CSS agar wajah tidak terpotong di lingkaran avatar. */
+    public function photoStyle(): string
+    {
+        $y = ['top' => 6, 'upper' => 22, 'center' => 50, 'lower' => 85][$this->photo_position ?: 'top'] ?? 6;
+
+        return 'object-position:50% '.$y.'%';
     }
 }

@@ -26,7 +26,8 @@
 | <b>Poliklinik</b> | Poli tempat dokter praktik. Tambahkan poli lebih dulu di menu Poliklinik bila belum ada. | Wajib |
 | <b>Status</b> | <b>Aktif</b>: tampil dan bisa dipilih pasien. <b>Cuti</b>: tetap tampil. <b>Nonaktif</b>: tidak tampil di website. | Wajib |
 | <b>Jadwal praktik</b> | Satu baris untuk satu sesi. Bila dokter praktik dua kali dalam sehari, misalnya Jumat 10.00–12.00 dan 13.30–19.30, isi <b>dua baris</b> dengan hari yang sama. Jam mulai harus lebih awal dari jam selesai. | Maks. 21 baris |
-| <b>Foto dokter</b> | Foto wajah dalam lingkaran. Centang <b>Hapus gambar</b> untuk kembali ke avatar inisial. | Opsional, JPG, PNG, atau WebP, maks. 2 MB. Lihat [Bab 29](#gambar). |
+| <b>Foto dokter</b> | Foto dalam lingkaran. Gunakan foto setengah badan dengan latar polos, dengan sedikit ruang kosong di atas kepala. Centang <b>Hapus gambar</b> untuk kembali ke avatar inisial. | Opsional, JPG, PNG, atau WebP, maks. 2 MB. Lihat [Bab 29](#gambar). |
+| <b>Bagian foto yang ditampilkan</b> | Bagian foto yang diutamakan di lingkaran. Bawaannya <b>Atas</b>, supaya kepala tidak terpotong. Pilih <b>Sedikit ke bawah</b>, <b>Tengah</b>, atau <b>Bawah</b> bila wajah berada lebih ke tengah atau bawah foto. | Pilihan |
 | <b>Warna avatar</b> | Warna lingkaran berisi inisial nama, dipakai bila tidak ada foto. | Wajib dipilih |
 | <b>Profil singkat</b> | Pendidikan, pengalaman, atau keahlian khusus. | Maks. 600 karakter |
 | <b>Kode dokter di SIMRS</b> | Boleh dikosongkan sekarang. Isi nanti saat SIMRS akan dihubungkan, supaya foto dan profil dokter ini tetap terpakai setelah sinkron. | Opsional |

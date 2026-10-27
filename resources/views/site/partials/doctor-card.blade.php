@@ -1,5 +1,5 @@
 <div class="doc">
-  <div class="avatar">@if($d->photo)<img src="{{ asset('storage/'.$d->photo) }}" alt="{{ $d->name }}" loading="lazy">@else<div style="background:{{ $d->color }}">{{ $d->initials() }}</div>@endif</div>
+  <div class="avatar">@if($d->photo)<img src="{{ asset('storage/'.$d->photo) }}" alt="{{ $d->name }}" loading="lazy" style="{{ $d->photoStyle() }}">@else<div style="background:{{ $d->color }}">{{ $d->initials() }}</div>@endif</div>
   <div class="info">
     <h3>{{ $d->name }}</h3>
     <div class="spec">@if($d->poli && empty($hidePoli))<a href="{{ route('clinics.show', $d->poli->slug()) }}">{{ $d->poli->name }}</a>@elseif($d->poli){{ $d->poli->name }}@endif</div>
