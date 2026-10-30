@@ -4,13 +4,13 @@
   $docNames = $doctors->pluck('name')->take(4)->implode(', ');
 @endphp
 @section('title', $poli->name.' di '.$city)
-@section('description', \Illuminate\Support\Str::limit(($poli->description ? rtrim($poli->description, '. ').'. ' : '').$poli->name.' '.$site['profile']['name'].($docNames ? ' bersama '.$docNames : '').'. Lihat jadwal praktik dan buat janji online.', 158))
+@section('description', \Illuminate\Support\Str::limit(($poli->description ? rtrim(\App\Support\Rich::plain($poli->description, 400), '. ').'. ' : '').$poli->name.' '.$site['profile']['name'].($docNames ? ' bersama '.$docNames : '').'. Lihat jadwal praktik dan buat janji online.', 158))
 @section('breadcrumb_parent', 'Poliklinik|'.route('clinics.index'))
 @section('breadcrumb', $poli->name)
 @section('content')
 <div class="page-head"><div class="wrap"><div class="crumb"><a href="{{ route('home') }}">Beranda</a> / <a href="{{ route('clinics.index') }}">Poliklinik</a> / {{ $poli->name }}</div>
   <h1>{{ $poli->name }}</h1>
-  <p>{{ $poli->description ?: $poli->name.' di '.$site['profile']['name'].', '.$city.'.' }}</p>
+  @if($poli->description)<div class="rich page-lead">{!! \App\Support\Rich::render($poli->description) !!}</div>@else<p>{{ $poli->name.' di '.$site['profile']['name'].', '.$city.'.' }}</p>@endif
 </div></div>
 <div class="section"><div class="wrap">
   <div class="clinic-info card">
@@ -36,7 +36,7 @@
 </div></div>
 @php
   $ld = ['@context' => 'https://schema.org', '@type' => 'MedicalClinic', 'name' => $poli->name.' – '.$site['profile']['name'], 'url' => url()->current(),
-    'description' => $poli->description ?: null,
+    'description' => $poli->description ? \App\Support\Rich::plain($poli->description, 300) : null,
     'parentOrganization' => ['@type' => 'Hospital', 'name' => $site['profile']['name'], 'url' => url('/')],
     'address' => ['@type' => 'PostalAddress', 'streetAddress' => $site['profile']['street'], 'addressLocality' => $city, 'addressRegion' => $site['profile']['province'], 'addressCountry' => 'ID'],
     'employee' => $doctors->map(fn ($d) => array_filter(['@type' => 'Physician', 'name' => $d->name, 'image' => $d->photo ? asset('storage/'.$d->photo) : null]))->values()->all(),

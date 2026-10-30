@@ -72,7 +72,33 @@ Saat Anda berpindah halaman atau menyimpan, layar menjadi buram sebentar dan mun
 
 <a id="tampilan-6" class="anchor"></a>
 
-## 3.6 Kebiasaan kerja yang aman
+## 3.6 Editor teks
+
+Kolom isi yang panjang, seperti isi berita, sejarah rumah sakit, isi panduan pasien, jawaban FAQ, deskripsi poli, profil dokter, lowongan kerja, dan tanggapan pengaduan, memakai **editor teks**. Tampilannya di backoffice sama dengan hasilnya di website.
+
+| Tombol | Fungsi |
+| --- | --- |
+| <b>B</b> | Tebal (atau Ctrl + B) |
+| <b>I</b> | Miring (atau Ctrl + I) |
+| <b>U</b> | Garis bawah (atau Ctrl + U) |
+| <b>H</b> | Subjudul. Klik lagi untuk kembali ke paragraf biasa. |
+| Daftar poin | Baris yang dipilih menjadi daftar poin. Klik lagi untuk mematikan. |
+| Daftar bernomor | Baris yang dipilih menjadi daftar 1, 2, 3. |
+| Tautan | Pilih teks, klik tombol ini, lalu isi alamat tautannya. |
+| Hapus format | Menghapus tebal, miring, dan tautan dari teks yang dipilih. |
+
+Jalan pintas saat mengetik:
+
+- Ketik **- ** (tanda minus lalu spasi) di awal baris untuk langsung membuat daftar poin.
+- Ketik **1. ** di awal baris untuk langsung membuat daftar bernomor.
+- Tekan **Enter dua kali** di akhir daftar untuk keluar dari daftar dan kembali ke paragraf biasa.
+- **Shift + Enter** membuat baris baru tanpa membuat paragraf atau poin baru.
+
+<div class="callout tips"><b>Tips</b><p>Teks yang ditempel dari Word, WhatsApp Web, atau situs lain otomatis dirapikan: tebal, miring, poin, dan nomor tetap terbawa, sedangkan jenis huruf, warna, dan ukuran huruf dibuang supaya tampilan website tetap seragam.</p></div>
+
+Kolom pendek atau kolom yang punya format khusus tetap berupa kotak teks biasa, misalnya ringkasan berita, misi (satu misi per baris), FAQ chatbot, balasan cepat live chat, dan pengaturan SEO.
+
+## 3.7 Kebiasaan kerja yang aman
 
 - Selalu klik tombol <b>Simpan</b> sebelum pindah halaman. Perubahan yang belum disimpan akan hilang.
 - Setelah menyimpan, klik <b>Lihat situs</b> untuk memastikan hasilnya sudah benar.

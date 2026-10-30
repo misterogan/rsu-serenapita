@@ -390,7 +390,7 @@ class Chatbot
         }
 
         return "{$p->name}:\n".$doctors->map(fn ($d) => '• '.$d->name.': '.$d->scheduleText().($d->leaves->first(fn ($l) => $l->date_to->gte(today())) ? ' (ada jadwal cuti)' : ''))->implode("\n")
-            .($p->description ? "\nMelayani: ".$p->description : '');
+            .($p->description ? "\nMelayani: ".\App\Support\Rich::plain($p->description, 300) : '');
     }
 
     protected function dayAnswer(Carbon $date): string

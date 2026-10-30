@@ -443,3 +443,19 @@ svg.i{width:18px;height:18px;flex:0 0 18px;fill:none;stroke:currentColor;stroke-
 .mg-dialog::backdrop{background:rgba(10,20,40,.45)}
 .mg-dialog form{text-align:right;margin-top:14px}
 .mg-target-form summary{cursor:pointer;font-weight:700;font-size:13px;margin-top:12px;color:var(--blue)}
+/* Editor teks (WYSIWYG) */
+.rte{border:1px solid var(--line);border-radius:6px;background:#fff;overflow:hidden}
+.rte:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px rgba(31,111,178,.12)}
+.rte-bar{display:flex;flex-wrap:wrap;gap:2px;padding:5px 6px;border-bottom:1px solid var(--line);background:#F7F9FC;position:sticky;top:0;z-index:2}
+.rte-bar button{min-width:32px;height:30px;border:0;background:none;border-radius:4px;cursor:pointer;color:#344154;font-size:14px;display:grid;place-items:center;padding:0 6px}
+.rte-bar button:hover,.rte-bar button:focus-visible{background:#E6EEF7}
+.rte-bar button.on{background:#DCE8F5;color:var(--blue)}
+.rte-bar svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.rte-bar svg circle,.rte-bar svg text{fill:currentColor;stroke:none}
+.rte-sep{width:1px;background:var(--line);margin:4px 4px}
+.rte-area{padding:10px 14px;outline:none;line-height:1.6;font-size:14px;color:var(--ink);max-height:60vh;overflow-y:auto}
+.rte-area:empty::before{content:"Tulis di sini…";color:#9AA6B5}
+.rte-area p{margin:0 0 10px}.rte-area ul,.rte-area ol{margin:0 0 10px;padding-left:24px}.rte-area li{margin-bottom:4px}
+.rte-area h3{font-size:16px;margin:12px 0 6px}.rte-area h4{font-size:15px;margin:10px 0 6px}
+.rte-area a{color:var(--blue);text-decoration:underline}
+.rte-area blockquote{border-left:3px solid var(--line);margin:0 0 10px;padding-left:12px;color:var(--muted)}

@@ -15,9 +15,9 @@
       <div><small>Dibutuhkan</small><b>{{ $job->quota ? $job->quota.' orang' : '—' }}</b></div>
     </div>
     @if($job->summary)<p><strong>{{ $job->summary }}</strong></p>@endif
-    @if($job->description)<h2 class="sec" style="margin-top:28px">Deskripsi pekerjaan</h2>@foreach($job->paragraphs('description') as $para)<p>{{ $para }}</p>@endforeach @endif
-    @if($job->requirements)<h2 class="sec" style="margin-top:28px">Persyaratan</h2><ul class="job-list">@foreach($job->lines('requirements') as $l)<li>{{ $l }}</li>@endforeach</ul>@endif
-    @if($job->benefits)<h2 class="sec" style="margin-top:28px">Yang kami tawarkan</h2><ul class="job-list">@foreach($job->lines('benefits') as $l)<li>{{ $l }}</li>@endforeach</ul>@endif
+    @if($job->description)<h2 class="sec" style="margin-top:28px">Deskripsi pekerjaan</h2><div class="rich">{!! \App\Support\Rich::render($job->description) !!}</div> @endif
+    @if($job->requirements)<h2 class="sec" style="margin-top:28px">Persyaratan</h2>@if(\App\Support\Rich::isHtml($job->requirements))<div class="rich job-rich">{!! \App\Support\Rich::render($job->requirements) !!}</div>@else<ul class="job-list">@foreach($job->lines('requirements') as $l)<li>{{ $l }}</li>@endforeach</ul>@endif@endif
+    @if($job->benefits)<h2 class="sec" style="margin-top:28px">Yang kami tawarkan</h2>@if(\App\Support\Rich::isHtml($job->benefits))<div class="rich job-rich">{!! \App\Support\Rich::render($job->benefits) !!}</div>@else<ul class="job-list">@foreach($job->lines('benefits') as $l)<li>{{ $l }}</li>@endforeach</ul>@endif@endif
     <p style="margin-top:30px"><a href="{{ route('careers.index') }}" style="font-weight:700">← Lihat lowongan lainnya</a></p>
   </div>
 

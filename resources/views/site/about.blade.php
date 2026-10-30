@@ -8,7 +8,7 @@
   @if($img('image'))<figure class="about-hero"><img src="{{ $img('image') }}" alt="{{ $site['profile']['name'] }}"></figure>@endif
 
   @if($history)
-  <div class="about-block rich"><h2 class="sec">Sejarah</h2>{!! \App\Support\Text::html($a['history']) !!}</div>
+  <div class="about-block rich"><h2 class="sec">Sejarah</h2>{!! \App\Support\Rich::render($a['history']) !!}</div>
   @endif
 
   @if($a['vision'] || $mission)
@@ -37,7 +37,7 @@
   <div class="card about-director">
     @if($img('director_photo'))<img src="{{ $img('director_photo') }}" alt="{{ $a['director_name'] }}">@endif
     <div><h2 class="sec">Sambutan {{ strtolower($a['director_title'] ?: 'direktur') }}</h2>
-      <div class="rich">{!! \App\Support\Text::html($a['director_message']) !!}</div>
+      <div class="rich">{!! \App\Support\Rich::render($a['director_message']) !!}</div>
       @if($a['director_name'])<p class="about-sign"><b>{{ $a['director_name'] }}</b><br><span>{{ $a['director_title'] }}</span></p>@endif
     </div>
   </div>

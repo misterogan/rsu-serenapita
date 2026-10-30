@@ -10,7 +10,7 @@
     @foreach($polis as $p)
     <a class="clinic-card card" href="{{ route('clinics.show', $p->slug()) }}">
       <h2>{{ $p->name }}</h2>
-      @if($p->description)<p>{{ \Illuminate\Support\Str::limit($p->description, 120) }}</p>@endif
+      @if($p->description)<p>{{ \App\Support\Rich::plain($p->description, 120) }}</p>@endif
       <span class="clinic-meta">{{ $p->doctors_count }} dokter · Lihat jadwal →</span>
     </a>
     @endforeach

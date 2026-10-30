@@ -109,6 +109,12 @@ class CrudController extends Controller
             $rules[$f['name']] = is_callable($f['rules'] ?? null) ? $f['rules']($model) : ($f['rules'] ?? 'nullable');
         }
         $data = $request->validate($rules, [], collect($res['fields'])->pluck('label', 'name')->all());
+        // Isi editor teks disaring: hanya format yang aman yang disimpan
+        foreach ($res['fields'] as $f) {
+            if (($f['type'] ?? '') === 'rich' && array_key_exists($f['name'], $data)) {
+                $data[$f['name']] = \App\Support\Rich::sanitize($data[$f['name']]) ?: null;
+            }
+        }
 
         foreach ($res['fields'] as $f) {
             if ($f['type'] === 'toggle') {

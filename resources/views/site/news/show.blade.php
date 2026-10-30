@@ -13,7 +13,7 @@
   <div class="thumb">@include('partials.cover', ['news' => $news])</div>
   @endif
   <p><strong>{{ $news->excerpt }}</strong></p>
-  @foreach($news->paragraphs() as $para)<p>{{ $para }}</p>@endforeach
+  <div class="rich">{!! \App\Support\Rich::render($news->body) !!}</div>
   @if($more->isNotEmpty())
   <h2 class="sec" style="margin-top:40px">Berita lainnya</h2>
   <ul class="dept-list">@foreach($more as $m)<li><a href="{{ route('news.show', $m->slug) }}">{{ $m->title }}<span aria-hidden="true">›</span></a></li>@endforeach</ul>

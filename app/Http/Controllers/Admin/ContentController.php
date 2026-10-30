@@ -114,10 +114,10 @@ class ContentController extends Controller
     public function saveAbout(Request $request)
     {
         $data = $request->validate([
-            'intro' => 'required|string|max:600', 'history' => 'nullable|string|max:6000',
+            'intro' => 'required|string|max:600', 'history' => 'nullable|string|max:20000',
             'vision' => 'nullable|string|max:600', 'mission' => 'nullable|string|max:3000', 'values' => 'nullable|string|max:2000',
             'accreditation' => 'nullable|string|max:300', 'awards' => 'nullable|string|max:3000',
-            'director_name' => 'nullable|string|max:120', 'director_title' => 'nullable|string|max:80', 'director_message' => 'nullable|string|max:3000',
+            'director_name' => 'nullable|string|max:120', 'director_title' => 'nullable|string|max:80', 'director_message' => 'nullable|string|max:10000',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3072', 'accreditation_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3072',
             'director_photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', 'org_chart' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
         ], [], ['intro' => 'ringkasan', 'image' => 'foto rumah sakit', 'accreditation_image' => 'sertifikat akreditasi', 'director_photo' => 'foto direktur', 'org_chart' => 'struktur organisasi']);
@@ -134,6 +134,9 @@ class ContentController extends Controller
                 }
                 $a[$k] = $request->file($k)->store('about', 'public');
             }
+        }
+        foreach (['history', 'director_message'] as $k) {
+            $data[$k] = \App\Support\Rich::sanitize($data[$k] ?? '');
         }
         foreach ($data as $k => $v) {
             $a[$k] = $v ?? '';

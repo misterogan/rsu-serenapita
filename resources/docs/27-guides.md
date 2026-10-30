@@ -23,7 +23,7 @@ Halaman ini terbuka di alamat <b>rsuserenapita.id/patient-guide</b>. Saat pertam
 |---|---|---|
 | <b>Judul panduan</b> | Misalnya "Pendaftaran rawat jalan". | Wajib, maks. 120 karakter |
 | <b>Kategori</b> | Umum, Rawat jalan, Rawat inap, BPJS, IGD, Besuk, atau Pembayaran. | Wajib |
-| <b>Isi panduan</b> | Pisahkan paragraf dengan satu baris kosong. Untuk daftar poin, awali setiap baris dengan tanda minus (-). | Wajib, maks. 8.000 karakter |
+| <b>Isi panduan</b> | Memakai editor teks. Gunakan daftar poin atau daftar bernomor untuk langkah-langkah (lihat Bab 3.6). | Wajib, maks. 8.000 karakter |
 | <b>Tampilkan di situs</b> | Matikan untuk menyembunyikan panduan. | Sakelar |
 
 <div class="callout catatan"><b>Catatan</b><p>Contoh penulisan isi panduan:<br/>Bawa dokumen berikut saat mendaftar:<br/><br/>- KTP atau kartu identitas lain<br/>- Kartu BPJS yang aktif<br/>- Surat rujukan dari puskesmas</p></div>
@@ -42,7 +42,7 @@ Halaman ini terbuka di alamat <b>rsuserenapita.id/patient-guide</b>. Saat pertam
 | Kolom / tombol | Penjelasan | Aturan |
 |---|---|---|
 | <b>Pertanyaan</b> | Misalnya "Apakah tersedia parkir?" | Wajib, maks. 200 karakter |
-| <b>Jawaban</b> | Jawaban singkat dan jelas. Pisahkan paragraf dengan satu baris kosong. | Wajib, maks. 2.000 karakter |
+| <b>Jawaban</b> | Jawaban singkat dan jelas. Memakai editor teks (lihat Bab 3.6). | Wajib, maks. 2.000 karakter |
 | <b>Kategori</b> | Tampil kecil di bawah pertanyaan dan dipakai sebagai penyaring di backoffice. | Wajib, maks. 40 karakter |
 | <b>Tampilkan di situs</b> | Matikan untuk menyembunyikan pertanyaan. | Sakelar |
 

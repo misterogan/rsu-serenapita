@@ -13,11 +13,7 @@
     @foreach($guides as $g)
     <details class="guide card" data-search @if($loop->first) open @endif>
       <summary><span class="guide-cat">{{ $g->category }}</span><b>{{ $g->title }}</b></summary>
-      <div class="guide-body">
-        @foreach($g->blocks() as $blk)
-          @if($blk['type'] === 'list')<ul>@foreach($blk['items'] as $it)<li>{{ $it }}</li>@endforeach</ul>@else<p>{{ $blk['items'][0] }}</p>@endif
-        @endforeach
-      </div>
+      <div class="guide-body rich">{!! \App\Support\Rich::render($g->content) !!}</div>
     </details>
     @endforeach
   </div>
@@ -27,7 +23,7 @@
   <h2 class="sec" style="margin-top:40px">Pertanyaan yang sering diajukan</h2>
   <div class="faq-list">
     @foreach($faqs as $f)
-    <details class="faq" data-search><summary>{{ $f->question }}<small>{{ $f->category }}</small></summary><div class="faq-a rich">{!! \App\Support\Text::html($f->answer) !!}</div></details>
+    <details class="faq" data-search><summary>{{ $f->question }}<small>{{ $f->category }}</small></summary><div class="faq-a rich">{!! \App\Support\Rich::render($f->answer) !!}</div></details>
     @endforeach
   </div>
   @endif
@@ -57,6 +53,6 @@
 })();
 </script>
 @if($faqs->isNotEmpty())
-<script type="application/ld+json">{!! json_encode(['@context' => 'https://schema.org', '@type' => 'FAQPage', 'mainEntity' => $faqs->map(fn ($f) => ['@type' => 'Question', 'name' => $f->question, 'acceptedAnswer' => ['@type' => 'Answer', 'text' => $f->answer]])->values()->all()], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+<script type="application/ld+json">{!! json_encode(['@context' => 'https://schema.org', '@type' => 'FAQPage', 'mainEntity' => $faqs->map(fn ($f) => ['@type' => 'Question', 'name' => $f->question, 'acceptedAnswer' => ['@type' => 'Answer', 'text' => \App\Support\Rich::render($f->answer)]])->values()->all()], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
 @endif
 @endsection

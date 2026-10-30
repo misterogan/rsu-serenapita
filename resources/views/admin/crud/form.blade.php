@@ -19,6 +19,9 @@
       @case('textarea')
         <label for="f_{{ $name }}">{{ $f['label'] }}</label><textarea id="f_{{ $name }}" name="{{ $name }}" rows="{{ $f['rows'] ?? 4 }}">{{ $val }}</textarea>
         @break
+      @case('rich')
+        <x-rich :name="$name" :label="$f['label']" :value="$val" :rows="$f['rows'] ?? 6" />
+        @break
       @case('select')
         <label for="f_{{ $name }}">{{ $f['label'] }}</label><select id="f_{{ $name }}" name="{{ $name }}">@foreach(($f['options'])() as $v => $l)<option value="{{ $v }}" @selected((string) $val === (string) $v)>{{ $l }}</option>@endforeach</select>
         @break

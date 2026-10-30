@@ -459,3 +459,7 @@ footer .flogo img{height:34px;width:auto;max-width:150px}
 
 /* Teks dari backoffice: paragraf, pindah baris, dan daftar poin */
 .rich p{margin:0 0 12px}.rich ul,.rich ol{margin:0 0 14px;padding-left:22px}.rich li{margin-bottom:8px;line-height:1.6}.rich li::marker{color:var(--sky)}.rich b{color:var(--ink)}
+.doc .bio.rich{font-size:13.5px;color:var(--muted)}.doc .bio.rich p,.doc .bio.rich ul,.doc .bio.rich ol{margin:0 0 6px}.doc .bio.rich ul,.doc .bio.rich ol{padding-left:18px}
+.page-head .rich.page-lead{max-width:760px;color:var(--muted)}.page-head .rich.page-lead p:last-child,.page-head .rich.page-lead ul:last-child{margin-bottom:0}
+.rich h3{font-size:18px;margin:22px 0 8px}.rich h4{font-size:16px;margin:18px 0 6px}.rich a{color:var(--blue)}.rich blockquote{margin:0 0 14px;padding-left:14px;border-left:3px solid var(--line);color:var(--muted)}
+.job-rich ul,.job-rich ol{padding-left:22px}

@@ -49,7 +49,7 @@ Setelah mengirim, pelamar mendapat <b>kode lamaran</b>, misalnya <b>LMR-AB12CD</
 | <b>Batas akhir lamaran</b> | Setelah tanggal ini, formulir lamaran otomatis tertutup walaupun status masih Dibuka. Kosongkan bila tanpa batas. | Opsional |
 | <b>Status</b> | <b>Draf</b>: belum tampil. <b>Dibuka</b>: tampil dan menerima lamaran. <b>Ditutup</b>: tetap tampil sebagai riwayat, tetapi tidak menerima lamaran. | Wajib |
 | <b>Ringkasan singkat</b> | 1 sampai 2 kalimat yang tampil di daftar lowongan. | Maks. 300 karakter |
-| <b>Deskripsi pekerjaan</b> | Tugas dan tanggung jawab. Pisahkan paragraf dengan satu baris kosong. | Maks. 5.000 karakter |
+| <b>Deskripsi pekerjaan</b> | Tugas dan tanggung jawab. Memakai editor teks (lihat Bab 3.6). | Maks. 5.000 karakter |
 | <b>Persyaratan</b> | Tulis <b>satu persyaratan per baris</b>. Setiap baris tampil sebagai poin. | Maks. 5.000 karakter |
 | <b>Yang kami tawarkan</b> | Fasilitas atau keuntungan, satu poin per baris. | Opsional, maks. 3.000 karakter |
 

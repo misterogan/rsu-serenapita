@@ -106,7 +106,7 @@ class Resources
                     ['name' => 'image', 'label' => 'Foto sampul (opsional)', 'type' => 'image', 'rules' => 'nullable|image|max:3072', 'dir' => 'news', 'hint' => 'JPG, PNG, atau WebP maksimal 3 MB. Jika kosong, memakai ilustrasi di bawah.'],
                     ['name' => 'illustration', 'label' => 'Ilustrasi sampul', 'type' => 'illustration', 'rules' => 'required|in:'.implode(',', self::ILLUSTRATIONS), 'default' => 'heart'],
                     ['name' => 'excerpt', 'label' => 'Ringkasan', 'type' => 'textarea', 'rows' => 3, 'rules' => 'required|string|max:400'],
-                    ['name' => 'body', 'label' => 'Isi berita', 'type' => 'textarea', 'rows' => 10, 'rules' => 'nullable|string', 'hint' => 'Pisahkan paragraf dengan satu baris kosong.'],
+                    ['name' => 'body', 'label' => 'Isi berita', 'type' => 'rich', 'rows' => 8, 'rules' => 'nullable|string|max:60000', 'hint' => 'Gunakan tombol di atas kotak untuk tebal, subjudul, daftar poin, atau tautan. Ketik "- " di awal baris untuk langsung membuat daftar poin.'],
                     ['name' => 'featured', 'label' => 'Tampilkan di beranda', 'type' => 'toggle', 'desc' => 'Masuk ke bagian Berita terbaru di beranda.'],
                 ],
                 'before' => function ($model, array &$data, bool $isNew) {
@@ -162,7 +162,7 @@ class Resources
                 'desc' => 'Daftar layanan penunjang di halaman Layanan.',
                 'order' => ['sort', 'asc'], 'search' => ['name', 'description'],
                 'columns' => [
-                    'Layanan' => fn ($r) => '<div class="cellrow"><svg class="i" style="color:var(--blue)" viewBox="0 0 24 24"><path d="'.(self::ICONS[$r->icon] ?? self::ICONS['cross']).'"/></svg><div><span class="main">'.e($r->name).'</span><span class="sub">'.e(Str::limit($r->description, 90)).'</span></div></div>',
+                    'Layanan' => fn ($r) => '<div class="cellrow"><svg class="i" style="color:var(--blue)" viewBox="0 0 24 24"><path d="'.(self::ICONS[$r->icon] ?? self::ICONS['cross']).'"/></svg><div><span class="main">'.e($r->name).'</span><span class="sub">'.e(\App\Support\Rich::plain($r->description, 90)).'</span></div></div>',
                     'Tampil' => fn ($r) => self::toggle('services', $r, 'show'),
                 ],
                 'fields' => [
@@ -198,7 +198,7 @@ class Resources
                     ['name' => 'photo', 'label' => 'Foto dokter (opsional)', 'type' => 'image', 'rules' => 'nullable|image|max:2048', 'dir' => 'doctors', 'hint' => 'Foto setengah badan dengan latar polos, maks. 2 MB. Bagian kepala otomatis diutamakan di lingkaran foto.'],
                     ['name' => 'photo_position', 'label' => 'Bagian foto yang ditampilkan', 'type' => 'select', 'half' => true, 'default' => 'top', 'rules' => 'required|in:top,upper,center,lower', 'options' => fn () => Doctor::PHOTO_POSITIONS, 'hint' => 'Pilih Atas bila kepala terpotong. Pilih Tengah atau Bawah bila wajah berada di tengah atau bawah foto.'],
                     ['name' => 'color', 'label' => 'Warna avatar', 'type' => 'color', 'rules' => 'required|in:'.implode(',', self::COLORS)],
-                    ['name' => 'bio', 'label' => 'Profil singkat', 'type' => 'textarea', 'rows' => 3, 'rules' => 'nullable|string|max:600'],
+                    ['name' => 'bio', 'label' => 'Profil singkat', 'type' => 'rich', 'rows' => 8, 'rules' => 'nullable|string|max:2000'],
                     ['name' => 'simrs_code', 'label' => 'Kode dokter di SIMRS (opsional)', 'type' => 'text', 'hidePrefix' => 'MAN-', 'rules' => fn ($m) => 'nullable|string|max:40|unique:doctors,simrs_code,'.($m->id ?? 'NULL'), 'hint' => 'Isi nanti saat SIMRS akan dihubungkan, supaya foto dan profil dokter ini tetap terpakai setelah sinkron.'],
                     ['name' => 'show', 'label' => 'Tampilkan di situs', 'type' => 'toggle', 'desc' => 'Muncul di halaman Dokter, Jadwal, dan formulir janji temu.', 'default' => true],
                 ] : [
@@ -209,7 +209,7 @@ class Resources
                     ['name' => 'photo', 'label' => 'Foto dokter (opsional)', 'type' => 'image', 'rules' => 'nullable|image|max:2048', 'dir' => 'doctors', 'hint' => 'Foto setengah badan dengan latar polos, maks. 2 MB. Bagian kepala otomatis diutamakan di lingkaran foto.'],
                     ['name' => 'photo_position', 'label' => 'Bagian foto yang ditampilkan', 'type' => 'select', 'half' => true, 'default' => 'top', 'rules' => 'required|in:top,upper,center,lower', 'options' => fn () => Doctor::PHOTO_POSITIONS, 'hint' => 'Pilih Atas bila kepala terpotong. Pilih Tengah atau Bawah bila wajah berada di tengah atau bawah foto.'],
                     ['name' => 'color', 'label' => 'Warna avatar', 'type' => 'color', 'rules' => 'required|in:'.implode(',', self::COLORS)],
-                    ['name' => 'bio', 'label' => 'Profil singkat', 'type' => 'textarea', 'rows' => 3, 'rules' => 'nullable|string|max:600'],
+                    ['name' => 'bio', 'label' => 'Profil singkat', 'type' => 'rich', 'rows' => 8, 'rules' => 'nullable|string|max:2000'],
                     ['name' => 'show', 'label' => 'Tampilkan di situs', 'type' => 'toggle', 'desc' => 'Muncul di halaman Dokter, Jadwal, dan formulir janji temu.'],
                 ],
                 'before' => function ($model, array &$data, bool $isNew) use ($manual) {
@@ -237,7 +237,7 @@ class Resources
                     $manual
                         ? ['name' => 'name', 'label' => 'Nama poliklinik', 'type' => 'text', 'rules' => fn ($m) => 'required|string|max:80|unique:polis,name,'.($m->id ?? 'NULL'), 'hint' => 'Contoh: Poli Anak, Poli Penyakit Dalam.']
                         : ['name' => 'name', 'label' => 'Nama poliklinik', 'type' => 'readonly', 'value' => fn ($r) => e($r->name)],
-                    ['name' => 'description', 'label' => 'Deskripsi di situs', 'type' => 'textarea', 'rows' => 3, 'rules' => 'nullable|string|max:300'],
+                    ['name' => 'description', 'label' => 'Deskripsi di situs', 'type' => 'rich', 'rows' => 8, 'rules' => 'nullable|string|max:3000', 'hint' => 'Tampil di halaman poli dan sebagai deskripsi di hasil pencarian Google. Tulis 1–3 kalimat; daftar poin boleh dipakai.'],
                     ['name' => 'active', 'label' => 'Tampilkan di situs', 'type' => 'toggle', 'desc' => 'Poli yang disembunyikan tidak muncul di situs dan formulir janji.', 'default' => true],
                     ['name' => 'featured', 'label' => 'Unggulan di beranda', 'type' => 'toggle', 'desc' => 'Tampil sebagai kotak biru di atas daftar poliklinik.'],
                     $manual ? ['name' => 'simrs_code', 'label' => 'Kode poli di SIMRS (opsional)', 'type' => 'text', 'hidePrefix' => 'MAN-', 'rules' => fn ($m) => 'nullable|string|max:40|unique:polis,simrs_code,'.($m->id ?? 'NULL'), 'hint' => 'Isi nanti saat SIMRS akan dihubungkan.'] : null,
@@ -343,9 +343,9 @@ class Resources
                     ['name' => 'deadline', 'label' => 'Batas akhir lamaran', 'type' => 'date', 'half' => true, 'rules' => 'nullable|date', 'hint' => 'Setelah tanggal ini, formulir lamaran otomatis ditutup.'],
                     ['name' => 'status', 'label' => 'Status', 'type' => 'select', 'half' => true, 'rules' => 'required|in:Dibuka,Ditutup,Draf', 'options' => fn () => ['Draf' => 'Draf (belum tampil)', 'Dibuka' => 'Dibuka (menerima lamaran)', 'Ditutup' => 'Ditutup (tampil, tidak menerima lamaran)'], 'default' => 'Draf'],
                     ['name' => 'summary', 'label' => 'Ringkasan singkat', 'type' => 'textarea', 'rows' => 2, 'rules' => 'nullable|string|max:300', 'hint' => 'Tampil di daftar lowongan. 1 sampai 2 kalimat.'],
-                    ['name' => 'description', 'label' => 'Deskripsi pekerjaan', 'type' => 'textarea', 'rows' => 6, 'rules' => 'nullable|string|max:5000', 'hint' => 'Tugas dan tanggung jawab. Pisahkan paragraf dengan satu baris kosong.'],
-                    ['name' => 'requirements', 'label' => 'Persyaratan', 'type' => 'textarea', 'rows' => 6, 'rules' => 'nullable|string|max:5000', 'hint' => 'Satu persyaratan per baris. Contoh: Memiliki STR aktif.'],
-                    ['name' => 'benefits', 'label' => 'Yang kami tawarkan', 'type' => 'textarea', 'rows' => 4, 'rules' => 'nullable|string|max:3000', 'hint' => 'Opsional. Satu poin per baris, misalnya BPJS Ketenagakerjaan.'],
+                    ['name' => 'description', 'label' => 'Deskripsi pekerjaan', 'type' => 'rich', 'rows' => 8, 'rules' => 'nullable|string|max:8000', 'hint' => 'Tugas dan tanggung jawab. Pisahkan paragraf dengan satu baris kosong.'],
+                    ['name' => 'requirements', 'label' => 'Persyaratan', 'type' => 'rich', 'rows' => 8, 'rules' => 'nullable|string|max:5000', 'hint' => 'Gunakan daftar poin, satu persyaratan per poin.'],
+                    ['name' => 'benefits', 'label' => 'Yang kami tawarkan', 'type' => 'rich', 'rows' => 8, 'rules' => 'nullable|string|max:5000', 'hint' => 'Gunakan daftar poin, satu hal per poin.'],
                 ],
                 'before' => function ($model, array &$data, bool $isNew) {
                     $base = Str::slug(($data['slug'] ?? '') ?: $data['title']);
@@ -434,14 +434,14 @@ class Resources
                 'order' => ['sort', 'asc'], 'search' => ['title', 'content'],
                 'filters' => ['category' => ['label' => 'Semua kategori', 'options' => fn () => array_combine(Guide::CATEGORIES, Guide::CATEGORIES)]],
                 'columns' => [
-                    'Panduan' => fn ($r) => '<span class="main">'.e($r->title).'</span><span class="sub">'.e(Str::limit(preg_replace('/\s+/', ' ', (string) $r->content), 90)).'</span>',
+                    'Panduan' => fn ($r) => '<span class="main">'.e($r->title).'</span><span class="sub">'.e(\App\Support\Rich::plain($r->content, 90)).'</span>',
                     'Kategori' => fn ($r) => e($r->category),
                     'Tampil' => fn ($r) => self::toggle('guides', $r, 'show'),
                 ],
                 'fields' => [
                     ['name' => 'title', 'label' => 'Judul panduan', 'type' => 'text', 'rules' => 'required|string|max:120'],
                     ['name' => 'category', 'label' => 'Kategori', 'type' => 'select', 'half' => true, 'rules' => 'required|in:'.implode(',', Guide::CATEGORIES), 'options' => fn () => array_combine(Guide::CATEGORIES, Guide::CATEGORIES)],
-                    ['name' => 'content', 'label' => 'Isi panduan', 'type' => 'textarea', 'rows' => 10, 'rules' => 'required|string|max:8000', 'hint' => 'Pisahkan paragraf dengan satu baris kosong. Untuk daftar poin, awali setiap baris dengan tanda minus (-).'],
+                    ['name' => 'content', 'label' => 'Isi panduan', 'type' => 'rich', 'rows' => 8, 'rules' => 'required|string|max:12000', 'hint' => 'Gunakan daftar poin atau daftar bernomor untuk langkah-langkah. Ketik "- " atau "1. " di awal baris untuk langsung membuat daftar.'],
                     ['name' => 'show', 'label' => 'Tampilkan di situs', 'type' => 'toggle', 'default' => true],
                 ],
                 'label' => fn ($r) => $r->title,
@@ -453,13 +453,13 @@ class Resources
                 'order' => ['sort', 'asc'], 'search' => ['question', 'answer'],
                 'filters' => ['category' => ['label' => 'Semua kategori', 'options' => fn () => Faq::distinct()->orderBy('category')->pluck('category', 'category')->all()]],
                 'columns' => [
-                    'Pertanyaan' => fn ($r) => '<span class="main">'.e($r->question).'</span><span class="sub">'.e(Str::limit($r->answer, 100)).'</span>',
+                    'Pertanyaan' => fn ($r) => '<span class="main">'.e($r->question).'</span><span class="sub">'.e(\App\Support\Rich::plain($r->answer, 100)).'</span>',
                     'Kategori' => fn ($r) => e($r->category),
                     'Tampil' => fn ($r) => self::toggle('faqs', $r, 'show'),
                 ],
                 'fields' => [
                     ['name' => 'question', 'label' => 'Pertanyaan', 'type' => 'text', 'rules' => 'required|string|max:200'],
-                    ['name' => 'answer', 'label' => 'Jawaban', 'type' => 'textarea', 'rows' => 5, 'rules' => 'required|string|max:2000'],
+                    ['name' => 'answer', 'label' => 'Jawaban', 'type' => 'rich', 'rows' => 8, 'rules' => 'required|string|max:4000'],
                     ['name' => 'category', 'label' => 'Kategori', 'type' => 'text', 'half' => true, 'rules' => 'required|string|max:40', 'default' => 'Umum', 'hint' => 'Misalnya Umum, Pendaftaran, BPJS, Rawat inap, IGD.'],
                     ['name' => 'show', 'label' => 'Tampilkan di situs', 'type' => 'toggle', 'default' => true],
                 ],
@@ -489,7 +489,7 @@ class Resources
                     ['name' => 'message', 'label' => 'Isi laporan', 'type' => 'readonly', 'lock' => false, 'value' => fn ($r) => ($r->incident_date ? '<b>Tanggal kejadian:</b> '.$r->incident_date->translatedFormat('d F Y').'<br>' : '').nl2br(e($r->message))],
                     ['name' => 'attachment', 'label' => 'Lampiran', 'type' => 'readonly', 'lock' => false, 'value' => fn ($r) => $r->attachment ? '<a class="btn sm" href="'.e(route('admin.feedback.file', $r)).'" target="_blank">Buka lampiran</a>' : '<span style="color:var(--muted)">Tidak ada</span>'],
                     ['name' => 'status', 'label' => 'Status', 'type' => 'select', 'half' => true, 'rules' => 'required|in:'.implode(',', Feedback::STATUSES), 'options' => fn () => array_combine(Feedback::STATUSES, Feedback::STATUSES)],
-                    ['name' => 'response', 'label' => 'Tanggapan untuk pelapor', 'type' => 'textarea', 'rows' => 5, 'rules' => 'nullable|string|max:3000', 'hint' => 'Terlihat oleh pelapor saat mengecek tiket di halaman Pengaduan & Saran. Tulis dengan sopan dan jelas.'],
+                    ['name' => 'response', 'label' => 'Tanggapan untuk pelapor', 'type' => 'rich', 'rows' => 8, 'rules' => 'nullable|string|max:6000', 'hint' => 'Terlihat oleh pelapor saat mengecek tiket di halaman Pengaduan & Saran. Tulis dengan sopan dan jelas.'],
                     ['name' => 'note', 'label' => 'Catatan internal', 'type' => 'textarea', 'rows' => 3, 'rules' => 'nullable|string|max:2000', 'hint' => 'Hanya terlihat oleh petugas, misalnya unit yang menindaklanjuti.'],
                 ],
                 'before' => function ($model, array &$data, bool $isNew) {
