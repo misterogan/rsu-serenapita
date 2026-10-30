@@ -12,7 +12,7 @@
   <div class="card"><div class="card-h"><div><h2>Profil singkat</h2><p>Tampil paling atas di halaman Tentang Kami.</p></div></div><div class="card-b">
     <div class="form" style="margin-bottom:16px">
       <div class="fld"><label for="intro">Ringkasan</label><textarea id="intro" name="intro" rows="3">{{ old('intro', $a['intro']) }}</textarea><div class="hint">2 sampai 3 kalimat tentang rumah sakit. Maks. 600 karakter.</div></div>
-      <div class="fld"><label for="history">Sejarah</label><textarea id="history" name="history" rows="6">{{ old('history', $a['history']) }}</textarea><div class="hint">Pisahkan paragraf dengan satu baris kosong.</div></div>
+      <div class="fld"><label for="history">Sejarah</label><textarea id="history" name="history" rows="6">{{ old('history', $a['history']) }}</textarea><div class="hint">Pisahkan paragraf dengan satu baris kosong. Baris yang diawali • atau - tampil sebagai daftar poin, dan teks sebelum titik dua ditebalkan.</div></div>
     </div>
     <div class="logo-slots">
       @foreach([['image', 'Foto rumah sakit', 'Foto gedung atau suasana. Ideal 1600 × 900 px, maks. 3 MB.'], ['accreditation_image', 'Sertifikat akreditasi', 'Foto atau pindaian sertifikat. Maks. 3 MB.']] as [$k, $t, $d])
@@ -38,7 +38,7 @@
     <div class="form" style="margin-bottom:16px">
       <div class="fld half"><label for="director_name">Nama direktur</label><input id="director_name" name="director_name" value="{{ old('director_name', $a['director_name']) }}"></div>
       <div class="fld half"><label for="director_title">Jabatan</label><input id="director_title" name="director_title" value="{{ old('director_title', $a['director_title']) }}"></div>
-      <div class="fld"><label for="director_message">Kata sambutan</label><textarea id="director_message" name="director_message" rows="5">{{ old('director_message', $a['director_message']) }}</textarea></div>
+      <div class="fld"><label for="director_message">Kata sambutan</label><textarea id="director_message" name="director_message" rows="5">{{ old('director_message', $a['director_message']) }}</textarea><div class="hint">Pisahkan paragraf dengan satu baris kosong.</div></div>
     </div>
     <div class="logo-slots">
       @foreach([['director_photo', 'Foto direktur', 'Persegi, ideal 600 × 600 px, maks. 2 MB.'], ['org_chart', 'Struktur organisasi', 'Gambar bagan organisasi. PNG atau JPG, maks. 4 MB.']] as [$k, $t, $d])

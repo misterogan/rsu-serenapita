@@ -456,3 +456,6 @@ footer .flogo img{height:34px;width:auto;max-width:150px}
 .foot-social a{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.12);display:grid;place-items:center;color:#fff}
 .foot-social a:hover{background:var(--sky)}
 .foot-social svg{width:17px;height:17px;fill:currentColor}
+
+/* Teks dari backoffice: paragraf, pindah baris, dan daftar poin */
+.rich p{margin:0 0 12px}.rich ul,.rich ol{margin:0 0 14px;padding-left:22px}.rich li{margin-bottom:8px;line-height:1.6}.rich li::marker{color:var(--sky)}.rich b{color:var(--ink)}

@@ -27,7 +27,7 @@
   <h2 class="sec" style="margin-top:40px">Pertanyaan yang sering diajukan</h2>
   <div class="faq-list">
     @foreach($faqs as $f)
-    <details class="faq" data-search><summary>{{ $f->question }}<small>{{ $f->category }}</small></summary><div class="faq-a">@foreach(array_filter(array_map('trim', preg_split('/\R\s*\R/', $f->answer))) as $para)<p>{{ $para }}</p>@endforeach</div></details>
+    <details class="faq" data-search><summary>{{ $f->question }}<small>{{ $f->category }}</small></summary><div class="faq-a rich">{!! \App\Support\Text::html($f->answer) !!}</div></details>
     @endforeach
   </div>
   @endif

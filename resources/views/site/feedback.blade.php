@@ -57,7 +57,7 @@
           <div class="fb-row"><span>Jenis</span><b>{{ $ticket->type }} · {{ $ticket->category }}</b></div>
           <div class="fb-row"><span>Status</span><b class="fb-st st-{{ strtolower($ticket->status) }}">{{ $ticket->status }}</b></div>
           @if($ticket->response)
-          <div class="fb-resp"><small>Tanggapan kami · {{ $ticket->responded_at?->translatedFormat('d M Y H.i') }}</small>@foreach(array_filter(array_map('trim', preg_split('/\R\s*\R/', $ticket->response))) as $para)<p>{{ $para }}</p>@endforeach</div>
+          <div class="fb-resp"><small>Tanggapan kami · {{ $ticket->responded_at?->translatedFormat('d M Y H.i') }}</small><div class="rich">{!! \App\Support\Text::html($ticket->response) !!}</div></div>
           @else
           <p class="fb-wait">Laporan Anda sedang kami tinjau. Tanggapan akan tampil di sini.</p>
           @endif

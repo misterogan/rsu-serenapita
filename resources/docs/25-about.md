@@ -26,7 +26,7 @@ Halaman ini terbuka di alamat <b>rsuserenapita.id/about</b> dan muncul sebagai m
 | Kolom / tombol | Penjelasan | Aturan |
 |---|---|---|
 | <b>Ringkasan</b> | 2 sampai 3 kalimat yang tampil paling atas. | Wajib, maks. 600 karakter |
-| <b>Sejarah</b> | Riwayat singkat rumah sakit. Pisahkan paragraf dengan satu baris kosong. | Maks. 6.000 karakter |
+| <b>Sejarah</b> | Riwayat singkat rumah sakit. Pisahkan paragraf dengan satu baris kosong. Baris yang diawali • atau - tampil sebagai daftar poin, dan teks sebelum titik dua ditebalkan, misalnya "• Peresmian: Desember 2023". | Maks. 6.000 karakter |
 | <b>Visi</b> | Satu kalimat visi rumah sakit. | Maks. 600 karakter |
 | <b>Misi</b> | Satu misi per baris. Tampil sebagai daftar bernomor. | Maks. 3.000 karakter |
 | <b>Nilai atau moto</b> | Satu nilai per baris. Tulis "Nama nilai – penjelasan" supaya nama nilai tampil tebal, misalnya "Ramah – melayani dengan senyum". | Maks. 2.000 karakter |
