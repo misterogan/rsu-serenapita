@@ -534,3 +534,5 @@ html.tour-lock{overflow:hidden}
 .rp-in{position:relative}
 .rp-in::before{content:"Rp";position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600;font-size:13px;pointer-events:none}
 .fld .rp-in input{padding-left:38px!important;font-variant-numeric:tabular-nums}
+.stk tr.off td{background:repeating-linear-gradient(135deg,transparent 0 8px,rgba(91,104,120,.05) 8px 16px)}
+.stk .off-tag{color:var(--amber);font-weight:600}

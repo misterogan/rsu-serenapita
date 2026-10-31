@@ -68,7 +68,8 @@ class StockController extends Controller
 
         return view('admin.stock.index', [
             'loc' => $loc, 'kind' => $kind, 'date' => $date, 'opname' => $opname,
-            'medicines' => Medicine::sorted($kind),
+            // Semua barang dikirim; yang stoknya 0 di unit ini disembunyikan di layar dan baru muncul saat dicari.
+            'medicines' => Medicine::sorted($kind, all: true),
             'summary' => StockLedger::summary($loc, $date, $date),
             'entries' => StockEntry::where('location', $loc)->whereDate('date', $date)->with('user')->get()->keyBy('medicine_id'),
             'avg' => array_map(fn ($v) => $v / 30, $usage),
@@ -128,6 +129,10 @@ class StockController extends Controller
                 if (! empty($row['expired_at'])) {
                     $med->update(['expired_at' => $row['expired_at']]);
                 }
+                // Barang nonaktif yang dicari lalu diisi otomatis aktif kembali
+                if (($in || $out || $counted) && ! $med->is_active) {
+                    $med->update(['is_active' => true]);
+                }
                 $saved++;
             }
             if ($minus) {
@@ -149,7 +154,7 @@ class StockController extends Controller
         $to = $month->copy()->endOfMonth()->startOfDay()->min(today());
         $days = (int) $from->diffInDays($to) + 1;
         $summary = StockLedger::summary($loc, $from, $to);
-        $rows = Medicine::sorted($kind)->map(function ($m) use ($summary, $days) {
+        $rows = Medicine::sorted($kind, all: true)->map(function ($m) use ($summary, $days) {
             $s = $summary[$m->id] ?? ['start' => 0, 'in' => 0, 'out' => 0, 'adjust' => 0, 'end' => 0, 'counted_at' => null];
             $avg = $s['out'] / $days;
 
@@ -158,6 +163,9 @@ class StockController extends Controller
                 'status' => StockLedger::status($s['end'], $avg), 'value' => $m->price ? $s['end'] * $m->price : null,
             ]);
         });
+
+        // Rekap: barang aktif, ditambah barang nonaktif yang masih punya stok atau transaksi di periode ini
+        $rows = $rows->filter(fn ($r) => $r->m->is_active || $r->start || $r->in || $r->out || $r->adjust || $r->end)->values();
 
         return [$from, $to, $rows];
     }

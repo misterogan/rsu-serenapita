@@ -36,10 +36,11 @@
 
 <div class="stk-note" id="tNote">
   @if($opname)
-    <b>Mode stock opname.</b> Hitung fisik obat di rak <b>sebelum ada transaksi hari ini</b>, lalu ketik jumlahnya di kolom <i>Hasil hitung</i>. Hasil hitung menjadi stok awal hari ini, dan selisihnya dengan stok sistem tercatat di rekap. Masuk dan keluar hari ini tetap dihitung. Kosongkan bila obat tidak dihitung.
+    <b>Mode stock opname.</b> {{ ucfirst($item) }} yang stoknya 0 disembunyikan; cari nama atau kodenya bila ternyata ada fisiknya. Hitung fisik obat di rak <b>sebelum ada transaksi hari ini</b>, lalu ketik jumlahnya di kolom <i>Hasil hitung</i>. Hasil hitung menjadi stok awal hari ini, dan selisihnya dengan stok sistem tercatat di rekap. Masuk dan keluar hari ini tetap dihitung. Kosongkan bila obat tidak dihitung.
   @else
     <b>{{ $entries->count() }} {{ $item }}</b> sudah diisi untuk tanggal ini{!! $lastBy ? ', terakhir oleh <b>'.e($lastBy->user?->name ?? 'petugas').'</b> pukul '.$lastBy->updated_at->format('H.i') : '' !!}.
-    Cukup isi obat yang ada transaksinya; kolom kosong berarti 0. Tekan <kbd>Enter</kbd> untuk turun ke baris berikutnya.
+    Cukup isi {{ $item }} yang ada transaksinya; kolom kosong berarti 0. Tekan <kbd>Enter</kbd> untuk turun ke baris berikutnya.
+    {{ ucfirst($item) }} yang stoknya 0 di unit ini disembunyikan; <b>cari nama atau kodenya</b> untuk menampilkannya, dan setelah diisi lalu disimpan ia tampil lagi.
     @if($loc === 'sentral' && $fromGudang) Angka biru <span class="fill-demo">dari gudang</span> bisa diklik untuk mengisi Masuk sesuai barang yang dikeluarkan gudang hari ini.@endif
   @endif
 </div>
@@ -56,7 +57,7 @@
       <select id="stkG" aria-label="Golongan"><option value="">Semua golongan</option>@foreach($groups as $g)<option>{{ $g }}</option>@endforeach</select>
       <label class="chk" id="tFilled"><input type="checkbox" id="stkFilled"> Hanya yang sudah diisi</label>
       @unless($opname)<label class="chk"><input type="checkbox" id="stkLow"> Hanya stok menipis</label>@endunless
-      <span class="count" id="stkCount" data-item="{{ $item }}">{{ $medicines->count() }} {{ $item }}</span>
+      <span class="count" id="stkCount" data-item="{{ $item }}"></span>
     </div>
     <div class="table-scroll stk-scroll">
       <table class="tbl stk" id="stkTbl">
@@ -83,15 +84,18 @@
             $rop = StockLedger::rop($avg[$m->id] ?? 0);
             $ed = $m->expiryState();
             $n = fn ($f) => $o !== null ? 'name=rows['.$m->id.']['.$f.']' : '';
+            // Tampil di lembar: ada stok di unit ini, sudah diisi hari ini, atau dikirim gudang hari ini. Selebihnya muncul saat dicari.
+            $on = $start !== 0 || $e || $o !== null || isset($fromGudang[$m->id]);
           @endphp
           @if($m->group !== $curGroup)
             @php $curGroup = $m->group; @endphp
             <tr class="stk-grp" data-group="{{ $m->group }}"><td colspan="6">{{ $m->group }}</td></tr>
           @endif
-          <tr class="stk-row{{ $o !== null ? ' dirty' : '' }}" data-id="{{ $m->id }}" data-group="{{ $m->group }}" data-name="{{ mb_strtolower($m->name.' '.$m->code) }}" data-start="{{ $start }}" data-rop="{{ $rop }}" data-filled="{{ $e ? 1 : 0 }}">
+          <tr class="stk-row{{ $o !== null ? ' dirty' : '' }}{{ $on ? '' : ' off' }}" @unless($on) hidden @endunless data-on="{{ $on ? 1 : 0 }}" data-id="{{ $m->id }}" data-group="{{ $m->group }}" data-name="{{ mb_strtolower($m->name.' '.$m->code) }}" data-start="{{ $start }}" data-rop="{{ $rop }}" data-filled="{{ $e ? 1 : 0 }}">
             <td class="nm"><span class="main">{{ $m->name }}</span>
               <span class="sub">{{ $m->code ? $m->code.' · ' : '' }}{{ $m->unit }}@if($ed) · <span class="ed-{{ $ed }}">{{ $ed === 'expired' ? 'Kedaluwarsa' : 'ED' }} {{ $m->expired_at->translatedFormat('M Y') }}</span>@endif
-              @if($e?->counted !== null && !$opname) · <span title="Stok awal hari ini mengikuti hasil stock opname">Stok awal dari SO</span>@endif</span></td>
+              @if($e?->counted !== null && !$opname) · <span title="Stok awal hari ini mengikuti hasil stock opname">Stok awal dari SO</span>@endif
+              @unless($on) · <span class="off-tag" title="Disembunyikan karena stoknya 0 di unit ini. Isi jumlahnya lalu simpan, barang otomatis tampil lagi.">stok 0, tersembunyi</span>@endunless</span></td>
             @if($opname)
               <td class="n"><b class="sys">{{ $start }}</b>
                 <input type="hidden" data-f="in" value="{{ $in }}" {{ $n('in') }}><input type="hidden" data-f="out" value="{{ $out }}" {{ $n('out') }}></td>
@@ -122,4 +126,4 @@
 </form>
 @endsection
 @include('admin.tours.stock')
-@push('scripts')<script src="{{ asset('js/stock.js') }}?v=3"></script>@endpush
+@push('scripts')<script src="{{ asset('js/stock.js') }}?v=4"></script>@endpush

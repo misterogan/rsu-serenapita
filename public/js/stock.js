@@ -71,8 +71,9 @@
     const words = q.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
     let shown = 0; const seen = new Set();
     rows.forEach(tr => {
+      const on = tr.dataset.on === "1" || tr.classList.contains("dirty");
       const ok = (!g.value || tr.dataset.group === g.value)
-        && words.every(w => tr.dataset.name.includes(w))
+        && (words.length ? words.every(w => tr.dataset.name.includes(w)) : on)
         && (!filled.checked || tr.dataset.filled === "1" || tr.classList.contains("dirty"))
         && (!low?.checked || tr.dataset.low === "1");
       tr.hidden = !ok; if (ok) { shown++; seen.add(tr.dataset.group); }
@@ -110,4 +111,5 @@
 
   rows.forEach(calc);
   count();
+  apply();
 })();

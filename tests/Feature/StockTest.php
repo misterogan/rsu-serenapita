@@ -29,7 +29,7 @@ class StockTest extends TestCase
     public function test_migration_imports_medicines_and_creates_pharmacy_role(): void
     {
         $this->assertGreaterThan(300, Medicine::count());
-        $this->assertSame(['stock', 'stock-report', 'medicines', 'bmhp'], Role::where('name', 'Farmasi')->first()->permissions);
+        $this->assertSame(['stock', 'stock-report', 'medicines', 'bmhp', 'stock-compare'], Role::where('name', 'Farmasi')->first()->permissions);
     }
 
     public function test_pharmacy_role_only_opens_pharmacy_menus(): void

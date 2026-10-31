@@ -80,6 +80,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/stock', [Admin\StockController::class, 'index'])->name('stock');
             Route::post('/stock', [Admin\StockController::class, 'save'])->name('stock.save');
         });
+        Route::middleware('module:stock-compare')->prefix('stock-compare')->name('stock.compare')->group(function () {
+            Route::get('/', [Admin\StockCompareController::class, 'index']);
+            Route::post('/', [Admin\StockCompareController::class, 'upload'])->name('.upload');
+            Route::get('/export', [Admin\StockCompareController::class, 'export'])->name('.export');
+            Route::post('/rename', [Admin\StockCompareController::class, 'rename'])->name('.rename');
+            Route::post('/add', [Admin\StockCompareController::class, 'add'])->name('.add');
+            Route::post('/clear', [Admin\StockCompareController::class, 'clear'])->name('.clear');
+        });
         Route::middleware('module:stock-report')->group(function () {
             Route::get('/stock-report', [Admin\StockController::class, 'report'])->name('stock.report');
             Route::get('/stock-report/export', [Admin\StockController::class, 'export'])->name('stock.export');

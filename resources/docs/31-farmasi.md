@@ -115,3 +115,29 @@ BMHP seperti abocath, spuit, infus set, kateter, benang jahit, kasa, dan reagen 
 - Untuk memindahkan barang yang salah kelompok, buka barangnya, ubah **Jenis barang** menjadi *Obat* atau *BMHP*, lalu klik **Simpan**. Riwayat stoknya ikut pindah.
 
 Daftar BMHP awal diambil dari file *Persediaan BMHP Unit Farmasi 2026* (sheet 20 Oktober 2026). Barang di file itu yang sudah ada di daftar SIMRS dipindahkan ke BMHP, termasuk semua kode pemasoknya (misalnya *APRON ONE - DANVI*). Nama di file itu yang tidak ditemukan di daftar SIMRS tidak dimasukkan; tambahkan lewat **Data BMHP** bila diperlukan.
+
+<a id="stock-compare" class="anchor"></a>
+
+## 31.7 Cocokkan stok dengan SIMRS
+
+Selama masa pengisian paralel, gunakan menu **Farmasi → Cocokkan SIMRS** untuk memastikan stok di sistem ini sama dengan SIMRS.
+
+1. Di SIMRS, unduh laporan stok per unit (format sama dengan file SO: *obatalkes_kode, obatalkes_nama, satuankecil, stok_saatini*), dalam bentuk .xlsx atau .csv.
+2. Buka **Cocokkan SIMRS**, pilih file, pilih **unit** (Gudang Farmasi atau Farmasi Sentral) dan **tanggal** file itu diunduh.
+3. Klik **Unggah dan cocokkan**. Tabel langsung menampilkan baris yang **berbeda** saja.
+
+| Status | Arti dan tindak lanjut |
+|---|---|
+| Selisih | Angka stok berbeda. Klik nama obat untuk membuka kartu stok, cari tanggal yang terlewat atau salah ketik, lalu perbaiki di Input stok atau di SIMRS. |
+| Cocok | Stok sama. |
+| Belum ada di sistem | Kode ada di SIMRS tetapi belum terdaftar di sini. Klik **Tambahkan kode baru dari SIMRS**. |
+| Tidak ada di SIMRS | Barang punya stok di sistem tetapi kodenya tidak ada di file SIMRS. Periksa apakah kodenya diganti di SIMRS. |
+| Nama berubah di SIMRS | Kode sama, nama sudah diganti di SIMRS. Klik **Samakan nama dengan SIMRS** supaya nama di sistem ikut berubah; stok dan riwayat tidak berubah. |
+
+Pencocokan memakai **kode SIMRS**, bukan nama. Jadi nama obat boleh dirapikan di SIMRS kapan saja.
+
+<a id="stock-hidden" class="anchor"></a>
+
+### Barang dengan stok 0
+
+Di lembar **Input stok harian**, barang yang stoknya 0 di unit itu **disembunyikan** supaya tidak salah isi, misalnya obat sama dengan vendor berbeda yang sudah habis. Bila barang itu datang lagi, **ketik nama atau kodenya di kotak cari**; barang muncul dengan tanda *stok 0, tersembunyi*. Isi jumlahnya lalu **Simpan**, dan barang otomatis aktif dan tampil lagi.

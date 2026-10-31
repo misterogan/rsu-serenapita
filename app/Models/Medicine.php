@@ -59,10 +59,10 @@ class Medicine extends Model
         return $this->expired_at->lte(today()->addDays(self::ED_WARN_DAYS)) ? 'soon' : null;
     }
 
-    /** Obat aktif satu jenis, urut golongan seperti di Excel lalu nama. */
-    public static function sorted(string $kind = 'obat')
+    /** Barang satu jenis (hanya yang aktif, kecuali $all), urut golongan seperti di Excel lalu nama. */
+    public static function sorted(string $kind = 'obat', bool $all = false)
     {
-        return static::where('is_active', true)->where('kind', $kind)->get()
+        return static::where('kind', $kind)->when(! $all, fn ($q) => $q->where('is_active', true))->get()
             ->sortBy(function ($m) {
                 $order = array_search($m->group, self::GROUPS, true);
 
