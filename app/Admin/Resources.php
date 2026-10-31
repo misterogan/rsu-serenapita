@@ -513,13 +513,13 @@ class Resources
             'medicines' => [
                 'model' => Medicine::class, 'one' => 'obat', 'title' => 'Data obat',
                 'desc' => 'Daftar obat dan alkes yang dicatat di Input stok harian. Obat yang dinonaktifkan tidak muncul di lembar isian, tetapi riwayatnya tetap tersimpan.',
-                'order' => ['name', 'asc'], 'search' => ['name'],
+                'order' => ['name', 'asc'], 'search' => ['name', 'code'],
                 'filters' => [
                     'group' => ['label' => 'Semua golongan', 'options' => fn () => array_combine(Medicine::GROUPS, Medicine::GROUPS)],
                     'is_active' => ['label' => 'Semua status', 'options' => fn () => ['1' => 'Aktif', '0' => 'Nonaktif']],
                 ],
                 'columns' => [
-                    'Nama obat' => fn ($r) => '<span class="main">'.e($r->name).'</span><span class="sub">'.e($r->group).'</span>',
+                    'Nama obat' => fn ($r) => '<span class="main">'.e($r->name).'</span><span class="sub">'.e(collect([$r->code, $r->group])->filter()->implode(' · ')).'</span>',
                     'Satuan' => fn ($r) => e($r->unit),
                     'Harga satuan' => fn ($r) => $r->price ? 'Rp '.Fmt::n($r->price, fmod($r->price, 1) ? 2 : 0) : '<span class="badge b-amber">Belum diisi</span>',
                     'Tanggal ED' => fn ($r) => $r->expired_at
@@ -530,7 +530,8 @@ class Resources
                     'Aktif' => fn ($r) => self::toggle('medicines', $r, 'is_active'),
                 ],
                 'fields' => [
-                    ['name' => 'name', 'label' => 'Nama obat', 'type' => 'text', 'rules' => fn ($m) => 'required|string|max:150|unique:medicines,name,'.($m->id ?? 'NULL'), 'hint' => 'Tulis lengkap dengan kekuatan dan bentuk sediaan, contoh: AMOXICILLIN 500 MG TABLET.'],
+                    ['name' => 'name', 'label' => 'Nama obat', 'type' => 'text', 'rules' => 'required|string|max:150', 'hint' => 'Tulis lengkap dengan kekuatan dan bentuk sediaan, contoh: AMOXICILLIN 500 MG TABLET.'],
+                    ['name' => 'code', 'label' => 'Kode obat di SIMRS', 'type' => 'text', 'rules' => fn ($m) => 'nullable|string|max:40|unique:medicines,code,'.($m->id ?? 'NULL'), 'hint' => 'Samakan dengan kode di SIMRS supaya stok mudah dicocokkan. Kode tidak boleh dipakai dua obat.'],
                     ['name' => 'group', 'label' => 'Golongan', 'type' => 'select', 'half' => true, 'rules' => 'required|in:'.implode(',', Medicine::GROUPS), 'options' => fn () => array_combine(Medicine::GROUPS, Medicine::GROUPS)],
                     ['name' => 'unit', 'label' => 'Satuan terkecil', 'type' => 'select', 'half' => true, 'rules' => 'required|in:'.implode(',', Medicine::UNITS), 'options' => fn () => array_combine(Medicine::UNITS, Medicine::UNITS)],
                     ['name' => 'price', 'label' => 'Harga per satuan terkecil (termasuk PPN)', 'type' => 'money', 'half' => true, 'rules' => 'nullable|numeric|min:0|max:999999999', 'hint' => 'Dipakai untuk menghitung nilai stok di Rekap persediaan.'],

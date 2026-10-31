@@ -170,9 +170,9 @@ class StockController extends Controller
             $out = fopen('php://output', 'w');
             fwrite($out, "\xEF\xBB\xBF");
             fputcsv($out, [$title.' · '.$from->format('d/m/Y').' s/d '.$to->format('d/m/Y')], ';');
-            fputcsv($out, ['Golongan', 'Nama obat', 'Satuan', 'Stok awal', 'Masuk', 'Keluar', 'Selisih SO', 'Stok akhir', 'Rata-rata pemakaian/hari', 'Safety stock', 'ROP', 'Status', 'Harga satuan', 'Nilai stok akhir', 'Tanggal ED', 'SO terakhir'], ';');
+            fputcsv($out, ['Kode SIMRS', 'Golongan', 'Nama obat', 'Satuan', 'Stok awal', 'Masuk', 'Keluar', 'Selisih SO', 'Stok akhir', 'Rata-rata pemakaian/hari', 'Safety stock', 'ROP', 'Status', 'Harga satuan', 'Nilai stok akhir', 'Tanggal ED', 'SO terakhir'], ';');
             foreach ($rows as $r) {
-                fputcsv($out, [$r->m->group, $r->m->name, $r->m->unit, $r->start, $r->in, $r->out, $r->adjust, $r->end,
+                fputcsv($out, [$r->m->code, $r->m->group, $r->m->name, $r->m->unit, $r->start, $r->in, $r->out, $r->adjust, $r->end,
                     number_format($r->avg, 2, ',', ''), $r->safety, $r->rop, $r->status[0], $r->m->price, $r->value,
                     $r->m->expired_at?->format('d/m/Y'), $r->counted_at?->format('d/m/Y')], ';');
             }

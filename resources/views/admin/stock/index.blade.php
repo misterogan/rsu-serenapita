@@ -48,7 +48,7 @@
 
   <div class="card">
     <div class="list-tools stk-tools">
-      <input type="search" id="stkQ" placeholder="Cari nama obat…  ( / )" aria-label="Cari nama obat" autocomplete="off">
+      <input type="search" id="stkQ" placeholder="Cari nama atau kode obat…  ( / )" aria-label="Cari nama obat" autocomplete="off">
       <select id="stkG" aria-label="Golongan"><option value="">Semua golongan</option>@foreach($groups as $g)<option>{{ $g }}</option>@endforeach</select>
       <label class="chk" id="tFilled"><input type="checkbox" id="stkFilled"> Hanya yang sudah diisi</label>
       @unless($opname)<label class="chk"><input type="checkbox" id="stkLow"> Hanya stok menipis</label>@endunless
@@ -84,9 +84,9 @@
             @php $curGroup = $m->group; @endphp
             <tr class="stk-grp" data-group="{{ $m->group }}"><td colspan="6">{{ $m->group }}</td></tr>
           @endif
-          <tr class="stk-row{{ $o !== null ? ' dirty' : '' }}" data-id="{{ $m->id }}" data-group="{{ $m->group }}" data-name="{{ mb_strtolower($m->name) }}" data-start="{{ $start }}" data-rop="{{ $rop }}" data-filled="{{ $e ? 1 : 0 }}">
+          <tr class="stk-row{{ $o !== null ? ' dirty' : '' }}" data-id="{{ $m->id }}" data-group="{{ $m->group }}" data-name="{{ mb_strtolower($m->name.' '.$m->code) }}" data-start="{{ $start }}" data-rop="{{ $rop }}" data-filled="{{ $e ? 1 : 0 }}">
             <td class="nm"><span class="main">{{ $m->name }}</span>
-              <span class="sub">{{ $m->unit }}@if($ed) · <span class="ed-{{ $ed }}">{{ $ed === 'expired' ? 'Kedaluwarsa' : 'ED' }} {{ $m->expired_at->translatedFormat('M Y') }}</span>@endif
+              <span class="sub">{{ $m->code ? $m->code.' · ' : '' }}{{ $m->unit }}@if($ed) · <span class="ed-{{ $ed }}">{{ $ed === 'expired' ? 'Kedaluwarsa' : 'ED' }} {{ $m->expired_at->translatedFormat('M Y') }}</span>@endif
               @if($e?->counted !== null && !$opname) · <span title="Stok awal hari ini mengikuti hasil stock opname">Stok awal dari SO</span>@endif</span></td>
             @if($opname)
               <td class="n"><b class="sys">{{ $start }}</b>

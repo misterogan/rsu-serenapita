@@ -96,8 +96,10 @@ Selama masa peralihan, transaksi obat dicatat di **SIMRS dan di menu Farmasi ini
 ## 31.5 Data obat
 
 1. Buka **Data obat**, klik **+ Tambah obat**.
-2. Isi **Nama obat** lengkap dengan kekuatan dan bentuk sediaan, pilih **Golongan** dan **Satuan terkecil**.
+2. Isi **Nama obat** lengkap dengan kekuatan dan bentuk sediaan dan **Kode obat di SIMRS** (sama persis dengan SIMRS), lalu pilih **Golongan** dan **Satuan terkecil**.
 3. Isi **Harga** per satuan terkecil termasuk PPN dan **Tanggal ED** terdekat bila sudah tahu.
 4. Klik **Simpan**. Obat langsung muncul di lembar isian kedua unit dengan stok 0; isi stok awalnya lewat stock opname atau kolom Masuk.
+
+Daftar obat diambil dari SIMRS beserta kodenya, dengan stok awal dari stock opname 30 Oktober 2026. Obat yang stoknya 0 saat itu dibuat **nonaktif**; aktifkan tombol **Aktif** bila obat tersebut mulai ada stoknya. Golongan obat yang tidak ada di daftar Excel lama diperkirakan dari nama dan satuannya, jadi periksa dan rapikan bila perlu.
 
 Obat yang sudah punya riwayat stok tidak bisa dihapus. Matikan tombol **Aktif** agar tidak muncul lagi di lembar isian; riwayatnya tetap tersimpan.

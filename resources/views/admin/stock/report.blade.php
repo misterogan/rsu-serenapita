@@ -40,7 +40,7 @@
 
 <div class="card">
   <div class="list-tools">
-    <input type="search" id="rpQ" placeholder="Cari nama obat…" aria-label="Cari nama obat" autocomplete="off">
+    <input type="search" id="rpQ" placeholder="Cari nama atau kode obat…" aria-label="Cari nama obat" autocomplete="off">
     <select id="rpG" aria-label="Golongan"><option value="">Semua golongan</option>@foreach($groups as $g)<option>{{ $g }}</option>@endforeach</select>
     <select id="rpS" aria-label="Status"><option value="">Semua status</option><option>Perlu pesan</option><option>Habis</option><option>Minus</option><option>Aman</option><option value="ed">ED dekat / lewat</option><option value="moved">Ada transaksi bulan ini</option></select>
     <span class="count" id="rpCount">{{ $rows->count() }} obat</span>
@@ -54,8 +54,8 @@
       <tbody>
       @foreach($rows as $r)
         @php $ed = $r->m->expiryState(); @endphp
-        <tr class="rp-row" data-group="{{ $r->m->group }}" data-name="{{ mb_strtolower($r->m->name) }}" data-status="{{ $r->status[0] }}" data-ed="{{ $ed ? 1 : 0 }}" data-moved="{{ $r->in || $r->out || $r->adjust ? 1 : 0 }}">
-          <td class="nm"><a class="main" href="{{ route('admin.stock.card', [$r->m, 'unit' => $loc, 'month' => $month]) }}">{{ $r->m->name }}</a><span class="sub">{{ $r->m->group }} · {{ $r->m->unit }}@if($r->counted_at) · SO {{ $r->counted_at->format('d/m') }}@endif</span></td>
+        <tr class="rp-row" data-group="{{ $r->m->group }}" data-name="{{ mb_strtolower($r->m->name.' '.$r->m->code) }}" data-status="{{ $r->status[0] }}" data-ed="{{ $ed ? 1 : 0 }}" data-moved="{{ $r->in || $r->out || $r->adjust ? 1 : 0 }}">
+          <td class="nm"><a class="main" href="{{ route('admin.stock.card', [$r->m, 'unit' => $loc, 'month' => $month]) }}">{{ $r->m->name }}</a><span class="sub">{{ $r->m->code ? $r->m->code.' · ' : '' }}{{ $r->m->group }} · {{ $r->m->unit }}@if($r->counted_at) · SO {{ $r->counted_at->format('d/m') }}@endif</span></td>
           <td class="n">{{ Fmt::n($r->start) }}</td>
           <td class="n">{{ $r->in ? Fmt::n($r->in) : '' }}</td>
           <td class="n">{{ $r->out ? Fmt::n($r->out) : '' }}</td>

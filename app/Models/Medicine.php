@@ -8,20 +8,39 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Medicine extends Model
 {
     /** Golongan obat, urutannya sama dengan file Excel persediaan. */
-    public const GROUPS = ['INJEKSI', 'SIRUP', 'DROPS', 'SALEP', 'INHALER', 'SUPOSITORIA', 'TABLET', 'KULKAS', 'NARKOTIKA', 'HIGH ALERT', 'CAIRAN', 'SUSU', 'LAINNYA'];
+    public const GROUPS = ['INJEKSI', 'SIRUP', 'DROPS', 'SALEP', 'INHALER', 'SUPOSITORIA', 'TABLET', 'KULKAS', 'NARKOTIKA', 'HIGH ALERT', 'CAIRAN', 'SUSU', 'ALKES', 'LAINNYA'];
 
-    public const UNITS = ['Ampul', 'Botol', 'Flash', 'Kapsul', 'Pcs', 'Pen', 'Sachet', 'Suppositoria', 'Syringe', 'Tablet', 'Tube', 'Vial'];
+    public const UNITS = ['Ampul', 'Bag', 'Botol', 'Box', 'Bungkus', 'CC', 'Flash', 'Galon', 'Gulung', 'Jerigen', 'Kaleng', 'Kapsul', 'Liter', 'Pack', 'Pcs', 'Pen', 'Pot', 'Sachet', 'Set', 'Suppositoria', 'Syringe', 'Tablet', 'Tabung', 'Tetes', 'Tube', 'Vial'];
+
+    /** Satuan dari SIMRS yang ditulis berbeda-beda, diseragamkan ke UNITS. */
+    public const UNIT_ALIASES = ['CAP' => 'Kapsul', 'CAPSUL' => 'Kapsul', 'KAPSUL' => 'Kapsul', 'TAB' => 'Tablet', 'FLES' => 'Flash', 'FLEXPEN' => 'Pen',
+        'PACKS' => 'Pack', 'SUPP' => 'Suppositoria', 'SUPPO' => 'Suppositoria', 'PC' => 'Pcs', '' => 'Pcs'];
 
     /** Batas hari sebelum tanggal kedaluwarsa untuk diberi peringatan. */
     public const ED_WARN_DAYS = 90;
 
-    protected $fillable = ['name', 'group', 'unit', 'price', 'expired_at', 'is_active'];
+    protected $fillable = ['code', 'name', 'group', 'unit', 'price', 'expired_at', 'is_active'];
 
     protected $casts = ['price' => 'float', 'expired_at' => 'date', 'is_active' => 'bool'];
 
     public function entries(): HasMany
     {
         return $this->hasMany(StockEntry::class);
+    }
+
+    public static function normalizeUnit(?string $unit): string
+    {
+        $key = strtoupper(trim((string) $unit));
+        if (isset(self::UNIT_ALIASES[$key])) {
+            return self::UNIT_ALIASES[$key];
+        }
+        foreach (self::UNITS as $u) {
+            if (strtoupper($u) === $key) {
+                return $u;
+            }
+        }
+
+        return ucfirst(strtolower($key));
     }
 
     /** "expired", "soon" (kurang dari ED_WARN_DAYS hari), atau null. */
