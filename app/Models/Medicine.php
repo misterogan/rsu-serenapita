@@ -16,10 +16,13 @@ class Medicine extends Model
     public const UNIT_ALIASES = ['CAP' => 'Kapsul', 'CAPSUL' => 'Kapsul', 'KAPSUL' => 'Kapsul', 'TAB' => 'Tablet', 'FLES' => 'Flash', 'FLEXPEN' => 'Pen',
         'PACKS' => 'Pack', 'SUPP' => 'Suppositoria', 'SUPPO' => 'Suppositoria', 'PC' => 'Pcs', '' => 'Pcs'];
 
+    /** Jenis barang: obat, atau BMHP (bahan medis habis pakai). Daftar dan stok keduanya dipisah di menu Farmasi. */
+    public const KINDS = ['obat' => 'Obat', 'bmhp' => 'BMHP'];
+
     /** Batas hari sebelum tanggal kedaluwarsa untuk diberi peringatan. */
     public const ED_WARN_DAYS = 90;
 
-    protected $fillable = ['code', 'name', 'group', 'unit', 'price', 'expired_at', 'is_active'];
+    protected $fillable = ['code', 'kind', 'name', 'group', 'unit', 'price', 'expired_at', 'is_active'];
 
     protected $casts = ['price' => 'float', 'expired_at' => 'date', 'is_active' => 'bool'];
 
@@ -56,10 +59,10 @@ class Medicine extends Model
         return $this->expired_at->lte(today()->addDays(self::ED_WARN_DAYS)) ? 'soon' : null;
     }
 
-    /** Urutan golongan seperti di Excel, lalu nama obat. */
-    public static function sorted()
+    /** Obat aktif satu jenis, urut golongan seperti di Excel lalu nama. */
+    public static function sorted(string $kind = 'obat')
     {
-        return static::where('is_active', true)->get()
+        return static::where('is_active', true)->where('kind', $kind)->get()
             ->sortBy(function ($m) {
                 $order = array_search($m->group, self::GROUPS, true);
 

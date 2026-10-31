@@ -103,3 +103,15 @@ Selama masa peralihan, transaksi obat dicatat di **SIMRS dan di menu Farmasi ini
 Daftar obat diambil dari SIMRS beserta kodenya, dengan stok awal dari stock opname 30 Oktober 2026. Obat yang stoknya 0 saat itu dibuat **nonaktif**; aktifkan tombol **Aktif** bila obat tersebut mulai ada stoknya. Golongan obat yang tidak ada di daftar Excel lama diperkirakan dari nama dan satuannya, jadi periksa dan rapikan bila perlu.
 
 Obat yang sudah punya riwayat stok tidak bisa dihapus. Matikan tombol **Aktif** agar tidak muncul lagi di lembar isian; riwayatnya tetap tersimpan.
+
+<a id="stock-bmhp" class="anchor"></a>
+
+## 31.6 BMHP (bahan medis habis pakai)
+
+BMHP seperti abocath, spuit, infus set, kateter, benang jahit, kasa, dan reagen laboratorium dicatat **terpisah dari obat**, sama seperti file Excel *Persediaan BMHP* sebelumnya.
+
+- Di halaman **Input stok harian** dan **Rekap persediaan**, pilih **BMHP** pada tombol **Obat | BMHP** di bagian atas. Cara mengisinya sama persis dengan obat. Pilihan ini diingat sampai Anda keluar.
+- Daftar barang BMHP dikelola di menu **Data BMHP**, terpisah dari **Data obat**.
+- Untuk memindahkan barang yang salah kelompok, buka barangnya, ubah **Jenis barang** menjadi *Obat* atau *BMHP*, lalu klik **Simpan**. Riwayat stoknya ikut pindah.
+
+Daftar BMHP awal diambil dari file *Persediaan BMHP Unit Farmasi 2026* (sheet 20 Oktober 2026). Barang di file itu yang sudah ada di daftar SIMRS dipindahkan ke BMHP, termasuk semua kode pemasoknya (misalnya *APRON ONE - DANVI*). Nama di file itu yang tidak ditemukan di daftar SIMRS tidak dimasukkan; tambahkan lewat **Data BMHP** bila diperlukan.

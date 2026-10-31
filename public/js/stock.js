@@ -78,7 +78,7 @@
       tr.hidden = !ok; if (ok) { shown++; seen.add(tr.dataset.group); }
     });
     grps.forEach(h => h.hidden = !seen.has(h.dataset.group));
-    $("#stkCount").textContent = shown + " obat";
+    $("#stkCount").textContent = shown + " " + ($("#stkCount").dataset.item || "obat");
     $("#stkEmpty").hidden = shown > 0;
   };
   [q, g, filled, low].forEach(el => el?.addEventListener("input", apply));

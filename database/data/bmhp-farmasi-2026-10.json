@@ -1,0 +1,1145 @@
+{
+"sumber": "PERSEDIAAN BMHP UNIT FARMASI 2026.xlsx (sheet 20 OKTOBER 2026)",
+"items": [
+{
+"name": "ABOCATH 14",
+"expired_at": null
+},
+{
+"name": "ABOCATH 16",
+"expired_at": "2029-06-01"
+},
+{
+"name": "ABOCATH 18",
+"expired_at": "2028-02-01"
+},
+{
+"name": "ABOCATH 20",
+"expired_at": "2030-10-01"
+},
+{
+"name": "ABOCATH 22",
+"expired_at": "2031-01-01"
+},
+{
+"name": "ABOCATH 24",
+"expired_at": "2031-01-01"
+},
+{
+"name": "ABOCATH 26",
+"expired_at": "2029-05-01"
+},
+{
+"name": "ADHESIVE WOUND DRESSING 10X5M",
+"expired_at": "2035-01-01"
+},
+{
+"name": "ADHESIVE WOUND DRESSING 10X10M",
+"expired_at": null
+},
+{
+"name": "ADHESIVE WOUND DRESSING 15X5M",
+"expired_at": null
+},
+{
+"name": "ALKOHOL 70 %",
+"expired_at": "2030-06-01"
+},
+{
+"name": "ALKOHOL 96 %",
+"expired_at": null
+},
+{
+"name": "ALKOHOL SWAB",
+"expired_at": "2029-03-01"
+},
+{
+"name": "ALBUMIN 4X40ML",
+"expired_at": null
+},
+{
+"name": "ANASTHESIA NEEDLE 25",
+"expired_at": "2029-12-01"
+},
+{
+"name": "ANASTHESIA NEEDLE 27",
+"expired_at": "2028-10-01"
+},
+{
+"name": "ANTI A MONOCLONAL",
+"expired_at": "2030-12-01"
+},
+{
+"name": "ANTI B MONOCLONAL",
+"expired_at": null
+},
+{
+"name": "ANTI D IgG/IgM BLEND",
+"expired_at": null
+},
+{
+"name": "APRON ONE",
+"expired_at": "2030-12-01"
+},
+{
+"name": "AQUADEST 25L",
+"expired_at": null
+},
+{
+"name": "ASEPTAN LIQUID 500 ML",
+"expired_at": null
+},
+{
+"name": "ASEPTAN LIQUID 5L",
+"expired_at": null
+},
+{
+"name": "AUTO CHECK URIC ACID STRIPS / FAMILY DR URID ACID",
+"expired_at": null
+},
+{
+"name": "AUTOCLAVE INDICATOR TAPE 19MM X 50M",
+"expired_at": null
+},
+{
+"name": "AUTOCLICK LANCING DEVICE",
+"expired_at": null
+},
+{
+"name": "BISTURI 10",
+"expired_at": "2027-08-01"
+},
+{
+"name": "BISTURI 11",
+"expired_at": "2028-02-01"
+},
+{
+"name": "BISTURI 15",
+"expired_at": "2027-08-01"
+},
+{
+"name": "BISTURI 20",
+"expired_at": "2027-08-01"
+},
+{
+"name": "BISTURI 22",
+"expired_at": "2027-08-01"
+},
+{
+"name": "BISTURI 23",
+"expired_at": "2027-08-01"
+},
+{
+"name": "BILIRUBIN TOTAL R1:4X35 R2:2X18ML",
+"expired_at": null
+},
+{
+"name": "BLOOD LANCET",
+"expired_at": null
+},
+{
+"name": "BONNET",
+"expired_at": null
+},
+{
+"name": "BLUE TIPS",
+"expired_at": null
+},
+{
+"name": "CANGKANG 0",
+"expired_at": null
+},
+{
+"name": "CANGKANG 00",
+"expired_at": null
+},
+{
+"name": "CAMELUX",
+"expired_at": null
+},
+{
+"name": "CHLORINE",
+"expired_at": null
+},
+{
+"name": "CHROMIC CATGUT ( 2-0, 100CM, 75MM) TAPER CUT",
+"expired_at": null
+},
+{
+"name": "CHROMIC CATGUT (#2 90CM 48MM) TAPER POINT",
+"expired_at": null
+},
+{
+"name": "CHROMIC CATGUT (2-0 75CM 26MM) TAPER POINT",
+"expired_at": "2028-04-01"
+},
+{
+"name": "CHROMIC CATGUT (2-0 75CM 37MM) - TAPER POINT HEAVY",
+"expired_at": "2028-04-01"
+},
+{
+"name": "CHROMIC CATGUT (3-0 75CM 26MM) TAPER POINT",
+"expired_at": null
+},
+{
+"name": "CHROMIC CATGUT (3-0 BROWN 75 TAPER 1/2, 26MM)",
+"expired_at": null
+},
+{
+"name": "CUKUR 3 Mata",
+"expired_at": null
+},
+{
+"name": "CLINCHEM MULTI CONTROL LVL 1 5ML",
+"expired_at": null
+},
+{
+"name": "CONTROL HEMATOLOGY HIGH BC-3D 3ML",
+"expired_at": null
+},
+{
+"name": "CONTROL HEMATOLOGY LOW BC-3D 3ML",
+"expired_at": null
+},
+{
+"name": "CONTROL HEMATOLOGY NORMAL BC-3D 3ML",
+"expired_at": null
+},
+{
+"name": "COPPER (KB IUD)",
+"expired_at": null
+},
+{
+"name": "CUVET BS",
+"expired_at": null
+},
+{
+"name": "DEECK/COVER GLASS 24x24",
+"expired_at": null
+},
+{
+"name": "DENGUE IGG/IGM & NS1",
+"expired_at": null
+},
+{
+"name": "DERMAFIX T 10X10CM",
+"expired_at": "2028-02-01"
+},
+{
+"name": "DERMAFIX T 10X25CM",
+"expired_at": null
+},
+{
+"name": "DERMAFIX TULLE 10X10CM",
+"expired_at": "2031-03-01"
+},
+{
+"name": "DESINFEKTAN 20L",
+"expired_at": null
+},
+{
+"name": "DETERGEN 20L",
+"expired_at": null
+},
+{
+"name": "DILUENT 20L",
+"expired_at": null
+},
+{
+"name": "DOA ( DRUG OF ABUSE URINE TEST ) AMPHETAMIN TEST",
+"expired_at": null
+},
+{
+"name": "DOA ( DRUG OF ABUSE URINE TEST ) MARIJUANA TEST",
+"expired_at": null
+},
+{
+"name": "DOA ( DRUG OF ABUSE URINE TEST ) MORPHINE TEST",
+"expired_at": null
+},
+{
+"name": "EASY TOUCH / AUTOCHEK GLUCOSA STRIPS",
+"expired_at": null
+},
+{
+"name": "EASY TOUCH CHOLESTEROL STRIPS",
+"expired_at": null
+},
+{
+"name": "ECG ELECTRODE 30X30MM",
+"expired_at": "2028-11-01"
+},
+{
+"name": "ECG ELECTRODE 50X50MM",
+"expired_at": "2028-03-01"
+},
+{
+"name": "ECG PAPER 80MMx25M",
+"expired_at": null
+},
+{
+"name": "ECG PAPER 210MMx30Mx16MM",
+"expired_at": null
+},
+{
+"name": "ECG PAPER 110x30x16 (SPIROMETRI)",
+"expired_at": null
+},
+{
+"name": "E-PLATE SPOT CHEM (Na, K, Cl)",
+"expired_at": null
+},
+{
+"name": "ELVASENSC MINI SAFETY LANCET",
+"expired_at": null
+},
+{
+"name": "EMULSIFER 20L",
+"expired_at": null
+},
+{
+"name": "ENDOTRACHEAL TUBE 2,5 MM",
+"expired_at": null
+},
+{
+"name": "ENDOTRACHEAL TUBE 3.0 MM",
+"expired_at": null
+},
+{
+"name": "ENDOTRACHEAL TUBE 3.5 MM",
+"expired_at": null
+},
+{
+"name": "ENDOTRACHEAL TUBE 4.0 MM",
+"expired_at": null
+},
+{
+"name": "ENDOTRACHEAL TUBE 5.0 MM",
+"expired_at": null
+},
+{
+"name": "ENDOTRACHEAL TUBE 6.5 MM",
+"expired_at": null
+},
+{
+"name": "ENDOTRACHEAL TUBE 7.5 MM",
+"expired_at": null
+},
+{
+"name": "ENDOTRACHEAL TUBE WITHOUT CUFF 2,5 MM",
+"expired_at": null
+},
+{
+"name": "ENDOTRACHEAL TUBE WITHOUT CUFF 3 MM",
+"expired_at": null
+},
+{
+"name": "ENDOTRACHEAL TUBE WITHOUT CUFF 3,5 MM",
+"expired_at": null
+},
+{
+"name": "ESU PENSIL",
+"expired_at": null
+},
+{
+"name": "EXTENSION TUBE/SYRINGE PUMP 150MM",
+"expired_at": null
+},
+{
+"name": "FAMILY DR STICK GLUCOSA",
+"expired_at": null
+},
+{
+"name": "FEEDING TUBE 5FR 120 CM",
+"expired_at": null
+},
+{
+"name": "FEEDING TUBE 6FR 120CM",
+"expired_at": null
+},
+{
+"name": "FEEDING TUBE 8FR 120CM",
+"expired_at": null
+},
+{
+"name": "FEEDING TUBE 10FR 120CM",
+"expired_at": null
+},
+{
+"name": "FOLLEY CATHETER NO 06",
+"expired_at": "2027-02-01"
+},
+{
+"name": "FOLLEY CATHETER 10",
+"expired_at": "2029-11-01"
+},
+{
+"name": "FOLLEY CATHETER 12",
+"expired_at": "2029-11-01"
+},
+{
+"name": "FOLLEY CATHETER 14",
+"expired_at": "2028-11-01"
+},
+{
+"name": "FOLLEY CATHETER NO 16",
+"expired_at": "2031-05-01"
+},
+{
+"name": "FOLLEY CATHETER NO 18",
+"expired_at": null
+},
+{
+"name": "GOLONGAN DARAH RAPID",
+"expired_at": null
+},
+{
+"name": "GLUCOSE G R1:4X40 R2:2X20ML",
+"expired_at": "2027-04-08"
+},
+{
+"name": "GIEMSA AZUR EOSIN M 500ML /100 ML",
+"expired_at": "2027-04-09"
+},
+{
+"name": "GUEDEL 110MM",
+"expired_at": "2027-04-10"
+},
+{
+"name": "GUEDEL 100MM",
+"expired_at": "2027-04-11"
+},
+{
+"name": "GUEDEL 40MM",
+"expired_at": "2027-04-12"
+},
+{
+"name": "GUEDEL 50 MM",
+"expired_at": "2027-04-13"
+},
+{
+"name": "GUEDEL 60MM",
+"expired_at": "2027-04-14"
+},
+{
+"name": "GUEDEL 80MM",
+"expired_at": "2027-04-15"
+},
+{
+"name": "GUEDEL 90MM",
+"expired_at": "2027-04-16"
+},
+{
+"name": "GYPSONA",
+"expired_at": "2027-04-17"
+},
+{
+"name": "H2O2 3 % 800ML - SANBE FARMA",
+"expired_at": "2027-04-18"
+},
+{
+"name": "H202 3% 100ML",
+"expired_at": null
+},
+{
+"name": "HANDSCOON NON STERIL M (SARUNG TANGAN NON STERIL M)",
+"expired_at": "2031-03-01"
+},
+{
+"name": "HANDSCOON STERIL OBGYN 56CM",
+"expired_at": null
+},
+{
+"name": "HANDSCOON STERIL NO 6",
+"expired_at": "2027-04-22"
+},
+{
+"name": "HANDSCOON STERIL NO 6,5",
+"expired_at": "2031-02-01"
+},
+{
+"name": "HANDSCOON STERIL NO 7",
+"expired_at": "2031-04-01"
+},
+{
+"name": "HANDSCOON STREIL NO 7,5",
+"expired_at": "2031-04-01"
+},
+{
+"name": "HANDSCOON STERIL NO 8",
+"expired_at": "2027-02-01"
+},
+{
+"name": "HBA1C TEST",
+"expired_at": "2029-10-01"
+},
+{
+"name": "HBSAG TEST (CASETT)",
+"expired_at": null
+},
+{
+"name": "HCG PREGNANCY STRIP TEST",
+"expired_at": null
+},
+{
+"name": "HCV TEST",
+"expired_at": null
+},
+{
+"name": "HDL CHOLESTEROL R1:1X40 R2:1X14ML",
+"expired_at": null
+},
+{
+"name": "HIV 1/2 TEST",
+"expired_at": null
+},
+{
+"name": "ID BAND BAYI BIRU",
+"expired_at": null
+},
+{
+"name": "ID BAND BAYI PINK",
+"expired_at": null
+},
+{
+"name": "ID BAND DEWASA BIRU",
+"expired_at": null
+},
+{
+"name": "ID BAND DEWASA KUNING",
+"expired_at": null
+},
+{
+"name": "ID BAND DEWASA PINK",
+"expired_at": null
+},
+{
+"name": "ID BAND DEWASA MERAH",
+"expired_at": null
+},
+{
+"name": "INFUS SET MAKRO",
+"expired_at": "2030-04-01"
+},
+{
+"name": "INFUS SET MAKRO Y",
+"expired_at": "2029-12-01"
+},
+{
+"name": "INFUS SET MIKRO Y ANAK",
+"expired_at": "2031-06-01"
+},
+{
+"name": "INJECT BLUE FILM",
+"expired_at": null
+},
+{
+"name": "KANTONG PLASTIK 80 X 60 KUNING",
+"expired_at": null
+},
+{
+"name": "KASA GULUNG 100 X 80CM X DELUXE",
+"expired_at": null
+},
+{
+"name": "KARTU GOLONGAN DARAH",
+"expired_at": null
+},
+{
+"name": "KERTAS LAKMUS MERAH",
+"expired_at": null
+},
+{
+"name": "KERTAS SARING SHK",
+"expired_at": null
+},
+{
+"name": "LDL CHOLESTEROL R1:1X40 R2:1X14",
+"expired_at": null
+},
+{
+"name": "LIPID CALIBRATOR 3ML / MULTISERA",
+"expired_at": null
+},
+{
+"name": "L17 T-LENE POLYVINYLIDENE 5-0 45CM CUTTING FINELINE 3/8 CIRCLE 16MM",
+"expired_at": null
+},
+{
+"name": "L19 T-LENE POLYVIVYLDENE 3-0 76CM REVERSE CUT 3/8 CIRCLE 24MM",
+"expired_at": null
+},
+{
+"name": "L20 T-LENE POLYVINYLIDENE 2-0 76CM REVERSE",
+"expired_at": null
+},
+{
+"name": "M-30 CFL LYSE",
+"expired_at": null
+},
+{
+"name": "MASKER",
+"expired_at": "2029-05-01"
+},
+{
+"name": "MEDICAL CHART PAPER",
+"expired_at": null
+},
+{
+"name": "MEDICREPE ELASTIS BANDAGE 3 INCHI (7.5 CM X 4.5 M)",
+"expired_at": null
+},
+{
+"name": "MEDICREPE ELASTIS BANDAGE 4 INCHI - AVICO",
+"expired_at": null
+},
+{
+"name": "MEDICREPE ELASTIS BANDAGE 6 INCHI (15 CM X 4,5 M)",
+"expired_at": null
+},
+{
+"name": "MEDIGYPS PLASTER BANDAGE",
+"expired_at": null
+},
+{
+"name": "MEDITECH SURGICAL MASK",
+"expired_at": null
+},
+{
+"name": "MEDITECH FLAT REELS 350MMX200M (BARANG OK)",
+"expired_at": null
+},
+{
+"name": "MICROPIPETTE ADJ (5-50)",
+"expired_at": null
+},
+{
+"name": "MICROPIPETTE TIPS",
+"expired_at": null
+},
+{
+"name": "MILDES 5L",
+"expired_at": null
+},
+{
+"name": "MILZIME 5L",
+"expired_at": null
+},
+{
+"name": "MOUTHPIECE SPIROMETRI",
+"expired_at": null
+},
+{
+"name": "NALD 18",
+"expired_at": "2030-01-01"
+},
+{
+"name": "NALD 23",
+"expired_at": "2028-05-01"
+},
+{
+"name": "NALD 25",
+"expired_at": "2029-10-01"
+},
+{
+"name": "NALD 26",
+"expired_at": "2030-12-01"
+},
+{
+"name": "NALD 27",
+"expired_at": "2029-11-04"
+},
+{
+"name": "NALD INSULIN",
+"expired_at": null
+},
+{
+"name": "NASAL CANUL ANAK",
+"expired_at": "2029-05-01"
+},
+{
+"name": "NASAL CANUL DEWASA",
+"expired_at": "2030-05-01"
+},
+{
+"name": "NASAL CANUL INFANT",
+"expired_at": "2030-05-01"
+},
+{
+"name": "NASSAL FRONG",
+"expired_at": null
+},
+{
+"name": "NASSAL TUBING",
+"expired_at": null
+},
+{
+"name": "NEBULIZER MASK S",
+"expired_at": "2028-11-01"
+},
+{
+"name": "NEBULIZER MASK M",
+"expired_at": null
+},
+{
+"name": "NEBULIZER MASK L",
+"expired_at": "2031-02-01"
+},
+{
+"name": "NEBULIZER MASK XL",
+"expired_at": "2030-07-01"
+},
+{
+"name": "NGT 6",
+"expired_at": null
+},
+{
+"name": "NGT 12",
+"expired_at": null
+},
+{
+"name": "NGT 14",
+"expired_at": "2028-02-01"
+},
+{
+"name": "NGT 16",
+"expired_at": "2030-09-01"
+},
+{
+"name": "NGT 18",
+"expired_at": "2029-01-01"
+},
+{
+"name": "NON REBRATHING MASK M",
+"expired_at": "2029-02-01"
+},
+{
+"name": "NON REBRETING MASK (NRM) L",
+"expired_at": null
+},
+{
+"name": "NON REBRETING MASK (NRM) XL",
+"expired_at": null
+},
+{
+"name": "NURSE CAP",
+"expired_at": "2029-04-01"
+},
+{
+"name": "OBJECT GLASS",
+"expired_at": "2029-01-01"
+},
+{
+"name": "OXYGEN MASK S",
+"expired_at": "2026-08-01"
+},
+{
+"name": "OXYGEN MASK L",
+"expired_at": "2030-11-01"
+},
+{
+"name": "OXYGEN MASK XL",
+"expired_at": "2027-11-01"
+},
+{
+"name": "OXYGEN MASK ANAK M",
+"expired_at": null
+},
+{
+"name": "ONE SCRUB 5 L",
+"expired_at": null
+},
+{
+"name": "PCR TUBE 1,5ML (CUP SAMPEL)",
+"expired_at": null
+},
+{
+"name": "P31 PLAIN CATGUT (2-0 76CM 48MM) ROUND BODIED",
+"expired_at": "2030-12-01"
+},
+{
+"name": "P85 PLAIN CATGUT (2-0 90CM 35MM) TAPER CUT/ P85X",
+"expired_at": "2030-08-01"
+},
+{
+"name": "PGA 4/0 VIOLET 75 REV. CUTTING 3/8, 19 MM",
+"expired_at": null
+},
+{
+"name": "PLESTERIN",
+"expired_at": null
+},
+{
+"name": "C28 T-CHROMIC CATGUT CHROMIC 0 90CM ROUND BODIED 1/2 CIRCLE 48 MM",
+"expired_at": "2030-06-01"
+},
+{
+"name": "P89 T-PLAIN CATGUT PLAIN 1 90CM ROUND BODIED 1/2 CIRCLE 48MM",
+"expired_at": null
+},
+{
+"name": "P89X T T-PLAIN CATGUT PLAIN 1 150CM ROUND BODIED 1/2 CIRCLE 48MM",
+"expired_at": null
+},
+{
+"name": "POLIKASA 100Y X 80CM",
+"expired_at": null
+},
+{
+"name": "T-VIO V4 POLYGLYCOLIDE VIOLET (3-0 76CM 25MM) ROUND BODIED",
+"expired_at": "2027-01-01"
+},
+{
+"name": "PIPETTES TIPS PINK",
+"expired_at": null
+},
+{
+"name": "POT SPESIMEN 15ML",
+"expired_at": null
+},
+{
+"name": "POT URINE 50ML",
+"expired_at": null
+},
+{
+"name": "POVIDON IODIN /CC BETADINE",
+"expired_at": "2029-12-01"
+},
+{
+"name": "PROBE CLEANSER 50ML",
+"expired_at": null
+},
+{
+"name": "REAGEN UREA",
+"expired_at": null
+},
+{
+"name": "REAGEN ALT",
+"expired_at": null
+},
+{
+"name": "REAGEN AST",
+"expired_at": null
+},
+{
+"name": "REAGEN CREATININ KIT",
+"expired_at": null
+},
+{
+"name": "S25 T-SILK SILK/SUTERA 2-0 76CM ROUND BODIED 1/2 CIRCLE 25MM",
+"expired_at": "2030-02-01"
+},
+{
+"name": "S84 T-SILK SILK/SUTERA 1 90CM ROUND BODIED 1/2 CIRCLE 40MM",
+"expired_at": "2030-03-01"
+},
+{
+"name": "SALMONELLA PARATYPHI A-H 5ML",
+"expired_at": null
+},
+{
+"name": "SALMONELLA PARATYPHI A-O 5ML",
+"expired_at": null
+},
+{
+"name": "SALMONELLA PARATYPHI B-H 5ML",
+"expired_at": null
+},
+{
+"name": "SALMONELLA PARATYPHI B-0 5ML",
+"expired_at": null
+},
+{
+"name": "SALMONELLA PARATYPHI C-H 5ML",
+"expired_at": null
+},
+{
+"name": "SALMONELLA PARATYPHI C-O 5ML",
+"expired_at": null
+},
+{
+"name": "SALMONELLA TYPHI H 5ML",
+"expired_at": null
+},
+{
+"name": "SALMONELLA TYPHI O 5ML",
+"expired_at": null
+},
+{
+"name": "SENDOK OBAT",
+"expired_at": null
+},
+{
+"name": "SKIN MARKER",
+"expired_at": "2027-01-01"
+},
+{
+"name": "SOFTENER 20L",
+"expired_at": null
+},
+{
+"name": "SPUIT 1 CC",
+"expired_at": "2031-02-01"
+},
+{
+"name": "SPUIT 3 CC",
+"expired_at": "2031-05-01"
+},
+{
+"name": "SPUIT 5 CC",
+"expired_at": "2031-03-01"
+},
+{
+"name": "SPUIT 10 CC",
+"expired_at": "2031-04-01"
+},
+{
+"name": "SPUIT 20 CC",
+"expired_at": "2028-08-01"
+},
+{
+"name": "SPUIT 50 CC (WITH NEEDLE)",
+"expired_at": null
+},
+{
+"name": "SPUIT 50 CC WITHOUT NEEDLE (LUBANG SAMPING)",
+"expired_at": "2030-02-01"
+},
+{
+"name": "SPUIT 100 CC",
+"expired_at": "2028-02-01"
+},
+{
+"name": "STERIL LANCET CT-BT / SAFETY",
+"expired_at": null
+},
+{
+"name": "STILET NO 2",
+"expired_at": null
+},
+{
+"name": "STILET NO 4",
+"expired_at": null
+},
+{
+"name": "SUCTION CATHETER NO 6",
+"expired_at": null
+},
+{
+"name": "SUCTION CATHETER NO 8",
+"expired_at": null
+},
+{
+"name": "SUCTION CATHETER NO 10",
+"expired_at": "2029-11-01"
+},
+{
+"name": "SUCTION CATHETER NO 12",
+"expired_at": "2029-11-01"
+},
+{
+"name": "SUCTION CONECTING TUBE 3,6 M (MEDICAL CARE, ONEMED)",
+"expired_at": "2029-05-01"
+},
+{
+"name": "SUFRATULLE/VASELINE SWAB",
+"expired_at": "2031-03-01"
+},
+{
+"name": "SULENE ( 2-0, 75CM,26MM ) REVERSE CUTTING",
+"expired_at": null
+},
+{
+"name": "SUTRA KONDOM",
+"expired_at": "2029-02-01"
+},
+{
+"name": "SYPHILLIS DEVICE TEST",
+"expired_at": "2030-08-01"
+},
+{
+"name": "VIDA PGA ( 4-0, 75CM, 19MM ) REVERSE CUTTING",
+"expired_at": "2030-01-21"
+},
+{
+"name": "TEGADERM 9 CM X 25 CM",
+"expired_at": null
+},
+{
+"name": "THREE WAY",
+"expired_at": "2030-08-01"
+},
+{
+"name": "TOURNIQUET",
+"expired_at": null
+},
+{
+"name": "TOTAL CHOLESTROL 4X40ML",
+"expired_at": null
+},
+{
+"name": "TRIGLYCERIDES 4X40ML",
+"expired_at": null
+},
+{
+"name": "TRANFUSI SET",
+"expired_at": null
+},
+{
+"name": "TUBEX TF \"IDL BIOTECH\"",
+"expired_at": null
+},
+{
+"name": "ULTRASONIC GEL",
+"expired_at": null
+},
+{
+"name": "UMBILICAL CORD",
+"expired_at": "2028-08-01"
+},
+{
+"name": "UMBILICAL CATHETER NO 04",
+"expired_at": "2029-08-01"
+},
+{
+"name": "UMBILICAL CATHETER NO 05",
+"expired_at": "2030-08-01"
+},
+{
+"name": "UNDER PAD 60X90CM (GD)",
+"expired_at": null
+},
+{
+"name": "URIC ACID R1:4X40;R2:2X20ML",
+"expired_at": "2031-02-01"
+},
+{
+"name": "URIN BAG",
+"expired_at": "2031-03-01"
+},
+{
+"name": "URINALYSIS TEST VERIFY 10 PARAMETER",
+"expired_at": null
+},
+{
+"name": "USG SONY",
+"expired_at": null
+},
+{
+"name": "V16 T-VIO POLYGLYCOLIDE VIOLET (1 90CM 48MM) ROUND BODIED HEAVY",
+"expired_at": null
+},
+{
+"name": "V33 T-VIO POLYGLYCOLIDE 3-0 76CM REVERSE CUT 3/8 CIRCLE 26MM",
+"expired_at": null
+},
+{
+"name": "V35 T-VIO POLYGLYCOLIDE 4-0 76CM REVERSE CUTTING 3/8 CIRCLE 18MM",
+"expired_at": null
+},
+{
+"name": "V38 T-VIO POLYGLYCOLIDE 5-0 76CM ROUND BODIED 1/2 CIRCLE 16MM",
+"expired_at": "2029-12-01"
+},
+{
+"name": "VACULAB EDTA 0,5ML",
+"expired_at": null
+},
+{
+"name": "VACULAB 3 ML EDTA K3",
+"expired_at": null
+},
+{
+"name": "VACULAB 3 ML MERAH",
+"expired_at": null
+},
+{
+"name": "VIDA PGA 3-0 90 CM CUTTING 3/8 24 MM",
+"expired_at": null
+},
+{
+"name": "WEGO PGA (1 90CM 48MM) TAPER POINT HEAVY",
+"expired_at": null
+},
+{
+"name": "WEGO PGA (2-0 90CM - 37MM) TAPER POINT HEAVY",
+"expired_at": null
+},
+{
+"name": "WEGO PGA (4-0 75CM 22MM) TAPER POINT",
+"expired_at": null
+},
+{
+"name": "WEGO POLYPROPYLENE ( #1 90CM 48MM) REVERSE CUTTING",
+"expired_at": "2028-10-01"
+},
+{
+"name": "WEGO POLYPROPYLENE (2-0 75CM 19MM) REVERGE CUTTING",
+"expired_at": null
+},
+{
+"name": "WEGO POLYPROPYLENE (2-0 75CM 24MM) REVERSE CUTTING",
+"expired_at": null
+},
+{
+"name": "WEGO POLYPROPYLENE (2-0 90CM 26MM) TAPER POINT",
+"expired_at": "2028-10-01"
+},
+{
+"name": "WEGO POLYPROPYLENE (3-0 75CM 19MM) REVERSE CUTTING",
+"expired_at": null
+},
+{
+"name": "WEGO POLYPROPYLENE (3-0 75CM 22MM) TAPER POINT",
+"expired_at": "2028-11-01"
+},
+{
+"name": "WEGO POLYPROPYLENE (4-0 45CM 19MM) - RESERVE CUTTING",
+"expired_at": null
+},
+{
+"name": "WEGO SILK (#1 90CM 40MM) TAPER POINT",
+"expired_at": null
+},
+{
+"name": "WEGO SILK (2-0 75CM 26MM) TAPER POINT",
+"expired_at": null
+},
+{
+"name": "WHITE TIPS",
+"expired_at": null
+},
+{
+"name": "WING NEEDLE",
+"expired_at": null
+},
+{
+"name": "YELLOW TIPS",
+"expired_at": null
+},
+{
+"name": "PINK TIPS",
+"expired_at": null
+},
+{
+"name": "WEGO PGA 0 90 CM - 40 MM",
+"expired_at": null
+},
+{
+"name": "C57-CHROMIC CATGUT CHROMIC 2-0 90 CM TAPERCUT1/2 CIRCLE 36 MM",
+"expired_at": null
+},
+{
+"name": "C27-CHROMIC",
+"expired_at": null
+},
+{
+"name": "V1 T-VIO 2-0 90 CM 35MM 1/2",
+"expired_at": null
+},
+{
+"name": "V9 T-VIO 2-0 90CM 35MM 1/2",
+"expired_at": null
+}
+]
+}

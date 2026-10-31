@@ -10,7 +10,7 @@ class Modules
         'Konten situs' => ['news' => 'Berita', 'categories' => 'Kategori berita', 'slides' => 'Slider beranda', 'info' => 'Kotak info & jam', 'services' => 'Layanan & fasilitas'],
         'Pelayanan medis' => ['doctors' => 'Profil dokter', 'clinics' => 'Poliklinik', 'schedule' => 'Jadwal dokter', 'leaves' => 'Cuti dokter'],
         'Pendaftaran' => ['appointments' => 'Janji temu', 'appointment-form' => 'Formulir janji temu'],
-        'Farmasi' => ['stock' => 'Input stok harian', 'stock-report' => 'Rekap persediaan', 'medicines' => 'Data obat'],
+        'Farmasi' => ['stock' => 'Input stok harian', 'stock-report' => 'Rekap persediaan', 'medicines' => 'Data obat', 'bmhp' => 'Data BMHP'],
         'Karier' => ['jobs' => 'Lowongan kerja', 'applications' => 'Pelamar'],
         'Informasi situs' => ['about' => 'Tentang kami', 'gallery' => 'Galeri', 'guides' => 'Panduan pasien', 'faqs' => 'FAQ'],
         'Tampilan situs' => ['menu' => 'Menu & tampilan', 'chatbot' => 'Chatbot Serena', 'profile' => 'Profil & kontak'],
@@ -49,6 +49,7 @@ class Modules
         'stock' => 'M8 3h8v4l2 3v11H6V10l2-3zM6 13h12M12 15v4M10 17h4',
         'stock-report' => 'M5 4h14v16H5zM9 16v-3M12 16V9M15 16v-5',
         'medicines' => 'M10.5 20.5a5 5 0 0 1-7-7l7-7a5 5 0 0 1 7 7zM7 10l7 7',
+        'bmhp' => 'M4 8l8-4 8 4-8 4zM4 8v8l8 4 8-4V8M12 12v8',
     ];
 
     public static function all(): array

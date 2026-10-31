@@ -26,6 +26,16 @@ class StockController extends Controller
         return $loc;
     }
 
+    /** Jenis barang (obat / BMHP) yang dipilih, juga diingat selama sesi. */
+    protected function kind(Request $request): string
+    {
+        $kind = $request->query('jenis', session('stock.kind', 'obat'));
+        $kind = isset(Medicine::KINDS[$kind]) ? $kind : 'obat';
+        session(['stock.kind' => $kind]);
+
+        return $kind;
+    }
+
     protected function day(?string $value): Carbon
     {
         try {
@@ -51,13 +61,14 @@ class StockController extends Controller
     public function index(Request $request)
     {
         $loc = $this->location($request);
+        $kind = $this->kind($request);
         $date = $this->day($request->query('date'));
         $opname = $request->boolean('opname');
         $usage = StockLedger::usage($loc, $date->copy()->subDays(29), $date);
 
         return view('admin.stock.index', [
-            'loc' => $loc, 'date' => $date, 'opname' => $opname,
-            'medicines' => Medicine::sorted(),
+            'loc' => $loc, 'kind' => $kind, 'date' => $date, 'opname' => $opname,
+            'medicines' => Medicine::sorted($kind),
             'summary' => StockLedger::summary($loc, $date, $date),
             'entries' => StockEntry::where('location', $loc)->whereDate('date', $date)->with('user')->get()->keyBy('medicine_id'),
             'avg' => array_map(fn ($v) => $v / 30, $usage),
@@ -132,13 +143,13 @@ class StockController extends Controller
     }
 
     /** @return array{0: Carbon, 1: Carbon, 2: Collection} */
-    protected function reportRows(string $loc, Carbon $month): array
+    protected function reportRows(string $loc, string $kind, Carbon $month): array
     {
         $from = $month->copy();
         $to = $month->copy()->endOfMonth()->startOfDay()->min(today());
         $days = (int) $from->diffInDays($to) + 1;
         $summary = StockLedger::summary($loc, $from, $to);
-        $rows = Medicine::sorted()->map(function ($m) use ($summary, $days) {
+        $rows = Medicine::sorted($kind)->map(function ($m) use ($summary, $days) {
             $s = $summary[$m->id] ?? ['start' => 0, 'in' => 0, 'out' => 0, 'adjust' => 0, 'end' => 0, 'counted_at' => null];
             $avg = $s['out'] / $days;
 
@@ -154,16 +165,18 @@ class StockController extends Controller
     public function report(Request $request)
     {
         $loc = $this->location($request);
-        [$from, $to, $rows] = $this->reportRows($loc, $this->month($request->query('month')));
+        $kind = $this->kind($request);
+        [$from, $to, $rows] = $this->reportRows($loc, $kind, $this->month($request->query('month')));
 
-        return view('admin.stock.report', ['loc' => $loc, 'from' => $from, 'to' => $to, 'rows' => $rows]);
+        return view('admin.stock.report', ['loc' => $loc, 'kind' => $kind, 'from' => $from, 'to' => $to, 'rows' => $rows]);
     }
 
     public function export(Request $request)
     {
         $loc = $this->location($request);
-        [$from, $to, $rows] = $this->reportRows($loc, $this->month($request->query('month')));
-        $title = 'Persediaan obat '.StockEntry::LOCATIONS[$loc].' '.$from->translatedFormat('F Y');
+        $kind = $this->kind($request);
+        [$from, $to, $rows] = $this->reportRows($loc, $kind, $this->month($request->query('month')));
+        $title = 'Persediaan '.($kind === 'bmhp' ? 'BMHP' : 'obat').' '.StockEntry::LOCATIONS[$loc].' '.$from->translatedFormat('F Y');
         ActivityLog::record('Mengunduh rekap '.$title);
 
         return response()->streamDownload(function () use ($rows, $title, $from, $to) {
@@ -177,7 +190,7 @@ class StockController extends Controller
                     $r->m->expired_at?->format('d/m/Y'), $r->counted_at?->format('d/m/Y')], ';');
             }
             fclose($out);
-        }, 'persediaan-obat-'.$loc.'-'.$from->format('Y-m').'.csv', ['Content-Type' => 'text/csv; charset=UTF-8']);
+        }, 'persediaan-'.$kind.'-'.$loc.'-'.$from->format('Y-m').'.csv', ['Content-Type' => 'text/csv; charset=UTF-8']);
     }
 
     /** Kartu stok: riwayat harian satu obat dalam satu bulan. */

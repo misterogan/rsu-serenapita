@@ -2,6 +2,7 @@
 @php
   $steps = [
     ['title' => 'Rekap persediaan', 'text' => 'Halaman ini menggantikan kolom-kolom rekap di sisi kanan file Excel: total masuk, keluar, stok akhir, ROP, dan nilai stok. Semua dihitung otomatis dari Input stok harian, tidak ada rumus yang perlu dijaga.'],
+    ['el' => '#tKind', 'title' => 'Obat atau BMHP', 'text' => 'Tampilkan rekap <b>Obat</b> atau <b>BMHP</b> (bahan medis habis pakai). Keduanya dihitung terpisah.'],
     ['el' => '#tUnit', 'title' => 'Pilih unit', 'text' => 'Tampilkan rekap <b>Gudang Farmasi</b> atau <b>Farmasi Sentral</b>.'],
     ['el' => '.stk-date', 'title' => 'Pilih bulan', 'text' => 'Rekap dihitung per bulan. Untuk bulan berjalan, angka dihitung sampai hari ini.'],
     ['el' => '#tStats', 'title' => 'Ringkasan', 'text' => '<ul><li><b>Perlu dipesan</b>: stok di bawah titik pesan ulang.</li><li><b>Habis / minus</b>: stok 0 atau minus (tanda ada isian yang salah).</li><li><b>ED ≤ 90 hari</b>: obat yang segera atau sudah kedaluwarsa.</li><li><b>Nilai stok akhir</b>: stok × harga satuan.</li></ul>Klik kartu untuk langsung menyaring daftar di bawah.'],

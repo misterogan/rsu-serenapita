@@ -7,12 +7,16 @@
   $old = old('rows', []);
   $groups = $medicines->pluck('group')->unique()->values();
   $lastBy = $entries->sortByDesc('updated_at')->first();
+  $item = $kind === 'bmhp' ? 'barang' : 'obat';
 @endphp
 <x-admin-head module="stock" desc="Pengganti lembar Excel persediaan. Pilih unit dan tanggal, lalu ketik jumlah obat yang masuk dan keluar hari itu. Sisa stok dihitung otomatis.">
   @if(auth()->user()->canModule('stock-report'))<a class="btn" id="tRekap" href="{{ route('admin.stock.report', ['unit' => $loc]) }}">Rekap persediaan</a>@endif
 </x-admin-head>
 
 <div class="card stk-bar">
+  <div class="seg" id="tKind" role="group" aria-label="Jenis barang">
+    @foreach(App\Models\Medicine::KINDS as $k => $n)<a href="{{ $q(['jenis' => $k]) }}" class="{{ $kind === $k ? 'on' : '' }}" @if($kind === $k) aria-current="true" @endif>{{ $n }}</a>@endforeach
+  </div>
   <div class="seg" id="tUnit" role="group" aria-label="Unit">
     @foreach(StockEntry::LOCATIONS as $k => $n)<a href="{{ $q(['unit' => $k]) }}" class="{{ $loc === $k ? 'on' : '' }}" @if($loc === $k) aria-current="true" @endif>{{ $n }}</a>@endforeach
   </div>
@@ -34,7 +38,7 @@
   @if($opname)
     <b>Mode stock opname.</b> Hitung fisik obat di rak <b>sebelum ada transaksi hari ini</b>, lalu ketik jumlahnya di kolom <i>Hasil hitung</i>. Hasil hitung menjadi stok awal hari ini, dan selisihnya dengan stok sistem tercatat di rekap. Masuk dan keluar hari ini tetap dihitung. Kosongkan bila obat tidak dihitung.
   @else
-    <b>{{ $entries->count() }} obat</b> sudah diisi untuk tanggal ini{!! $lastBy ? ', terakhir oleh <b>'.e($lastBy->user?->name ?? 'petugas').'</b> pukul '.$lastBy->updated_at->format('H.i') : '' !!}.
+    <b>{{ $entries->count() }} {{ $item }}</b> sudah diisi untuk tanggal ini{!! $lastBy ? ', terakhir oleh <b>'.e($lastBy->user?->name ?? 'petugas').'</b> pukul '.$lastBy->updated_at->format('H.i') : '' !!}.
     Cukup isi obat yang ada transaksinya; kolom kosong berarti 0. Tekan <kbd>Enter</kbd> untuk turun ke baris berikutnya.
     @if($loc === 'sentral' && $fromGudang) Angka biru <span class="fill-demo">dari gudang</span> bisa diklik untuk mengisi Masuk sesuai barang yang dikeluarkan gudang hari ini.@endif
   @endif
@@ -48,16 +52,16 @@
 
   <div class="card">
     <div class="list-tools stk-tools">
-      <input type="search" id="stkQ" placeholder="Cari nama atau kode obat…  ( / )" aria-label="Cari nama obat" autocomplete="off">
+      <input type="search" id="stkQ" placeholder="Cari nama atau kode {{ $item }}…  ( / )" aria-label="Cari nama obat" autocomplete="off">
       <select id="stkG" aria-label="Golongan"><option value="">Semua golongan</option>@foreach($groups as $g)<option>{{ $g }}</option>@endforeach</select>
       <label class="chk" id="tFilled"><input type="checkbox" id="stkFilled"> Hanya yang sudah diisi</label>
       @unless($opname)<label class="chk"><input type="checkbox" id="stkLow"> Hanya stok menipis</label>@endunless
-      <span class="count" id="stkCount">{{ $medicines->count() }} obat</span>
+      <span class="count" id="stkCount" data-item="{{ $item }}">{{ $medicines->count() }} {{ $item }}</span>
     </div>
     <div class="table-scroll stk-scroll">
       <table class="tbl stk" id="stkTbl">
         <thead><tr>
-          <th>Nama obat</th>
+          <th>Nama {{ $item }}</th>
           @if($opname)
             <th class="n">Stok sistem</th><th class="n">Hasil hitung</th><th class="n">Selisih</th><th>Tanggal ED</th>
           @else
@@ -106,7 +110,7 @@
         @endforeach
         </tbody>
       </table>
-      <div class="empty" id="stkEmpty" hidden>Tidak ada obat yang cocok. Obat baru bisa ditambahkan di menu <a href="{{ url('admin/medicines') }}">Data obat</a>.</div>
+      <div class="empty" id="stkEmpty" hidden>Tidak ada {{ $kind === 'bmhp' ? 'BMHP' : 'obat' }} yang cocok. Barang baru bisa ditambahkan di menu <a href="{{ url('admin/'.($kind === 'bmhp' ? 'bmhp' : 'medicines')) }}">{{ $kind === 'bmhp' ? 'Data BMHP' : 'Data obat' }}</a>.</div>
     </div>
   </div>
 
@@ -118,4 +122,4 @@
 </form>
 @endsection
 @include('admin.tours.stock')
-@push('scripts')<script src="{{ asset('js/stock.js') }}?v=2"></script>@endpush
+@push('scripts')<script src="{{ asset('js/stock.js') }}?v=3"></script>@endpush

@@ -9,13 +9,17 @@
   $value = $rows->sum(fn ($r) => max(0, $r->value ?? 0));
   $groups = $rows->pluck('m.group')->unique()->values();
   $neverCounted = $rows->whereNull('counted_at')->count();
+  $item = $kind === 'bmhp' ? 'barang' : 'obat';
 @endphp
-<x-admin-head module="stock-report" :desc="'Ringkasan stok '.StockEntry::LOCATIONS[$loc].' periode '.$from->translatedFormat('d M').' – '.$to->translatedFormat('d M Y').'. Dihitung otomatis dari Input stok harian, tidak perlu rumus Excel lagi.'">
+<x-admin-head module="stock-report" :desc="'Ringkasan stok '.($kind === 'bmhp' ? 'BMHP ' : 'obat ').StockEntry::LOCATIONS[$loc].' periode '.$from->translatedFormat('d M').' – '.$to->translatedFormat('d M Y').'. Dihitung otomatis dari Input stok harian, tidak perlu rumus Excel lagi.'">
   <a class="btn" id="tExport" href="{{ route('admin.stock.export', ['unit' => $loc, 'month' => $month]) }}" data-noload><svg class="i" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Unduh Excel (CSV)</a>
   @if(auth()->user()->canModule('stock'))<a class="btn pri" href="{{ route('admin.stock', ['unit' => $loc]) }}">Isi stok hari ini</a>@endif
 </x-admin-head>
 
 <div class="card stk-bar">
+  <div class="seg" id="tKind" role="group" aria-label="Jenis barang">
+    @foreach(App\Models\Medicine::KINDS as $k => $n)<a href="{{ route('admin.stock.report', ['jenis' => $k, 'month' => $month]) }}" class="{{ $kind === $k ? 'on' : '' }}">{{ $n }}</a>@endforeach
+  </div>
   <div class="seg" id="tUnit" role="group" aria-label="Unit">
     @foreach(StockEntry::LOCATIONS as $k => $n)<a href="{{ route('admin.stock.report', ['unit' => $k, 'month' => $month]) }}" class="{{ $loc === $k ? 'on' : '' }}">{{ $n }}</a>@endforeach
   </div>
@@ -32,7 +36,7 @@
   <button type="button" class="stat s4" data-status="Perlu pesan"><span>Perlu dipesan</span><b>{{ $count('Perlu pesan') }}</b><small>Stok di bawah titik pesan ulang</small></button>
   <button type="button" class="stat s1" data-status="Habis"><span>Habis / minus</span><b>{{ $count('Habis') + $count('Minus') }}</b><small>{{ $count('Minus') ? $count('Minus').' minus, periksa isian' : 'Stok 0' }}</small></button>
   <button type="button" class="stat s2" data-status="ed"><span>ED ≤ {{ App\Models\Medicine::ED_WARN_DAYS }} hari</span><b>{{ $edSoon }}</b><small>Termasuk yang sudah kedaluwarsa</small></button>
-  <div class="stat s3"><span>Nilai stok akhir</span><b>{{ Fmt::rps($value) }}</b><small>{{ $rows->count() }} obat aktif</small></div>
+  <div class="stat s3"><span>Nilai stok akhir</span><b>{{ Fmt::rps($value) }}</b><small>{{ $rows->count() }} {{ $kind === 'bmhp' ? 'BMHP' : 'obat' }} aktif</small></div>
 </div>
 @if($neverCounted === $rows->count())
   <div class="sync-note" style="margin-bottom:20px"><svg class="i" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9 2 18a2 2 0 0 0 1.7 3h16.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg><div><b>Stok awal belum diisi.</b><span>Lakukan stock opname sekali di awal (menu Input stok harian → Stock opname) supaya stok sistem sama dengan stok fisik. Setelah itu cukup isi masuk dan keluar setiap hari.</span></div></div>
@@ -40,15 +44,15 @@
 
 <div class="card">
   <div class="list-tools">
-    <input type="search" id="rpQ" placeholder="Cari nama atau kode obat…" aria-label="Cari nama obat" autocomplete="off">
+    <input type="search" id="rpQ" placeholder="Cari nama atau kode {{ $item }}…" aria-label="Cari nama obat" autocomplete="off">
     <select id="rpG" aria-label="Golongan"><option value="">Semua golongan</option>@foreach($groups as $g)<option>{{ $g }}</option>@endforeach</select>
     <select id="rpS" aria-label="Status"><option value="">Semua status</option><option>Perlu pesan</option><option>Habis</option><option>Minus</option><option>Aman</option><option value="ed">ED dekat / lewat</option><option value="moved">Ada transaksi bulan ini</option></select>
-    <span class="count" id="rpCount">{{ $rows->count() }} obat</span>
+    <span class="count" id="rpCount">{{ $rows->count() }} {{ $item }}</span>
   </div>
   <div class="table-scroll stk-scroll">
     <table class="tbl stk rp" id="rpTbl">
       <thead><tr>
-        <th>Nama obat</th><th class="n">Stok awal</th><th class="n">Masuk</th><th class="n">Keluar</th><th class="n" title="Selisih stock opname (hasil hitung − stok sistem)">Selisih SO</th><th class="n">Stok akhir</th>
+        <th>Nama {{ $item }}</th><th class="n">Stok awal</th><th class="n">Masuk</th><th class="n">Keluar</th><th class="n" title="Selisih stock opname (hasil hitung − stok sistem)">Selisih SO</th><th class="n">Stok akhir</th>
         <th class="n" title="Rata-rata keluar per hari">Pakai/hari</th><th class="n" title="Safety stock = rata-rata × {{ StockLedger::SAFETY_DAYS }} hari">Safety</th><th class="n" title="Titik pesan ulang = rata-rata × {{ StockLedger::ROP_DAYS }} hari">ROP</th><th>Status</th><th class="n">Nilai stok</th><th>ED</th>
       </tr></thead>
       <tbody>
@@ -88,7 +92,7 @@
         && (!s || (s === "ed" ? tr.dataset.ed === "1" : s === "moved" ? tr.dataset.moved === "1" : s === "Habis" ? ["Habis", "Minus"].includes(tr.dataset.status) : tr.dataset.status === s));
       tr.hidden = !ok; n += ok;
     });
-    $("#rpCount").textContent = n + " obat"; $("#rpEmpty").hidden = n > 0;
+    $("#rpCount").textContent = n + " {{ $item }}"; $("#rpEmpty").hidden = n > 0;
   };
   [q, g, st].forEach(el => el.addEventListener("input", apply));
   document.querySelectorAll(".stat[data-status]").forEach(b => b.addEventListener("click", () => {

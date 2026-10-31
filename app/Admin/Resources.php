@@ -510,37 +510,8 @@ class Resources
                 'label' => fn ($r) => $r->code,
             ],
 
-            'medicines' => [
-                'model' => Medicine::class, 'one' => 'obat', 'title' => 'Data obat',
-                'desc' => 'Daftar obat dan alkes yang dicatat di Input stok harian. Obat yang dinonaktifkan tidak muncul di lembar isian, tetapi riwayatnya tetap tersimpan.',
-                'order' => ['name', 'asc'], 'search' => ['name', 'code'],
-                'filters' => [
-                    'group' => ['label' => 'Semua golongan', 'options' => fn () => array_combine(Medicine::GROUPS, Medicine::GROUPS)],
-                    'is_active' => ['label' => 'Semua status', 'options' => fn () => ['1' => 'Aktif', '0' => 'Nonaktif']],
-                ],
-                'columns' => [
-                    'Nama obat' => fn ($r) => '<span class="main">'.e($r->name).'</span><span class="sub">'.e(collect([$r->code, $r->group])->filter()->implode(' · ')).'</span>',
-                    'Satuan' => fn ($r) => e($r->unit),
-                    'Harga satuan' => fn ($r) => $r->price ? 'Rp '.Fmt::n($r->price, fmod($r->price, 1) ? 2 : 0) : '<span class="badge b-amber">Belum diisi</span>',
-                    'Tanggal ED' => fn ($r) => $r->expired_at
-                        ? '<span class="badge b-'.match ($r->expiryState()) {
-                            'expired' => 'red', 'soon' => 'amber', default => 'grey'
-                        }.'">'.$r->expired_at->translatedFormat('M Y').'</span>'
-                        : '—',
-                    'Aktif' => fn ($r) => self::toggle('medicines', $r, 'is_active'),
-                ],
-                'fields' => [
-                    ['name' => 'name', 'label' => 'Nama obat', 'type' => 'text', 'rules' => 'required|string|max:150', 'hint' => 'Tulis lengkap dengan kekuatan dan bentuk sediaan, contoh: AMOXICILLIN 500 MG TABLET.'],
-                    ['name' => 'code', 'label' => 'Kode obat di SIMRS', 'type' => 'text', 'rules' => fn ($m) => 'nullable|string|max:40|unique:medicines,code,'.($m->id ?? 'NULL'), 'hint' => 'Samakan dengan kode di SIMRS supaya stok mudah dicocokkan. Kode tidak boleh dipakai dua obat.'],
-                    ['name' => 'group', 'label' => 'Golongan', 'type' => 'select', 'half' => true, 'rules' => 'required|in:'.implode(',', Medicine::GROUPS), 'options' => fn () => array_combine(Medicine::GROUPS, Medicine::GROUPS)],
-                    ['name' => 'unit', 'label' => 'Satuan terkecil', 'type' => 'select', 'half' => true, 'rules' => 'required|in:'.implode(',', Medicine::UNITS), 'options' => fn () => array_combine(Medicine::UNITS, Medicine::UNITS)],
-                    ['name' => 'price', 'label' => 'Harga per satuan terkecil (termasuk PPN)', 'type' => 'money', 'half' => true, 'rules' => 'nullable|numeric|min:0|max:999999999', 'hint' => 'Dipakai untuk menghitung nilai stok di Rekap persediaan.'],
-                    ['name' => 'expired_at', 'label' => 'Tanggal kedaluwarsa (ED) terdekat', 'type' => 'date', 'half' => true, 'rules' => 'nullable|date', 'hint' => 'Bisa juga diperbarui saat Stock opname.'],
-                    ['name' => 'is_active', 'label' => 'Obat aktif', 'type' => 'toggle', 'default' => true, 'desc' => 'Muncul di lembar Input stok harian.'],
-                ],
-                'canDelete' => fn ($r) => $r->entries()->exists() ? 'Obat ini sudah punya riwayat stok. Nonaktifkan saja agar riwayatnya tetap ada.' : null,
-                'label' => fn ($r) => $r->name,
-            ],
+            'medicines' => self::pharmacy('obat'),
+            'bmhp' => self::pharmacy('bmhp'),
 
             'users' => [
                 'model' => User::class, 'one' => 'pengguna', 'title' => 'Pengguna',
@@ -573,6 +544,48 @@ class Resources
                 'canDelete' => fn ($r) => $r->id === auth()->id() ? 'Anda tidak dapat menghapus akun yang sedang dipakai.' : null,
                 'label' => fn ($r) => $r->name,
             ],
+        ];
+    }
+
+    /** Data obat dan Data BMHP: tabel yang sama (medicines), dibedakan kolom kind. */
+    protected static function pharmacy(string $kind): array
+    {
+        $bmhp = $kind === 'bmhp';
+
+        return [
+            'model' => Medicine::class, 'one' => $bmhp ? 'BMHP' : 'obat', 'title' => $bmhp ? 'Data BMHP' : 'Data obat',
+            'scope' => fn ($q) => $q->where('kind', $kind),
+            'desc' => $bmhp
+            ? 'Bahan medis habis pakai (BMHP) yang dicatat di Input stok harian, terpisah dari obat. Pilih BMHP di halaman Input stok dan Rekap persediaan untuk melihat stoknya.'
+            : 'Daftar obat yang dicatat di Input stok harian. Obat yang dinonaktifkan tidak muncul di lembar isian, tetapi riwayatnya tetap tersimpan.',
+            'order' => ['name', 'asc'], 'search' => ['name', 'code'],
+            'filters' => [
+                'group' => ['label' => 'Semua golongan', 'options' => fn () => array_combine(Medicine::GROUPS, Medicine::GROUPS)],
+                'is_active' => ['label' => 'Semua status', 'options' => fn () => ['1' => 'Aktif', '0' => 'Nonaktif']],
+            ],
+            'columns' => [
+                ($bmhp ? 'Nama barang' : 'Nama obat') => fn ($r) => '<span class="main">'.e($r->name).'</span><span class="sub">'.e(collect([$r->code, $r->group])->filter()->implode(' · ')).'</span>',
+                'Satuan' => fn ($r) => e($r->unit),
+                'Harga satuan' => fn ($r) => $r->price ? 'Rp '.Fmt::n($r->price, fmod($r->price, 1) ? 2 : 0) : '<span class="badge b-amber">Belum diisi</span>',
+                'Tanggal ED' => fn ($r) => $r->expired_at
+                    ? '<span class="badge b-'.match ($r->expiryState()) {
+                        'expired' => 'red', 'soon' => 'amber', default => 'grey'
+                    }.'">'.$r->expired_at->translatedFormat('M Y').'</span>'
+                    : '—',
+                'Aktif' => fn ($r) => self::toggle($bmhp ? 'bmhp' : 'medicines', $r, 'is_active'),
+            ],
+            'fields' => [
+                ['name' => 'name', 'label' => $bmhp ? 'Nama barang' : 'Nama obat', 'type' => 'text', 'rules' => 'required|string|max:150', 'hint' => 'Tulis lengkap dengan kekuatan dan bentuk sediaan, contoh: AMOXICILLIN 500 MG TABLET.'],
+                ['name' => 'code', 'label' => 'Kode di SIMRS', 'type' => 'text', 'rules' => fn ($m) => 'nullable|string|max:40|unique:medicines,code,'.($m->id ?? 'NULL'), 'hint' => 'Samakan dengan kode di SIMRS supaya stok mudah dicocokkan. Kode tidak boleh dipakai dua obat.'],
+                ['name' => 'kind', 'label' => 'Jenis barang', 'type' => 'select', 'half' => true, 'default' => $kind, 'rules' => 'required|in:'.implode(',', array_keys(Medicine::KINDS)), 'options' => fn () => Medicine::KINDS, 'hint' => 'Ganti ke '.($bmhp ? 'Obat' : 'BMHP').' untuk memindahkan barang ini ke menu '.($bmhp ? 'Data obat' : 'Data BMHP').'.'],
+                ['name' => 'group', 'label' => 'Golongan', 'type' => 'select', 'half' => true, 'rules' => 'required|in:'.implode(',', Medicine::GROUPS), 'options' => fn () => array_combine(Medicine::GROUPS, Medicine::GROUPS)],
+                ['name' => 'unit', 'label' => 'Satuan terkecil', 'type' => 'select', 'half' => true, 'rules' => 'required|in:'.implode(',', Medicine::UNITS), 'options' => fn () => array_combine(Medicine::UNITS, Medicine::UNITS)],
+                ['name' => 'price', 'label' => 'Harga per satuan terkecil (termasuk PPN)', 'type' => 'money', 'half' => true, 'rules' => 'nullable|numeric|min:0|max:999999999', 'hint' => 'Dipakai untuk menghitung nilai stok di Rekap persediaan.'],
+                ['name' => 'expired_at', 'label' => 'Tanggal kedaluwarsa (ED) terdekat', 'type' => 'date', 'half' => true, 'rules' => 'nullable|date', 'hint' => 'Bisa juga diperbarui saat Stock opname.'],
+                ['name' => 'is_active', 'label' => $bmhp ? 'Barang aktif' : 'Obat aktif', 'type' => 'toggle', 'default' => true, 'desc' => 'Muncul di lembar Input stok harian.'],
+            ],
+            'canDelete' => fn ($r) => $r->entries()->exists() ? ($bmhp ? 'Barang' : 'Obat').' ini sudah punya riwayat stok. Nonaktifkan saja agar riwayatnya tetap ada.' : null,
+            'label' => fn ($r) => $r->name,
         ];
     }
 

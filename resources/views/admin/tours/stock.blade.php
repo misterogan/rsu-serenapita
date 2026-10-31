@@ -5,6 +5,7 @@
     ['title' => $opname ? 'Stock opname' : 'Input stok harian', 'text' => $opname
       ? 'Halaman ini dipakai untuk mencocokkan stok di sistem dengan stok fisik di rak. Tur singkat ini menjelaskan setiap bagian. Tekan <b>Lanjut</b> atau tombol panah kanan.'
       : 'Halaman ini menggantikan lembar Excel persediaan. Setiap hari cukup ketik jumlah obat yang <b>masuk</b> dan <b>keluar</b>, sisa stok dihitung otomatis. Tur singkat ini menjelaskan setiap tombol dan kolom. Tekan <b>Lanjut</b> atau tombol panah kanan.'],
+    ['el' => '#tKind', 'title' => 'Obat atau BMHP', 'text' => 'Obat dan <b>BMHP</b> (bahan medis habis pakai: abocath, spuit, kasa, benang, reagen, dan sejenisnya) dicatat di daftar terpisah. Pilih jenis barang yang akan diisi. Pilihan ini diingat sampai Anda keluar.'],
     ['el' => '#tUnit', 'title' => 'Pilih unit', 'text' => 'Stok <b>Gudang Farmasi</b> dan <b>Farmasi Sentral</b> dicatat terpisah, sama seperti dua file Excel sebelumnya. Sekarang Anda sedang di <b>'.e($unitName).'</b>. Pilihan ini diingat sampai Anda keluar.'],
     ['el' => '.stk-date', 'title' => 'Pilih tanggal', 'text' => 'Tanggal otomatis <b>hari ini</b>. Pakai tombol panah untuk pindah ke hari sebelumnya bila ada isian yang terlewat, atau klik kotak tanggal. Tanggal ke depan tidak bisa dipilih.'],
     ['el' => '#tMode', 'title' => 'Jenis isian', 'text' => '<ul><li><b>Masuk & keluar</b>: isian harian biasa.</li><li><b>Stock opname</b>: isi hasil hitung fisik di rak. Lakukan sekali di awal pemakaian sistem, lalu setiap jadwal SO (misalnya akhir bulan).</li></ul>'],
