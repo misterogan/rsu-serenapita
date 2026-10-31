@@ -18,7 +18,7 @@
     @foreach(App\Models\Medicine::KINDS as $k => $n)<a href="{{ $q(['jenis' => $k]) }}" class="{{ $kind === $k ? 'on' : '' }}" @if($kind === $k) aria-current="true" @endif>{{ $n }}</a>@endforeach
   </div>
   <div class="seg" id="tUnit" role="group" aria-label="Unit">
-    @foreach(StockEntry::LOCATIONS as $k => $n)<a href="{{ $q(['unit' => $k]) }}" class="{{ $loc === $k ? 'on' : '' }}" @if($loc === $k) aria-current="true" @endif>{{ $n }}</a>@endforeach
+    @foreach(auth()->user()->stockLocations() as $k => $n)<a href="{{ $q(['unit' => $k]) }}" class="{{ $loc === $k ? 'on' : '' }}" @if($loc === $k) aria-current="true" @endif>{{ $n }}</a>@endforeach
   </div>
   <form class="stk-date" method="get" action="{{ route('admin.stock') }}" data-noload>
     <input type="hidden" name="unit" value="{{ $loc }}">@if($opname)<input type="hidden" name="opname" value="1">@endif

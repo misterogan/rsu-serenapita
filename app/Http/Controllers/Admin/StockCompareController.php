@@ -47,7 +47,7 @@ class StockCompareController extends Controller
     {
         $v = $request->validate([
             'file' => 'required|file|max:10240|extensions:xlsx,csv',
-            'unit' => 'required|in:'.implode(',', array_keys(StockEntry::LOCATIONS)),
+            'unit' => 'required|in:'.implode(',', array_keys($request->user()->stockLocations())),
             'date' => 'required|date_format:Y-m-d|before_or_equal:today',
             'sheet' => 'nullable|string|max:60',
         ], ['file.extensions' => 'File harus berformat .xlsx atau .csv hasil ekspor SIMRS.']);

@@ -6,6 +6,16 @@
 
 Peran **Farmasi** hanya bisa membuka tiga menu: **Input stok harian**, **Rekap persediaan**, dan **Data obat**. Akun awal: `farmasi@rsuserenapita.id` dengan kata sandi `Farmasi@Serenapita26`, yang wajib diganti saat pertama kali masuk. Akun petugas lain dibuat Administrator di menu **Pengguna** dengan peran **Farmasi**, satu akun untuk setiap petugas supaya nama pengisi tercatat.
 
+Petugas bisa **dikunci ke satu unit** lewat kolom **Unit farmasi** di menu Pengguna. Petugas yang dikunci hanya bisa mengisi stok (dan mencocokkan SIMRS) untuk unitnya sendiri, tetapi tetap bisa melihat rekap kedua unit. Akun awal yang sudah tersedia:
+
+| Akun | Unit | Kata sandi awal |
+|---|---|---|
+| `gudang.farmasi@rsuserenapita.id` | Gudang Farmasi | `Gudang@Serenapita26` |
+| `farmasi.sentral@rsuserenapita.id` | Farmasi Sentral | `Sentral@Serenapita26` |
+| `farmasi@rsuserenapita.id` | Semua unit (penanggung jawab) | – |
+
+Kata sandi awal wajib diganti saat pertama kali masuk.
+
 <div class="callout tips"><b>Tur panduan di setiap halaman</b><p>Klik tombol <b>Panduan</b> di kanan atas halaman Farmasi. Layar akan meredup dan setiap tombol atau kolom disorot satu per satu dengan penjelasannya. Klik <b>Lanjut</b> (atau tombol panah kanan) untuk pindah ke bagian berikutnya, <b>Kembali</b> untuk mundur, dan <b>Lewati</b> atau <kbd>Esc</kbd> untuk menutup. Tur muncul otomatis sekali sehari, yaitu saat pertama kali membuka halaman Farmasi hari itu. Selebihnya, buka tur kapan saja lewat tombol <b>Panduan</b>. Tekan <kbd>Ctrl</kbd> sambil klik <b>Panduan</b> untuk membuka panduan tertulis ini.</p></div>
 
 <a id="stock-1" class="anchor"></a>

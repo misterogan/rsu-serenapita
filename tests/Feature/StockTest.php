@@ -133,4 +133,26 @@ class StockTest extends TestCase
         $this->assertLessThan(strpos($csv, 'TABLET;'), strpos($csv, 'INJEKSI;'));
         Carbon::setTestNow();
     }
+
+    public function test_unit_staff_can_only_fill_their_own_unit(): void
+    {
+        $gudang = User::where('email', 'gudang.farmasi@rsuserenapita.id')->first();
+        $sentral = User::where('email', 'farmasi.sentral@rsuserenapita.id')->first();
+        $this->assertSame(['gudang' => 'Gudang Farmasi'], $gudang->stockLocations());
+        $gudang->update(['must_change_password' => false]);
+        $med = $this->medicine();
+
+        $this->actingAs($gudang)->get(route('admin.stock', ['unit' => 'sentral']))->assertOk()
+            ->assertSee('Gudang Farmasi')->assertDontSee('>Farmasi Sentral</a>', false);
+        $this->actingAs($gudang)->post(route('admin.stock.save'), [
+            'location' => 'sentral', 'date' => today()->toDateString(), 'rows' => [$med->id => ['in' => '5']],
+        ])->assertSessionHasErrors('location');
+        $this->actingAs($gudang)->post(route('admin.stock.save'), [
+            'location' => 'gudang', 'date' => today()->toDateString(), 'rows' => [$med->id => ['in' => '5']],
+        ])->assertSessionHasNoErrors();
+        $this->actingAs($gudang)->get(route('admin.stock.report', ['unit' => 'sentral']))->assertOk()->assertSee('Farmasi Sentral');
+
+        $this->assertSame(['sentral' => 'Farmasi Sentral'], $sentral->stockLocations());
+        $this->assertCount(2, $this->pharmacist()->stockLocations());
+    }
 }

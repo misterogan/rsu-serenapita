@@ -18,6 +18,7 @@ use App\Models\Poli;
 use App\Models\Role;
 use App\Models\Service;
 use App\Models\Slide;
+use App\Models\StockEntry;
 use App\Models\User;
 use App\Support\DataSource;
 use App\Support\Fmt;
@@ -521,7 +522,7 @@ class Resources
                 'filters' => ['role_id' => ['label' => 'Semua peran', 'options' => fn () => Role::orderBy('name')->get()->reject->isExecutive()->pluck('name', 'id')->all()]],
                 'columns' => [
                     'Pengguna' => fn ($r) => '<div class="cellrow">'.self::avatar(self::COLORS[crc32($r->email) % count(self::COLORS)], $r->initials()).'<div><span class="main">'.e($r->name).'</span><span class="sub">'.e($r->email).'</span></div></div>',
-                    'Peran' => fn ($r) => e($r->role?->name ?? '—'),
+                    'Peran' => fn ($r) => e($r->role?->name ?? '—').($r->stock_location ? '<span class="sub">Unit: '.e(StockEntry::LOCATIONS[$r->stock_location] ?? $r->stock_location).'</span>' : ''),
                     'Terakhir masuk' => fn ($r) => $r->last_login_at?->translatedFormat('d M Y H.i') ?? 'Belum pernah',
                     'Aktif' => fn ($r) => $r->id === auth()->id() ? self::badge('Aktif') : self::toggle('users', $r, 'is_active'),
                 ],
@@ -529,6 +530,7 @@ class Resources
                     ['name' => 'name', 'label' => 'Nama', 'type' => 'text', 'rules' => 'required|string|max:100'],
                     ['name' => 'email', 'label' => 'Email', 'type' => 'email', 'rules' => fn ($m) => 'required|email|max:150|unique:users,email,'.($m->id ?? 'NULL')],
                     ['name' => 'role_id', 'label' => 'Peran', 'type' => 'select', 'half' => true, 'rules' => fn () => 'required|in:'.implode(',', Role::all()->reject->isExecutive()->pluck('id')->all()), 'options' => fn () => Role::orderBy('name')->get()->reject->isExecutive()->pluck('name', 'id')->all()],
+                    ['name' => 'stock_location', 'label' => 'Unit farmasi', 'type' => 'select', 'half' => true, 'rules' => 'nullable|in:'.implode(',', array_keys(StockEntry::LOCATIONS)), 'options' => fn () => ['' => 'Semua unit'] + StockEntry::LOCATIONS, 'hint' => 'Khusus peran Farmasi: kunci petugas agar hanya bisa mengisi stok satu unit.'],
                     ['name' => 'password', 'label' => 'Kata sandi', 'type' => 'password', 'half' => true, 'rules' => fn ($m) => ($m->exists ? 'nullable' : 'required').'|string|min:8', 'hint' => 'Minimal 8 karakter. Kosongkan saat mengubah jika tidak diganti.'],
                     ['name' => 'is_active', 'label' => 'Akun aktif', 'type' => 'toggle', 'default' => true, 'desc' => 'Akun nonaktif tidak dapat masuk.'],
                 ],

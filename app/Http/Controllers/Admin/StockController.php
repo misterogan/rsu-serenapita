@@ -16,11 +16,15 @@ use Illuminate\Validation\ValidationException;
 /** Persediaan obat farmasi: lembar isian harian, rekap bulanan, dan kartu stok per obat. */
 class StockController extends Controller
 {
-    /** Unit yang dipilih, diingat selama sesi supaya petugas tidak perlu memilih ulang. */
-    protected function location(Request $request): string
+    /**
+     * Unit yang dipilih, diingat selama sesi supaya petugas tidak perlu memilih ulang.
+     * Untuk mengisi stok, petugas yang dikunci ke satu unit selalu mendapat unitnya; rekap boleh melihat semua unit.
+     */
+    protected function location(Request $request, bool $fill = false): string
     {
-        $loc = $request->query('unit', session('stock.unit', 'gudang'));
-        $loc = isset(StockEntry::LOCATIONS[$loc]) ? $loc : 'gudang';
+        $allowed = $fill ? $request->user()->stockLocations() : StockEntry::LOCATIONS;
+        $loc = $request->query('unit', session('stock.unit', array_key_first($allowed)));
+        $loc = isset($allowed[$loc]) ? $loc : array_key_first($allowed);
         session(['stock.unit' => $loc]);
 
         return $loc;
@@ -60,7 +64,7 @@ class StockController extends Controller
 
     public function index(Request $request)
     {
-        $loc = $this->location($request);
+        $loc = $this->location($request, fill: true);
         $kind = $this->kind($request);
         $date = $this->day($request->query('date'));
         $opname = $request->boolean('opname');
@@ -84,7 +88,7 @@ class StockController extends Controller
     {
         $qty = 'nullable|integer|min:0|max:9999999';
         $data = $request->validate([
-            'location' => 'required|in:'.implode(',', array_keys(StockEntry::LOCATIONS)),
+            'location' => 'required|in:'.implode(',', array_keys($request->user()->stockLocations())),
             'date' => 'required|date_format:Y-m-d|before_or_equal:today',
             'rows' => 'required|array|max:2000',
             'rows.*.in' => $qty, 'rows.*.out' => $qty, 'rows.*.counted' => $qty,
@@ -92,6 +96,7 @@ class StockController extends Controller
             'rows.*.expired_at' => 'nullable|date',
         ], [
             'rows.required' => 'Belum ada angka yang diubah.',
+            'location.in' => 'Akun Anda hanya boleh mengisi stok unit '.implode(', ', $request->user()->stockLocations()).'.',
             'date.before_or_equal' => 'Tanggal tidak boleh melewati hari ini.',
             'rows.*.*.integer' => 'Jumlah harus berupa angka bulat.',
             'rows.*.*.min' => 'Jumlah tidak boleh minus.',

@@ -20,7 +20,7 @@
       <input id="cmpFile" type="file" name="file" accept=".xlsx,.csv" required>
       <div class="hint">Kolom yang dibaca: <i>obatalkes_kode</i>, <i>obatalkes_nama</i>, <i>satuankecil</i>, <i>stok_saatini</i>. Ekspor dari SIMRS per unit.</div></div>
     <div class="fld half"><label for="cmpUnit">Unit di file ini</label>
-      <select id="cmpUnit" name="unit">@foreach(StockEntry::LOCATIONS as $k => $n)<option value="{{ $k }}" @selected(old('unit', $data['unit'] ?? session('stock.unit')) === $k)>{{ $n }}</option>@endforeach</select></div>
+      <select id="cmpUnit" name="unit">@foreach(auth()->user()->stockLocations() as $k => $n)<option value="{{ $k }}" @selected(old('unit', $data['unit'] ?? session('stock.unit')) === $k)>{{ $n }}</option>@endforeach</select></div>
     <div class="fld half"><label for="cmpDate">Bandingkan dengan stok sistem per tanggal</label>
       <input id="cmpDate" type="date" name="date" value="{{ old('date', $data['date'] ?? today()->toDateString()) }}" max="{{ today()->toDateString() }}" required>
       <div class="hint">Samakan dengan tanggal file SIMRS diunduh. Stok sistem dihitung sampai akhir tanggal ini.</div></div>

@@ -10,7 +10,8 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $fillable = ['name', 'email', 'password', 'role_id', 'is_active', 'last_login_at', 'must_change_password'];
+    protected $fillable = ['name', 'email', 'password', 'role_id', 'stock_location', 'is_active', 'last_login_at', 'must_change_password'];
+
     protected $hidden = ['password', 'remember_token'];
 
     protected function casts(): array
@@ -32,6 +33,18 @@ class User extends Authenticatable
     public function canModule(string $module): bool
     {
         return (bool) $this->role?->allows($module);
+    }
+
+    /**
+     * Unit farmasi yang boleh diisi stoknya. Petugas yang dikunci ke satu unit hanya mendapat unit itu.
+     *
+     * @return array<string, string>
+     */
+    public function stockLocations(): array
+    {
+        $all = StockEntry::LOCATIONS;
+
+        return $this->stock_location && isset($all[$this->stock_location]) ? [$this->stock_location => $all[$this->stock_location]] : $all;
     }
 
     public function isExecutive(): bool
