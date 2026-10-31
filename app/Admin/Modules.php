@@ -10,6 +10,7 @@ class Modules
         'Konten situs' => ['news' => 'Berita', 'categories' => 'Kategori berita', 'slides' => 'Slider beranda', 'info' => 'Kotak info & jam', 'services' => 'Layanan & fasilitas'],
         'Pelayanan medis' => ['doctors' => 'Profil dokter', 'clinics' => 'Poliklinik', 'schedule' => 'Jadwal dokter', 'leaves' => 'Cuti dokter'],
         'Pendaftaran' => ['appointments' => 'Janji temu', 'appointment-form' => 'Formulir janji temu'],
+        'Farmasi' => ['stock' => 'Input stok harian', 'stock-report' => 'Rekap persediaan', 'medicines' => 'Data obat'],
         'Karier' => ['jobs' => 'Lowongan kerja', 'applications' => 'Pelamar'],
         'Informasi situs' => ['about' => 'Tentang kami', 'gallery' => 'Galeri', 'guides' => 'Panduan pasien', 'faqs' => 'FAQ'],
         'Tampilan situs' => ['menu' => 'Menu & tampilan', 'chatbot' => 'Chatbot Serena', 'profile' => 'Profil & kontak'],
@@ -45,6 +46,9 @@ class Modules
         'users' => 'M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM3 20c0-3 3-5 6-5s6 2 6 5M16 5a3 3 0 0 1 0 6M21 20c0-2-1-4-3-4.5',
         'roles' => 'M6 11V8a6 6 0 0 1 12 0v3M5 11h14v10H5z',
         'logs' => 'M12 7v5l3 2M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5',
+        'stock' => 'M8 3h8v4l2 3v11H6V10l2-3zM6 13h12M12 15v4M10 17h4',
+        'stock-report' => 'M5 4h14v16H5zM9 16v-3M12 16V9M15 16v-5',
+        'medicines' => 'M10.5 20.5a5 5 0 0 1-7-7l7-7a5 5 0 0 1 7 7zM7 10l7 7',
     ];
 
     public static function all(): array

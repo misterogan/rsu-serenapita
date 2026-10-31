@@ -250,3 +250,31 @@
     sync();
   });
 })();
+
+/* Kolom uang (data-rupiah): titik pemisah ribuan otomatis saat mengetik, misalnya 13924,5 menjadi 13.924,5.
+   Nilai dikirim ke server sebagai angka biasa (13924.5). data-rupiah="int" untuk rupiah tanpa sen. */
+(function () {
+  const fmt = (v, int) => {
+    let s = String(v).replace(int ? /\D/g : /[^\d,]/g, "");
+    const at = s.indexOf(",");
+    let whole = at < 0 ? s : s.slice(0, at);
+    const dec = at < 0 ? null : s.slice(at + 1).replace(/,/g, "").slice(0, 2);
+    whole = whole.replace(/^0+(?=\d)/, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return dec === null ? whole : (whole || "0") + "," + dec;
+  };
+  const isInt = i => i.dataset.rupiah === "int";
+  document.querySelectorAll("input[data-rupiah]").forEach(i => {
+    i.value = fmt(i.value.replace(".", ","), isInt(i)); // nilai awal dari server memakai titik desimal
+    i.addEventListener("input", () => {
+      const keep = i.value.slice(0, i.selectionStart).replace(/[^\d,]/g, "").length;
+      i.value = fmt(i.value, isInt(i));
+      let n = 0, p = 0;
+      while (p < i.value.length && n < keep) { if (/[\d,]/.test(i.value[p])) n++; p++; }
+      i.setSelectionRange(p, p);
+    });
+  });
+  document.addEventListener("submit", e => {
+    if (e.defaultPrevented) return;
+    e.target.querySelectorAll("input[data-rupiah]").forEach(i => { i.value = i.value.replace(/\./g, "").replace(",", "."); });
+  });
+})();

@@ -1,0 +1,2767 @@
+[
+{
+"group": "INJEKSI",
+"name": "AMPICILIN SODIUM+SULBACTAM 1G INJ",
+"unit": "Vial",
+"price": 9601.0,
+"expired_at": null
+},
+{
+"group": "INJEKSI",
+"name": "ASAM TRANEXAMAT 5 ML INJEKSI",
+"unit": "Ampul",
+"price": 2726.0,
+"expired_at": "2028-01-01"
+},
+{
+"group": "INJEKSI",
+"name": "CALCIUM GLUCONATE 10%",
+"unit": "Ampul",
+"price": 13924.5,
+"expired_at": "2028-01-01"
+},
+{
+"group": "INJEKSI",
+"name": "CEFOTAXIME 1G INJEKSI",
+"unit": "Vial",
+"price": 6000.0,
+"expired_at": "2029-05-01"
+},
+{
+"group": "INJEKSI",
+"name": "CEFXON",
+"unit": "Vial",
+"price": null,
+"expired_at": null
+},
+{
+"group": "INJEKSI",
+"name": "CEFTRIAXONE 1 G INJEKSI",
+"unit": "Vial",
+"price": 4191.0,
+"expired_at": "2031-07-01"
+},
+{
+"group": "INJEKSI",
+"name": "CEPHAFLOX",
+"unit": "Vial",
+"price": 295000.0,
+"expired_at": null
+},
+{
+"group": "INJEKSI",
+"name": "CITICOLIN 250MG INJEKSI",
+"unit": "Ampul",
+"price": 3603.0,
+"expired_at": "2028-08-01"
+},
+{
+"group": "INJEKSI",
+"name": "COMBIVENT",
+"unit": "Ampul",
+"price": 3532.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "INJEKSI",
+"name": "CYTOFLAVIN 10ML",
+"unit": "Ampul",
+"price": null,
+"expired_at": null
+},
+{
+"group": "INJEKSI",
+"name": "DEXAMETASONE INJ",
+"unit": "Ampul",
+"price": 1300.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "INJEKSI",
+"name": "DIPENHIDRAMIN (SIDIADRIL) 10MG/ML INJEKSI",
+"unit": "Vial",
+"price": 4700.0,
+"expired_at": null
+},
+{
+"group": "INJEKSI",
+"name": "OMEPRAZOLE SODIUM INJEKSI",
+"unit": "Vial",
+"price": 10722.6,
+"expired_at": null
+},
+{
+"group": "INJEKSI",
+"name": "FUROSEMIDE INJ",
+"unit": "Ampul",
+"price": 4800.31,
+"expired_at": "2027-01-01"
+},
+{
+"group": "INJEKSI",
+"name": "HYOSCINE INJ / BUSCOPAN INJ",
+"unit": "Ampul",
+"price": 9986.0,
+"expired_at": "2029-08-01"
+},
+{
+"group": "INJEKSI",
+"name": "KANAMYCIN INJ",
+"unit": "Ampul",
+"price": 17077.0,
+"expired_at": "2028-04-01"
+},
+{
+"group": "INJEKSI",
+"name": "KETOROLAC 30 MG INJ",
+"unit": "Ampul",
+"price": 2160.0,
+"expired_at": "2028-04-01"
+},
+{
+"group": "INJEKSI",
+"name": "MECOBALAMIN INJ",
+"unit": "Ampul",
+"price": 6306.0,
+"expired_at": "2028-01-01"
+},
+{
+"group": "INJEKSI",
+"name": "MEROPENEM- INJKS",
+"unit": "Ampul",
+"price": 40000.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "INJEKSI",
+"name": "METHYLPREDNISOLON INJ",
+"unit": "Ampul",
+"price": 13512.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "INJEKSI",
+"name": "METAMIZOLE INJEKS",
+"unit": "Ampul",
+"price": 3850.0,
+"expired_at": "2030-01-01"
+},
+{
+"group": "INJEKSI",
+"name": "METOCLOPRAMIDE INJ",
+"unit": "Ampul",
+"price": 4495.0,
+"expired_at": "2030-01-01"
+},
+{
+"group": "INJEKSI",
+"name": "NICARDIPIN INJ",
+"unit": "Ampul",
+"price": 16912.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "INJEKSI",
+"name": "NTG (GLYCERYL TRINITRATE)",
+"unit": "Ampul",
+"price": 72307.0,
+"expired_at": null
+},
+{
+"group": "INJEKSI",
+"name": "NORSEC INJ",
+"unit": "Ampul",
+"price": 211000.0,
+"expired_at": null
+},
+{
+"group": "INJEKSI",
+"name": "OMEPRAZOLE INJ",
+"unit": "Ampul",
+"price": 9000.2,
+"expired_at": "2028-06-28"
+},
+{
+"group": "INJEKSI",
+"name": "Ondansetron injeksi 4 mg",
+"unit": "Ampul",
+"price": 1800.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "INJEKSI",
+"name": "PIRACETAM INJ 1 g",
+"unit": "Ampul",
+"price": 3000.0,
+"expired_at": null
+},
+{
+"group": "INJEKSI",
+"name": "PROXIUM 40MG DRY INJ",
+"unit": "Ampul",
+"price": 150960.0,
+"expired_at": null
+},
+{
+"group": "INJEKSI",
+"name": "PULMICORT 0,5 mg/mL",
+"unit": "Flash",
+"price": 15795.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "INJEKSI",
+"name": "RANITIDIN 25MG/ML INJ",
+"unit": "Ampul",
+"price": 1351.0,
+"expired_at": null
+},
+{
+"group": "INJEKSI",
+"name": "SAGESTAM INJEKSI/ GENTAMISIN INJEKSI",
+"unit": "Ampul",
+"price": 3382.0,
+"expired_at": null
+},
+{
+"group": "INJEKSI",
+"name": "TERANOL INJEKSI",
+"unit": "Ampul",
+"price": 51000.0,
+"expired_at": null
+},
+{
+"group": "INJEKSI",
+"name": "TERFACEF INJ",
+"unit": "Vial",
+"price": null,
+"expired_at": null
+},
+{
+"group": "INJEKSI",
+"name": "VENTOLINE NEBUL/SALVEN/DILATAMOL/INHAVENT",
+"unit": "Flash",
+"price": 4662.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "INJEKSI",
+"name": "VIT K INJ (PHYTOMENADIONE)",
+"unit": "Ampul",
+"price": 3840.0,
+"expired_at": "2028-05-01"
+},
+{
+"group": "INJEKSI",
+"name": "VICCILIN INJ",
+"unit": "Ampul",
+"price": 30036.0,
+"expired_at": null
+},
+{
+"group": "INJEKSI",
+"name": "WATER FOR INJECTION 25 mL OTSU",
+"unit": "Flash",
+"price": 2954.0,
+"expired_at": "2029-02-01"
+},
+{
+"group": "SIRUP",
+"name": "AMOXCICILIN TRYHDRAT SIRUP",
+"unit": "Botol",
+"price": 9100.0,
+"expired_at": "2028-04-01"
+},
+{
+"group": "SIRUP",
+"name": "ACLAM FORTE SIRUP",
+"unit": "Botol",
+"price": 94905.0,
+"expired_at": "2028-01-01"
+},
+{
+"group": "SIRUP",
+"name": "ACLAM DRY SIRUP",
+"unit": "Botol",
+"price": 72427.5,
+"expired_at": "2028-09-01"
+},
+{
+"group": "SIRUP",
+"name": "AMBROXOL SYRUP",
+"unit": "Botol",
+"price": 6193.8,
+"expired_at": "2029-11-01"
+},
+{
+"group": "SIRUP",
+"name": "APIALYS SIRUP",
+"unit": "Botol",
+"price": 39960.0,
+"expired_at": null
+},
+{
+"group": "SIRUP",
+"name": "ANTASIDA DOEN SIRUP",
+"unit": "Botol",
+"price": 3600.0,
+"expired_at": "2028-02-01"
+},
+{
+"group": "SIRUP",
+"name": "Azitromycin Dry Syrup",
+"unit": "Botol",
+"price": 31449.41,
+"expired_at": "2030-11-01"
+},
+{
+"group": "SIRUP",
+"name": "BOOST PROTEKID SYR",
+"unit": "Botol",
+"price": 32051.0,
+"expired_at": null
+},
+{
+"group": "SIRUP",
+"name": "BDM SYRUP - PT MILLENIUM PHARMACON / HUFABETHAMIN",
+"unit": "Botol",
+"price": 39000.0,
+"expired_at": null
+},
+{
+"group": "SIRUP",
+"name": "CEFIXIME SYRUP",
+"unit": "Botol",
+"price": 10000.0,
+"expired_at": null
+},
+{
+"group": "SIRUP",
+"name": "Cefila sirup",
+"unit": "Botol",
+"price": 94905.0,
+"expired_at": null
+},
+{
+"group": "SIRUP",
+"name": "CETIRIZIN SYRUP",
+"unit": "Botol",
+"price": 7800.0,
+"expired_at": "2028-01-01"
+},
+{
+"group": "SIRUP",
+"name": "CEFADROXIL SYR",
+"unit": "Botol",
+"price": 8804.63,
+"expired_at": "2029-01-01"
+},
+{
+"group": "SIRUP",
+"name": "CURCUMA PLUS",
+"unit": "Botol",
+"price": 13875.0,
+"expired_at": null
+},
+{
+"group": "SIRUP",
+"name": "COMBANTRIN SIRUP",
+"unit": "Botol",
+"price": null,
+"expired_at": null
+},
+{
+"group": "SIRUP",
+"name": "EPEXOL SYRUP",
+"unit": "Botol",
+"price": 22000.0,
+"expired_at": null
+},
+{
+"group": "SIRUP",
+"name": "ERYTHROMYCIN DRY SYR",
+"unit": "Botol",
+"price": 12626.25,
+"expired_at": null
+},
+{
+"group": "SIRUP",
+"name": "FARIZOL SUSP 60ML (METRONIDAZOLE SYR)",
+"unit": "Botol",
+"price": 6307.0,
+"expired_at": "2028-02-01"
+},
+{
+"group": "SIRUP",
+"name": "FORASMA SYR",
+"unit": "Botol",
+"price": 6307.0,
+"expired_at": "2027-02-01"
+},
+{
+"group": "SIRUP",
+"name": "IMBOOST FORCE KIDS SYR",
+"unit": "Botol",
+"price": 35936.0,
+"expired_at": null
+},
+{
+"group": "SIRUP",
+"name": "IBUPROFEN SIRUP",
+"unit": "Botol",
+"price": 7287.0,
+"expired_at": "2027-09-01"
+},
+{
+"group": "SIRUP",
+"name": "IMUNPED - SIRUP",
+"unit": "Botol",
+"price": 50000.0,
+"expired_at": null
+},
+{
+"group": "SIRUP",
+"name": "KAOTIN - SIRUP",
+"unit": "Botol",
+"price": 7818.67,
+"expired_at": null
+},
+{
+"group": "SIRUP",
+"name": "KOMPOLAX SIRUP",
+"unit": "Botol",
+"price": 11000.0,
+"expired_at": "2029-04-01"
+},
+{
+"group": "SIRUP",
+"name": "LASAL EXPECTORANT SYRUP",
+"unit": "Botol",
+"price": 44955.0,
+"expired_at": null
+},
+{
+"group": "SIRUP",
+"name": "LASAL SYRUP",
+"unit": "Botol",
+"price": 34965.0,
+"expired_at": "2028-01-01"
+},
+{
+"group": "SIRUP",
+"name": "LAMESON SIRUP",
+"unit": "Botol",
+"price": 94905.0,
+"expired_at": "2027-10-01"
+},
+{
+"group": "SIRUP",
+"name": "LACTULOSE SYR 3.3G/5ML",
+"unit": "Botol",
+"price": 18051.0,
+"expired_at": "2028-05-01"
+},
+{
+"group": "SIRUP",
+"name": "NUCEF SIRUP - PT PENTA VALEN TBK",
+"unit": "Botol",
+"price": 80197.5,
+"expired_at": null
+},
+{
+"group": "SIRUP",
+"name": "DOMPERIDON SYR",
+"unit": "Botol",
+"price": 3750.0,
+"expired_at": "2027-07-01"
+},
+{
+"group": "SIRUP",
+"name": "PARACETAMOL SYR",
+"unit": "Botol",
+"price": 4000.0,
+"expired_at": null
+},
+{
+"group": "SIRUP",
+"name": "SODIUM VALPROAT SYR",
+"unit": "Botol",
+"price": 13431.0,
+"expired_at": null
+},
+{
+"group": "SIRUP",
+"name": "SOPRINOL SIRUP",
+"unit": "Botol",
+"price": 70762.5,
+"expired_at": "2027-08-01"
+},
+{
+"group": "SIRUP",
+"name": "TROGYL SIRUP",
+"unit": "Botol",
+"price": 44955.0,
+"expired_at": null
+},
+{
+"group": "SIRUP",
+"name": "SANMOL FORTE SYR - HSD",
+"unit": "Botol",
+"price": 35000.0,
+"expired_at": null
+},
+{
+"group": "SIRUP",
+"name": "SUCRALFAT SYR",
+"unit": "Botol",
+"price": 7500.0,
+"expired_at": null
+},
+{
+"group": "SIRUP",
+"name": "ZIBRAMAX SIRUP",
+"unit": "Botol",
+"price": 101898.0,
+"expired_at": null
+},
+{
+"group": "SIRUP",
+"name": "ZINK 60ML SYR / ZIRCUM / ZINKID",
+"unit": "Botol",
+"price": 13000.0,
+"expired_at": "2028-05-01"
+},
+{
+"group": "DROPS",
+"name": "Apialys drop",
+"unit": "Botol",
+"price": 47452.5,
+"expired_at": "2028-05-01"
+},
+{
+"group": "DROPS",
+"name": "Amoxan/Amoxicillin Drop",
+"unit": "Botol",
+"price": 30000.0,
+"expired_at": null
+},
+{
+"group": "DROPS",
+"name": "SANMOL DROPS",
+"unit": "Botol",
+"price": 19470.0,
+"expired_at": "2028-05-04"
+},
+{
+"group": "DROPS",
+"name": "PARACETAMOL DROP",
+"unit": "Botol",
+"price": 17760.0,
+"expired_at": "2026-12-01"
+},
+{
+"group": "DROPS",
+"name": "ANGISIS NYSTATIN DROP",
+"unit": "Botol",
+"price": 20424.0,
+"expired_at": "2028-05-06"
+},
+{
+"group": "DROPS",
+"name": "FERRIS DROPS - SIANTAR",
+"unit": "Botol",
+"price": 52000.0,
+"expired_at": null
+},
+{
+"group": "DROPS",
+"name": "RECO EAR DROPS -",
+"unit": "Botol",
+"price": 11265.0,
+"expired_at": "2026-07-01"
+},
+{
+"group": "DROPS",
+"name": "CERINI DROP",
+"unit": "Botol",
+"price": 78500.0,
+"expired_at": "2028-05-09"
+},
+{
+"group": "DROPS",
+"name": "ZINK DROP",
+"unit": "Botol",
+"price": 5285.82,
+"expired_at": "2028-05-10"
+},
+{
+"group": "DROPS",
+"name": "LERZIN DROP 15ML",
+"unit": "Botol",
+"price": 11414.0,
+"expired_at": "2028-05-11"
+},
+{
+"group": "SALEP",
+"name": "ACYCLOVIR 5% 5 G (salep)",
+"unit": "Tube",
+"price": 5000.0,
+"expired_at": "2028-01-01"
+},
+{
+"group": "SALEP",
+"name": "BURNAZIN ( SULFADIAZINE SILVER)",
+"unit": "Tube",
+"price": null,
+"expired_at": null
+},
+{
+"group": "SALEP",
+"name": "DESOXIMETASONE 0.25 15G",
+"unit": "Tube",
+"price": 12410.0,
+"expired_at": "2027-11-01"
+},
+{
+"group": "SALEP",
+"name": "FLAMAR GEL TUBE 20 g",
+"unit": "Tube",
+"price": 19591.5,
+"expired_at": null
+},
+{
+"group": "SALEP",
+"name": "Fuladic Acid",
+"unit": "Tube",
+"price": 54723.0,
+"expired_at": "2027-07-01"
+},
+{
+"group": "SALEP",
+"name": "GENOINT SALEP MATA",
+"unit": "Tube",
+"price": 16000.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "SALEP",
+"name": "GENTAMISIN 0,1 % 5GR KRIM KULIT",
+"unit": "Tube",
+"price": 4000.0,
+"expired_at": "2028-04-01"
+},
+{
+"group": "SALEP",
+"name": "HYDROCOSTISNE KRIM 2,5 % - HYDROCORTISONE",
+"unit": "Tube",
+"price": 2870.0,
+"expired_at": null
+},
+{
+"group": "SALEP",
+"name": "KETOCONAZOLE KRIM 2%",
+"unit": "Tube",
+"price": 3588.0,
+"expired_at": "2028-02-01"
+},
+{
+"group": "SALEP",
+"name": "MICONAZOLE 2 %",
+"unit": "Tube",
+"price": 4538.0,
+"expired_at": "2028-09-11"
+},
+{
+"group": "SALEP",
+"name": "MOMETASONE KRIM 10 GR",
+"unit": "Tube",
+"price": null,
+"expired_at": null
+},
+{
+"group": "SALEP",
+"name": "MOMETASONE KRIM 5 GR",
+"unit": "Tube",
+"price": null,
+"expired_at": null
+},
+{
+"group": "INHALER",
+"name": "AERONIDE BUDESONIDE 200 MCG INHALER",
+"unit": "Pcs",
+"price": 127200.0,
+"expired_at": null
+},
+{
+"group": "INHALER",
+"name": "AEROTAMOL INHALER",
+"unit": "Pcs",
+"price": 74400.0,
+"expired_at": null
+},
+{
+"group": "INHALER",
+"name": "BEROTEC",
+"unit": "Pcs",
+"price": 81030.0,
+"expired_at": null
+},
+{
+"group": "INHALER",
+"name": "SALMEFLO INHALER",
+"unit": "Pcs",
+"price": 132692.0,
+"expired_at": null
+},
+{
+"group": "INHALER",
+"name": "SERETIDE DISKUS INHALER",
+"unit": "Pcs",
+"price": 158000.0,
+"expired_at": "2027-10-01"
+},
+{
+"group": "INHALER",
+"name": "SYMBICORT TURB",
+"unit": "Botol",
+"price": 166840.6,
+"expired_at": null
+},
+{
+"group": "INHALER",
+"name": "VENTOLIN INHALER",
+"unit": "Pcs",
+"price": 174000.0,
+"expired_at": null
+},
+{
+"group": "SUPOSITORIA",
+"name": "DUMIN 250 MG /4 ML",
+"unit": "Pcs",
+"price": 38000.0,
+"expired_at": null
+},
+{
+"group": "SUPOSITORIA",
+"name": "DUMIN 125 MG/ 2,5 ML",
+"unit": "Pcs",
+"price": 34000.0,
+"expired_at": "2028-04-01"
+},
+{
+"group": "SUPOSITORIA",
+"name": "MICROLAX GEL",
+"unit": "Pcs",
+"price": 22000.0,
+"expired_at": null
+},
+{
+"group": "SUPOSITORIA",
+"name": "SUPERHOID SUPP",
+"unit": "Pcs",
+"price": null,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "ACETYLCYSTEIN 200 MG",
+"unit": "Tablet",
+"price": 494.17,
+"expired_at": "2028-01-01"
+},
+{
+"group": "TABLET",
+"name": "ACYCLOVIR 400 MG TAB",
+"unit": "Tablet",
+"price": 923.0,
+"expired_at": "2028-01-01"
+},
+{
+"group": "TABLET",
+"name": "AFOLAT - ASAM FOLAT",
+"unit": "Tablet",
+"price": 188.7,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "ALLOPURINOL 100 MG TAB -",
+"unit": "Tablet",
+"price": 195.36,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "ALLOPURINOL 300 MG TAB",
+"unit": "Tablet",
+"price": 410.7,
+"expired_at": "2029-07-01"
+},
+{
+"group": "TABLET",
+"name": "ALBENDAZOLE 400MG",
+"unit": "Tablet",
+"price": 722.61,
+"expired_at": "2028-08-01"
+},
+{
+"group": "TABLET",
+"name": "AMBROXOL TAB",
+"unit": "Tablet",
+"price": 129.2,
+"expired_at": "2030-01-01"
+},
+{
+"group": "TABLET",
+"name": "AMIODARON TAB 200MG",
+"unit": "Tablet",
+"price": 1543.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "AMLODIPIN 5 MG TAB",
+"unit": "Tablet",
+"price": 223.8,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "AMLODIPINE10 MG TAB",
+"unit": "Tablet",
+"price": 419.5,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "AMOXICILIN TAB",
+"unit": "Tablet",
+"price": 700.0,
+"expired_at": "2028-04-01"
+},
+{
+"group": "TABLET",
+"name": "ANTASIDA DOEN TAB",
+"unit": "Tablet",
+"price": 213.12,
+"expired_at": "2028-01-01"
+},
+{
+"group": "TABLET",
+"name": "ASAM MEFENAMAT 500MG TAB",
+"unit": "Tablet",
+"price": 259.0,
+"expired_at": "2026-01-01"
+},
+{
+"group": "TABLET",
+"name": "ASAM MEFENAMAT- MEFINAL",
+"unit": "Tablet",
+"price": 2400.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "ASAM TRANEXAMAT 500 MG TAB",
+"unit": "Tablet",
+"price": 1446.0,
+"expired_at": "2029-01-01"
+},
+{
+"group": "TABLET",
+"name": "ASPILET TABLET 100 MG -",
+"unit": "Tablet",
+"price": 538.35,
+"expired_at": "2027-11-01"
+},
+{
+"group": "TABLET",
+"name": "ASPILET TABLET 80 MG",
+"unit": "Tablet",
+"price": 745.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "ATORVASTATIN 10 MG TAB",
+"unit": "Tablet",
+"price": 568.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "ATORVASTATIN 20 MG TAB",
+"unit": "Tablet",
+"price": 661.0,
+"expired_at": "2028-01-01"
+},
+{
+"group": "TABLET",
+"name": "AZITROMYCIN 500 MG TAB",
+"unit": "Tablet",
+"price": 5000.99,
+"expired_at": "2028-09-28"
+},
+{
+"group": "TABLET",
+"name": "BETAHISTINE 6 MG TAB",
+"unit": "Tablet",
+"price": 569.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "BETAHISTINE HCL 24 mg TAB",
+"unit": "Tablet",
+"price": 4828.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "BIDIUM TAB (LOPERAMIDE)",
+"unit": "Tablet",
+"price": 150.0,
+"expired_at": "2027-06-01"
+},
+{
+"group": "TABLET",
+"name": "BISOPROLOL 2,5 MG TAB",
+"unit": "Tablet",
+"price": 136.0,
+"expired_at": "2028-05-01"
+},
+{
+"group": "TABLET",
+"name": "BISOPROLOL 5 MG TAB -",
+"unit": "Tablet",
+"price": 194.5,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "Buscopan (Scopma)",
+"unit": "Tablet",
+"price": 957.9,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "BECOM - C HUSADA",
+"unit": "Tablet",
+"price": 4273.5,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "BIOCAL TAB",
+"unit": "Tablet",
+"price": 4740.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "CALNIC PLUS TAB",
+"unit": "Tablet",
+"price": 16230.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "CAPTOPRIL 12,5 MG TAB",
+"unit": "Tablet",
+"price": 94.61,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "CLANEKSI 500 MG TAB",
+"unit": "Tablet",
+"price": 3499.83,
+"expired_at": "2026-08-01"
+},
+{
+"group": "TABLET",
+"name": "CITICOLINE TAB",
+"unit": "Tablet",
+"price": 3477.26,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "CURCUMA TAB",
+"unit": "Tablet",
+"price": 300.0,
+"expired_at": "2028-03-01"
+},
+{
+"group": "TABLET",
+"name": "CANDESARTAN 16 MG TAB",
+"unit": "Tablet",
+"price": 612.39,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "CANDESARTAN 8 MG TAB",
+"unit": "Tablet",
+"price": 288.4,
+"expired_at": "2028-10-01"
+},
+{
+"group": "TABLET",
+"name": "CATAFLAM 50 MG",
+"unit": "Sachet",
+"price": 500.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "CEFADROXIL 500MG TAB",
+"unit": "Tablet",
+"price": 1000.0,
+"expired_at": "2028-10-01"
+},
+{
+"group": "TABLET",
+"name": "CEFIXIME 100 MG",
+"unit": "Tablet",
+"price": 674.7,
+"expired_at": "2028-06-01"
+},
+{
+"group": "TABLET",
+"name": "CEFIXIME 200 MG TAB",
+"unit": "Tablet",
+"price": 953.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "CETIRIZINE 10 MG TAB",
+"unit": "Tablet",
+"price": 70.0,
+"expired_at": "2029-01-01"
+},
+{
+"group": "TABLET",
+"name": "CIFLOS 500 MG",
+"unit": "Tablet",
+"price": 70.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "CIPROFLOXACINE 500 MG TAB",
+"unit": "Tablet",
+"price": 1273.0,
+"expired_at": "2029-11-01"
+},
+{
+"group": "TABLET",
+"name": "CLINDAMYCIN 300 MG TAB",
+"unit": "Tablet",
+"price": 1531.8,
+"expired_at": "2029-07-01"
+},
+{
+"group": "TABLET",
+"name": "CLOPIDOGREL 75 MG TAB",
+"unit": "Tablet",
+"price": 1110.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "CONCOR 1,25 MG",
+"unit": "Tablet",
+"price": 799.2,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "CONCOR 2,5 MG",
+"unit": "Tablet",
+"price": 4210.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "COLCHICINE",
+"unit": "Tablet",
+"price": 1539.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "CTM TAB",
+"unit": "Tablet",
+"price": 1230.77,
+"expired_at": "2028-01-01"
+},
+{
+"group": "TABLET",
+"name": "COTRIMOXAZOLE 480 MG",
+"unit": "Tablet",
+"price": 230.77,
+"expired_at": "2028-01-01"
+},
+{
+"group": "TABLET",
+"name": "DEFEMIN - CTM",
+"unit": "Tablet",
+"price": 230.77,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "DEXAHARSEN 0,5 MG TAB",
+"unit": "Tablet",
+"price": 230.77,
+"expired_at": "2030-11-01"
+},
+{
+"group": "TABLET",
+"name": "CORTIDEX TAB",
+"unit": "Tablet",
+"price": 384.62,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "DEXAMETASONE 0,5 MG TAB",
+"unit": "Tablet",
+"price": 384.62,
+"expired_at": "2030-11-01"
+},
+{
+"group": "TABLET",
+"name": "DOMPERIDON TAB",
+"unit": "Tablet",
+"price": 129.7,
+"expired_at": "2030-01-01"
+},
+{
+"group": "TABLET",
+"name": "DONEPEZIL TAB",
+"unit": "Tablet",
+"price": 5661.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "DOXIHAT TAB",
+"unit": "Tablet",
+"price": 5661.0,
+"expired_at": "2026-08-01"
+},
+{
+"group": "TABLET",
+"name": "DULCOLAX 5 MG TAB",
+"unit": "Tablet",
+"price": 600.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "ESPRIGEN TABLET",
+"unit": "Tablet",
+"price": 1243.2,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "ETHAMBUTOL 500 MG TAB",
+"unit": "Tablet",
+"price": 1244.31,
+"expired_at": "2029-07-01"
+},
+{
+"group": "TABLET",
+"name": "ETORICOXIB 90 MG / COXTOR 90 MG",
+"unit": "Tablet",
+"price": 4706.4,
+"expired_at": "2027-04-11"
+},
+{
+"group": "TABLET",
+"name": "ETORICOXIB 120 MG TAB",
+"unit": "Tablet",
+"price": 5772.0,
+"expired_at": "2027-08-01"
+},
+{
+"group": "TABLET",
+"name": "ERYTHROMYCIN TABLET",
+"unit": "Tablet",
+"price": 1800.0,
+"expired_at": "2029-02-01"
+},
+{
+"group": "TABLET",
+"name": "EUPHYLLIN (TEOFILLIN 250MG)",
+"unit": "Tablet",
+"price": 4100.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "FORASMA TAB / NEOASMA",
+"unit": "Tablet",
+"price": 206.8,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "FENOFIBRATE 300 MG TAB",
+"unit": "Tablet",
+"price": 1900.0,
+"expired_at": "2028-01-01"
+},
+{
+"group": "TABLET",
+"name": "FOLDA TAB",
+"unit": "Tablet",
+"price": 366.3,
+"expired_at": "2026-10-01"
+},
+{
+"group": "TABLET",
+"name": "FG TROCHES-22161 TAB",
+"unit": "Tablet",
+"price": 4615.38,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "FLUCONAZOLE KAPSUL 150 MG",
+"unit": "Tablet",
+"price": 1538.46,
+"expired_at": "2028-10-01"
+},
+{
+"group": "TABLET",
+"name": "FLUNARIZINE 10 MG TAB",
+"unit": "Tablet",
+"price": 4395.6,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "FLUNARIZINE 5 MG TAB",
+"unit": "Tablet",
+"price": 1110.0,
+"expired_at": "2028-09-01"
+},
+{
+"group": "TABLET",
+"name": "FUROSEMID 40 mg TAB",
+"unit": "Tablet",
+"price": 310.0,
+"expired_at": "2027-11-01"
+},
+{
+"group": "TABLET",
+"name": "FLUOXETINE 20 mg HCL",
+"unit": "Kapsul",
+"price": 280.0,
+"expired_at": "2028-11-01"
+},
+{
+"group": "TABLET",
+"name": "GABAPENTIN 100",
+"unit": "Kapsul",
+"price": 933.9,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "GABAPENTIN 300 MG",
+"unit": "Kapsul",
+"price": 950.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "GLAUSETA",
+"unit": "Tablet",
+"price": 2000.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "GLUCOSAMINE TAB",
+"unit": "Tablet",
+"price": 2000.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "GP- CALL TAB",
+"unit": "Tablet",
+"price": 6300.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "HARNAL OCAS TAB",
+"unit": "Tablet",
+"price": 4906.2,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "HB VIT",
+"unit": "Tablet",
+"price": 2408.7,
+"expired_at": "2028-01-01"
+},
+{
+"group": "TABLET",
+"name": "HY FOLIC TAB",
+"unit": "Tablet",
+"price": 2408.7,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "HYSTOLAN 20MG",
+"unit": "Tablet",
+"price": 6500.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "HYDROXYUREA CAPS",
+"unit": "Tablet",
+"price": 3224.55,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "IBUPROFEN TAB",
+"unit": "Tablet",
+"price": 12000.0,
+"expired_at": "2027-08-01"
+},
+{
+"group": "TABLET",
+"name": "ISONIAZID 300MG",
+"unit": "Tablet",
+"price": 341.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "ISOSORBIT DINITRAT TAB - ISDN",
+"unit": "Tablet",
+"price": 255.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "KALSIUM LAKTAT 500MG",
+"unit": "Tablet",
+"price": 300.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "KETOCONAZOLE 200MG",
+"unit": "Tablet",
+"price": 500.0,
+"expired_at": "2026-06-01"
+},
+{
+"group": "TABLET",
+"name": "KETOROLAC 10 MG TAB -",
+"unit": "Tablet",
+"price": 3587.52,
+"expired_at": "2026-11-01"
+},
+{
+"group": "TABLET",
+"name": "KSR TABLET",
+"unit": "Tablet",
+"price": 1962.0,
+"expired_at": "2028-06-01"
+},
+{
+"group": "TABLET",
+"name": "LACTO B",
+"unit": "Tablet",
+"price": 1962.0,
+"expired_at": "2027-10-01"
+},
+{
+"group": "TABLET",
+"name": "LEVOFLOXACIN 500 MG TABLET",
+"unit": "Tablet",
+"price": 7800.0,
+"expired_at": "2030-11-01"
+},
+{
+"group": "TABLET",
+"name": "LEVOFLOXACIN 750 MG",
+"unit": "Tablet",
+"price": 5189.0,
+"expired_at": "2028-01-01"
+},
+{
+"group": "TABLET",
+"name": "LEVOPAR - LEVODOPA BENSERAZIDE HCL - LEPARSON",
+"unit": "Tablet",
+"price": 846.15,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "LEVETIRACETAM 500MG",
+"unit": "Tablet",
+"price": 3774.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "LERZIN KAP",
+"unit": "Kapsul",
+"price": 408.7,
+"expired_at": "2029-06-01"
+},
+{
+"group": "TABLET",
+"name": "LIPROLAC",
+"unit": "Tablet",
+"price": 3726.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "L-BIO",
+"unit": "Sachet",
+"price": 13700.0,
+"expired_at": "2028-01-01"
+},
+{
+"group": "TABLET",
+"name": "LORATADINE 10 MG TAB",
+"unit": "Tablet",
+"price": 9833.33,
+"expired_at": "2029-01-01"
+},
+{
+"group": "TABLET",
+"name": "LEVOTHYROXYNE 100 MCG",
+"unit": "Tablet",
+"price": null,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "LANSOPRAZOLE KAP",
+"unit": "Kapsul",
+"price": 200.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "METHYLPREDNISOLON 16 MG TAB",
+"unit": "Tablet",
+"price": 618.83,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "METHYLPREDNISOLON 8 MG TAB",
+"unit": "Tablet",
+"price": null,
+"expired_at": "2028-01-01"
+},
+{
+"group": "TABLET",
+"name": "METHYLPREDNISOLON 4 MG TAB",
+"unit": "Tablet",
+"price": 300.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "MAGANOL 500 MG KAP",
+"unit": "Tablet",
+"price": 150.0,
+"expired_at": "2028-03-01"
+},
+{
+"group": "TABLET",
+"name": "MAXMIL TAB",
+"unit": "Tablet",
+"price": 448.16,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "MECOBALAMIN 500 MG TAB / KONIBAL",
+"unit": "Tablet",
+"price": 3496.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "MELOXICAM TAB 7,5 MG",
+"unit": "Tablet",
+"price": 216.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "MELOXICAM TAB 15 MG",
+"unit": "Tablet",
+"price": 582.0,
+"expired_at": "2028-01-01"
+},
+{
+"group": "TABLET",
+"name": "Metronidazole 500 MG TABLET",
+"unit": "Tablet",
+"price": 488.73,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "MOLAGIT - ATTAPULGIT / DIATAB",
+"unit": "Tablet",
+"price": 500.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "METILDOPA 250MG",
+"unit": "Tablet",
+"price": 2800.0,
+"expired_at": "2028-10-01"
+},
+{
+"group": "TABLET",
+"name": "MICROGEST 200MG",
+"unit": "Tablet",
+"price": null,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "NATRIUM DICLOFENAC TAB",
+"unit": "Tablet",
+"price": 235.53,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "NIFEDIPINE TAB",
+"unit": "Tablet",
+"price": 384.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "NITROKAF RETARD TAB - NKR",
+"unit": "Tablet",
+"price": 300.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "NORSEC TAB",
+"unit": "Tablet",
+"price": 2730.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "NORIT",
+"unit": "Tablet",
+"price": 475.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "NUCEF 200 MG TAB",
+"unit": "Tablet",
+"price": 1957.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "NUCEF 100 MG TAB",
+"unit": "Tablet",
+"price": 29248.5,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "NUCRAL TAB",
+"unit": "Tablet",
+"price": 19058.7,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "OCUSON TAB",
+"unit": "Tablet",
+"price": 1792.65,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "OMEPRAZOLE 20 MG / LOKEV",
+"unit": "Kapsul",
+"price": 1769.23,
+"expired_at": "2028-01-01"
+},
+{
+"group": "TABLET",
+"name": "ONDANSETRON 4 MG TAB",
+"unit": "Tablet",
+"price": 350.0,
+"expired_at": "2027-03-01"
+},
+{
+"group": "TABLET",
+"name": "ORALIT SACHET",
+"unit": "Sachet",
+"price": 1243.2,
+"expired_at": "2027-06-01"
+},
+{
+"group": "TABLET",
+"name": "PARACETAMOL 500 MG TAB",
+"unit": "Tablet",
+"price": 739.26,
+"expired_at": "2029-01-01"
+},
+{
+"group": "TABLET",
+"name": "sanmol tab - hsd",
+"unit": "Tablet",
+"price": 123.27,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "PIRANTEL PAMOAT (COMBANTRIN TAB)",
+"unit": "Tablet",
+"price": 5000.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "PIRACETAM 800MG TAB",
+"unit": "Tablet",
+"price": 750.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "PIRAZINAMIDE 500MG",
+"unit": "Tablet",
+"price": 5672.1,
+"expired_at": "2026-11-01"
+},
+{
+"group": "TABLET",
+"name": "PREDNISON 5 MG TAB",
+"unit": "Tablet",
+"price": 500.0,
+"expired_at": "2029-09-01"
+},
+{
+"group": "TABLET",
+"name": "PREGABALIN TABLET",
+"unit": "Kapsul",
+"price": 146.52,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "PREMASTON (ALLYLESTRENOL) 5 MG",
+"unit": "Tablet",
+"price": 4186.92,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "PRIMOLUT N TAB",
+"unit": "Tablet",
+"price": 5769.23,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "PROPANOLOL 10MG TAB",
+"unit": "Tablet",
+"price": 5801.87,
+"expired_at": "2028-03-01"
+},
+{
+"group": "TABLET",
+"name": "PROPILTIOURASIL TAB",
+"unit": "Tablet",
+"price": 76.92,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "RANITIDINE 150MG TABLET",
+"unit": "Tablet",
+"price": 700.0,
+"expired_at": "2028-02-01"
+},
+{
+"group": "TABLET",
+"name": "REBAMIPIDE 100 mg TAB",
+"unit": "Tablet",
+"price": 615.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "RECALUS TAB",
+"unit": "Tablet",
+"price": 3000.0,
+"expired_at": "2028-08-01"
+},
+{
+"group": "TABLET",
+"name": "RELAXON 50MG - EPERISON",
+"unit": "Tablet",
+"price": 2553.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "RETAPHYL SR",
+"unit": "Tablet",
+"price": 2553.0,
+"expired_at": "2027-09-01"
+},
+{
+"group": "TABLET",
+"name": "RIFAMPICIN 450 MG TAB",
+"unit": "Tablet",
+"price": 5769.23,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "SALBUTAMOL 2 MG TAB",
+"unit": "Tablet",
+"price": 2307.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "SALBUTAMOL 4 MG TAB",
+"unit": "Tablet",
+"price": 307.69,
+"expired_at": "2029-04-01"
+},
+{
+"group": "TABLET",
+"name": "SIMARC 2 MG TAB",
+"unit": "Tablet",
+"price": 250.0,
+"expired_at": "2028-01-01"
+},
+{
+"group": "TABLET",
+"name": "SIMVASTATIN 10 MG TAB",
+"unit": "Tablet",
+"price": 1615.38,
+"expired_at": "2029-01-01"
+},
+{
+"group": "TABLET",
+"name": "SIMVASTATIN 20 MG TAB",
+"unit": "Tablet",
+"price": 5327.69,
+"expired_at": "2029-01-01"
+},
+{
+"group": "TABLET",
+"name": "SODIUM BICARBONAT TAB (BICNAT)",
+"unit": "Tablet",
+"price": 1000.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "SODIUM VALPROAT 250 MG- DIVALPROEX SODIUM",
+"unit": "Tablet",
+"price": 120.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "SYALOX 300P",
+"unit": "Kapsul",
+"price": null,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "DIVALPROEX 500 MG",
+"unit": "Tablet",
+"price": 1053.39,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "SPIRONOLACTONE 25 MG TAB",
+"unit": "Tablet",
+"price": 3080.0,
+"expired_at": "2028-01-01"
+},
+{
+"group": "TABLET",
+"name": "SPIRONOLACTONE 100 MG TAB",
+"unit": "Tablet",
+"price": 1200.0,
+"expired_at": "2028-02-01"
+},
+{
+"group": "TABLET",
+"name": "SUCRALFATE TABLET",
+"unit": "Tablet",
+"price": 900.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "TABLET PENAMBAH DARAH",
+"unit": "Tablet",
+"price": 772.56,
+"expired_at": "2028-07-01"
+},
+{
+"group": "TABLET",
+"name": "TAMSULOSIN TAB",
+"unit": "Tablet",
+"price": 244.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "TABLET",
+"name": "TERAZOSIN TAB",
+"unit": "Tablet",
+"price": 4218.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "TERANOL 10 MG TAB",
+"unit": "Tablet",
+"price": 5189.25,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "THYROZOL 10 MG TAB",
+"unit": "Tablet",
+"price": 5189.25,
+"expired_at": "2028-02-01"
+},
+{
+"group": "TABLET",
+"name": "THIAMAZOLE 10MG",
+"unit": "Tablet",
+"price": 5189.25,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "TRIAMCINOLONE 4 MG tablet",
+"unit": "Tablet",
+"price": 3769.23,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "TRICOX 90 MG TAB",
+"unit": "Tablet",
+"price": 6913.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "TRICOX 120 MG - ETORICOXIB 120 MG TAB",
+"unit": "Tablet",
+"price": 5772.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "UNALIUM 10 MG - TAB",
+"unit": "Tablet",
+"price": 6216.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "UNALIUM 5 MG - TAB",
+"unit": "Tablet",
+"price": 7548.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "URSODEOXYCHOLIC ACID 250 MG",
+"unit": "Tablet",
+"price": 5708.18,
+"expired_at": "2028-01-01"
+},
+{
+"group": "TABLET",
+"name": "URINTER TAB",
+"unit": "Tablet",
+"price": 1558.0,
+"expired_at": "2027-02-01"
+},
+{
+"group": "TABLET",
+"name": "VIPALBUMIN TAB",
+"unit": "Kapsul",
+"price": 3300.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "VIT A",
+"unit": "Kapsul",
+"price": 2000.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "VIT B1 50 mg",
+"unit": "Tablet",
+"price": 10000.0,
+"expired_at": "2028-01-01"
+},
+{
+"group": "TABLET",
+"name": "VIT B 12",
+"unit": "Tablet",
+"price": 76.59,
+"expired_at": "2023-04-01"
+},
+{
+"group": "TABLET",
+"name": "VIT B KOMPLEX TAB",
+"unit": "Tablet",
+"price": 65.0,
+"expired_at": "2028-09-01"
+},
+{
+"group": "TABLET",
+"name": "VIT B6 TAB",
+"unit": "Tablet",
+"price": 90.19,
+"expired_at": "2027-11-01"
+},
+{
+"group": "TABLET",
+"name": "VIT C TAB",
+"unit": "Tablet",
+"price": 76.92,
+"expired_at": "2026-06-01"
+},
+{
+"group": "TABLET",
+"name": "VIT K TAB",
+"unit": "Tablet",
+"price": 307.69,
+"expired_at": "2027-07-01"
+},
+{
+"group": "TABLET",
+"name": "VIT D 1000IU / MAX D 1000",
+"unit": "Tablet",
+"price": 791.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "ZENOVIT TAB",
+"unit": "Tablet",
+"price": 5500.0,
+"expired_at": null
+},
+{
+"group": "TABLET",
+"name": "ZINKSULFATE",
+"unit": "Tablet",
+"price": 1000.0,
+"expired_at": "2028-02-01"
+},
+{
+"group": "TABLET",
+"name": "ZIBRAMAX TAB",
+"unit": "Tablet",
+"price": 5500.0,
+"expired_at": null
+},
+{
+"group": "KULKAS",
+"name": "ATRACURIUM INJ",
+"unit": "Ampul",
+"price": 14000.0,
+"expired_at": "2028-04-01"
+},
+{
+"group": "KULKAS",
+"name": "APIDRA",
+"unit": "Pen",
+"price": null,
+"expired_at": "2027-12-01"
+},
+{
+"group": "KULKAS",
+"name": "HB-0 - LP",
+"unit": "Sachet",
+"price": null,
+"expired_at": null
+},
+{
+"group": "KULKAS",
+"name": "BIOSAT",
+"unit": "Ampul",
+"price": 228998.0,
+"expired_at": "2026-11-01"
+},
+{
+"group": "KULKAS",
+"name": "DULCOLAX SUPP",
+"unit": "Suppositoria",
+"price": 31000.0,
+"expired_at": null
+},
+{
+"group": "KULKAS",
+"name": "HEXAXIM VAKS - LP",
+"unit": "Syringe",
+"price": 744603.5,
+"expired_at": null
+},
+{
+"group": "KULKAS",
+"name": "LANTUS - LP",
+"unit": "Pen",
+"price": 89000.0,
+"expired_at": "2028-04-01"
+},
+{
+"group": "KULKAS",
+"name": "LEVEMIR PEN - LP",
+"unit": "Pen",
+"price": 135000.0,
+"expired_at": null
+},
+{
+"group": "KULKAS",
+"name": "METHYLERGOMETRIN INJEKSI - BLED STOP - LP",
+"unit": "Ampul",
+"price": null,
+"expired_at": null
+},
+{
+"group": "KULKAS",
+"name": "NOVORAPID INSULIN - AAM",
+"unit": "Pen",
+"price": 95325.0,
+"expired_at": null
+},
+{
+"group": "KULKAS",
+"name": "NOVOMIX",
+"unit": "Pen",
+"price": 150000.0,
+"expired_at": "2028-01-01"
+},
+{
+"group": "KULKAS",
+"name": "OXYTOCIN 10 IU/ 1 ML INJEKSI - LP",
+"unit": "Ampul",
+"price": 2967.36,
+"expired_at": null
+},
+{
+"group": "KULKAS",
+"name": "PREVENAR VAKS - LP",
+"unit": "Syringe",
+"price": 836191.8,
+"expired_at": null
+},
+{
+"group": "KULKAS",
+"name": "RYZODEG - LP",
+"unit": "Pen",
+"price": 113018.0,
+"expired_at": null
+},
+{
+"group": "KULKAS",
+"name": "ROTARIX VAKS - LP",
+"unit": "Syringe",
+"price": 335912.6,
+"expired_at": null
+},
+{
+"group": "KULKAS",
+"name": "TETAGAM INJ",
+"unit": "Syringe",
+"price": 234765.0,
+"expired_at": null
+},
+{
+"group": "KULKAS",
+"name": "RABIVAX",
+"unit": "Vial",
+"price": 188700.0,
+"expired_at": "2028-06-01"
+},
+{
+"group": "KULKAS",
+"name": "ROCURONIUM BROMIDE INJ 50MG",
+"unit": "Ampul",
+"price": 57417.53,
+"expired_at": "2028-06-01"
+},
+{
+"group": "KULKAS",
+"name": "SUPRAFENID SUPP ( KETOPROFEN) - KALTROFEN",
+"unit": "Suppositoria",
+"price": 9379.0,
+"expired_at": "2028-09-01"
+},
+{
+"group": "KULKAS",
+"name": "PROTOFEN SUPP - KETOPROFEN",
+"unit": "Suppositoria",
+"price": 7010.0,
+"expired_at": null
+},
+{
+"group": "KULKAS",
+"name": "PLASBUMIN 25% 100 ml / KEDRIALB 20% 100ML",
+"unit": "Botol",
+"price": 1748913.78,
+"expired_at": null
+},
+{
+"group": "NARKOTIKA",
+"name": "ALPRAZOLAM TAB 0,5 MG",
+"unit": "Tablet",
+"price": 749.25,
+"expired_at": "2029-01-01"
+},
+{
+"group": "NARKOTIKA",
+"name": "BRAXIDIN TAB",
+"unit": "Tablet",
+"price": 10000.0,
+"expired_at": null
+},
+{
+"group": "NARKOTIKA",
+"name": "CODIPRONT TAB",
+"unit": "Tablet",
+"price": 8230.0,
+"expired_at": null
+},
+{
+"group": "NARKOTIKA",
+"name": "CODEIN TAB",
+"unit": "Tablet",
+"price": 830.0,
+"expired_at": null
+},
+{
+"group": "NARKOTIKA",
+"name": "CLOBAZAM",
+"unit": "Tablet",
+"price": 3000.0,
+"expired_at": null
+},
+{
+"group": "NARKOTIKA",
+"name": "CHLORPROMAZINE 100MG / CEPEZET",
+"unit": "Tablet",
+"price": 5000.0,
+"expired_at": null
+},
+{
+"group": "NARKOTIKA",
+"name": "DIAZEPAM TAB",
+"unit": "Tablet",
+"price": 333.0,
+"expired_at": null
+},
+{
+"group": "NARKOTIKA",
+"name": "DIAZEPAM INJ",
+"unit": "Ampul",
+"price": 10400.0,
+"expired_at": "2027-11-01"
+},
+{
+"group": "NARKOTIKA",
+"name": "FENTANYL INJ",
+"unit": "Ampul",
+"price": 33928.0,
+"expired_at": "2029-03-01"
+},
+{
+"group": "NARKOTIKA",
+"name": "MST CONTINUS",
+"unit": "Tablet",
+"price": 18500.0,
+"expired_at": null
+},
+{
+"group": "NARKOTIKA",
+"name": "MORFINA 10 mg/mL",
+"unit": "Ampul",
+"price": 34360.0,
+"expired_at": "2028-01-01"
+},
+{
+"group": "NARKOTIKA",
+"name": "MIDAZOLAM / SEDACUM / FORATANEST",
+"unit": "Ampul",
+"price": 29700.0,
+"expired_at": "2028-09-01"
+},
+{
+"group": "NARKOTIKA",
+"name": "PEHACAIN INJEKSI",
+"unit": "Ampul",
+"price": 5000.0,
+"expired_at": "2026-11-01"
+},
+{
+"group": "NARKOTIKA",
+"name": "PHENOBARBITAL INJ",
+"unit": "Ampul",
+"price": 5000.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "NARKOTIKA",
+"name": "PHENOBARBITAL 30MG TAB",
+"unit": "Tablet",
+"price": 366.3,
+"expired_at": null
+},
+{
+"group": "NARKOTIKA",
+"name": "STESOLID 5MG SUPP",
+"unit": "Pcs",
+"price": 31968.0,
+"expired_at": null
+},
+{
+"group": "NARKOTIKA",
+"name": "STESOLID 10MG SUPP",
+"unit": "Pcs",
+"price": 47730.0,
+"expired_at": "2028-01-01"
+},
+{
+"group": "HIGH ALERT",
+"name": "ACARBOSE 50 MG",
+"unit": "Tablet",
+"price": 769.99,
+"expired_at": "2027-11-01"
+},
+{
+"group": "HIGH ALERT",
+"name": "ACARBOSE 100 MG",
+"unit": "Tablet",
+"price": null,
+"expired_at": "2028-02-01"
+},
+{
+"group": "HIGH ALERT",
+"name": "AMITRIPTYLINE TABLET - HA",
+"unit": "Tablet",
+"price": 5000.0,
+"expired_at": null
+},
+{
+"group": "HIGH ALERT",
+"name": "AMIODARONE INJ - HA",
+"unit": "Ampul",
+"price": 10619.92,
+"expired_at": null
+},
+{
+"group": "HIGH ALERT",
+"name": "AMINOPHYLINE INJ - HA",
+"unit": "Ampul",
+"price": 11334.95,
+"expired_at": null
+},
+{
+"group": "HIGH ALERT",
+"name": "AMINOLEBAN INJ",
+"unit": "Pcs",
+"price": 74475.0,
+"expired_at": null
+},
+{
+"group": "HIGH ALERT",
+"name": "ATROPIN SULFATE - HA",
+"unit": "Ampul",
+"price": 6769.0,
+"expired_at": null
+},
+{
+"group": "HIGH ALERT",
+"name": "B-FLUID INFUS - HA",
+"unit": "Botol",
+"price": 107689.98,
+"expired_at": "2027-01-01"
+},
+{
+"group": "HIGH ALERT",
+"name": "BUCAIN SPINAL HEAVY 0,5% INJ - HA",
+"unit": "Ampul",
+"price": 58500.0,
+"expired_at": null
+},
+{
+"group": "HIGH ALERT",
+"name": "BAMGETOL TAB (karbamazepin)",
+"unit": "Tablet",
+"price": 2692.3,
+"expired_at": "2029-11-01"
+},
+{
+"group": "HIGH ALERT",
+"name": "DOBUTAMINE - HA",
+"unit": "Ampul",
+"price": 15051.6,
+"expired_at": null
+},
+{
+"group": "HIGH ALERT",
+"name": "DOLOCAP 50 MG (TRAMADOL)",
+"unit": "Tablet",
+"price": null,
+"expired_at": "2027-04-01"
+},
+{
+"group": "HIGH ALERT",
+"name": "DOPAMIN HCL",
+"unit": "Ampul",
+"price": 7710.95,
+"expired_at": "2026-10-01"
+},
+{
+"group": "HIGH ALERT",
+"name": "DIGOXIN INJ",
+"unit": "Ampul",
+"price": 26551.2,
+"expired_at": "2027-10-01"
+},
+{
+"group": "HIGH ALERT",
+"name": "DIGOXIN TAB 0.25MG",
+"unit": "Tablet",
+"price": 333.0,
+"expired_at": null
+},
+{
+"group": "HIGH ALERT",
+"name": "ENOXRIN 6000 - HA",
+"unit": "Pcs",
+"price": 133200.0,
+"expired_at": null
+},
+{
+"group": "HIGH ALERT",
+"name": "EPHINEPRINE INJ - HA",
+"unit": "Ampul",
+"price": 7500.0,
+"expired_at": null
+},
+{
+"group": "HIGH ALERT",
+"name": "EPHEDRINE INJ - HA",
+"unit": "Ampul",
+"price": 8991.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "HIGH ALERT",
+"name": "GLIMEPIRID 1 MG",
+"unit": "Tablet",
+"price": 613.59,
+"expired_at": "2026-12-01"
+},
+{
+"group": "HIGH ALERT",
+"name": "GLIMEPIRID 2 MG - HA",
+"unit": "Tablet",
+"price": 1000.0,
+"expired_at": null
+},
+{
+"group": "HIGH ALERT",
+"name": "GLIMEPIRID 3 MG",
+"unit": "Tablet",
+"price": 1577.8,
+"expired_at": "2028-03-01"
+},
+{
+"group": "HIGH ALERT",
+"name": "GLIMEPIRID 4 MG - HA",
+"unit": "Tablet",
+"price": 2000.0,
+"expired_at": null
+},
+{
+"group": "HIGH ALERT",
+"name": "HALOPERIDOL 0.5MG",
+"unit": "Tablet",
+"price": 177.32,
+"expired_at": "2027-06-01"
+},
+{
+"group": "HIGH ALERT",
+"name": "KALBAMIN 500ML",
+"unit": "Pcs",
+"price": 110000.0,
+"expired_at": null
+},
+{
+"group": "HIGH ALERT",
+"name": "KCL 7,46 INFUS - HA (B14153B)",
+"unit": "Botol",
+"price": 3384.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "HIGH ALERT",
+"name": "KETANAEST 100 MG/ML INJ - HA (SUDAH ED)",
+"unit": "Ampul",
+"price": null,
+"expired_at": null
+},
+{
+"group": "HIGH ALERT",
+"name": "KETAMINE INJ",
+"unit": "Ampul",
+"price": 37001.0,
+"expired_at": "2026-11-29"
+},
+{
+"group": "HIGH ALERT",
+"name": "KIDMIN - HA",
+"unit": "Botol",
+"price": 54619.77,
+"expired_at": "2028-02-19"
+},
+{
+"group": "HIGH ALERT",
+"name": "LIDOCAIN - HA",
+"unit": "Ampul",
+"price": 1500.0,
+"expired_at": "2028-01-01"
+},
+{
+"group": "HIGH ALERT",
+"name": "MEYLON INF - HA",
+"unit": "Botol",
+"price": 6802.0,
+"expired_at": null
+},
+{
+"group": "HIGH ALERT",
+"name": "METHYLERGOMETRIN / BLED STOP TAB - HA",
+"unit": "Tablet",
+"price": 740.0,
+"expired_at": null
+},
+{
+"group": "HIGH ALERT",
+"name": "METFORMIN 500 MG - HA",
+"unit": "Tablet",
+"price": 186.5,
+"expired_at": "2027-01-01"
+},
+{
+"group": "HIGH ALERT",
+"name": "MGSO4 20% - HA",
+"unit": "Botol",
+"price": 4461.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "HIGH ALERT",
+"name": "MGSO4 40% -HA",
+"unit": "Botol",
+"price": 5076.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "HIGH ALERT",
+"name": "MISOPROSTOL TAB - HA",
+"unit": "Tablet",
+"price": 5550.0,
+"expired_at": "2026-10-01"
+},
+{
+"group": "HIGH ALERT",
+"name": "NEOSTIGMIN INJEKSI",
+"unit": "Ampul",
+"price": 10879.11,
+"expired_at": "2027-01-01"
+},
+{
+"group": "HIGH ALERT",
+"name": "NOREPHINEPRINE - HA",
+"unit": "Ampul",
+"price": 13512.0,
+"expired_at": null
+},
+{
+"group": "HIGH ALERT",
+"name": "ORATIFED TAB - HA",
+"unit": "Tablet",
+"price": 846.0,
+"expired_at": null
+},
+{
+"group": "HIGH ALERT",
+"name": "PHENYTOIN 100 TAB -",
+"unit": "Tablet",
+"price": 777.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "HIGH ALERT",
+"name": "PHENYTOIN INJEKSI - HA",
+"unit": "Ampul",
+"price": 5545.88,
+"expired_at": null
+},
+{
+"group": "HIGH ALERT",
+"name": "PROPOFOL INJEKSI",
+"unit": "Ampul",
+"price": 11988.0,
+"expired_at": null
+},
+{
+"group": "HIGH ALERT",
+"name": "RHINOS TABLET - HA",
+"unit": "Tablet",
+"price": 8000.0,
+"expired_at": null
+},
+{
+"group": "HIGH ALERT",
+"name": "REGIVEL INJEKSI - HA",
+"unit": "Ampul",
+"price": null,
+"expired_at": null
+},
+{
+"group": "HIGH ALERT",
+"name": "TRAMADOL INJ - HA",
+"unit": "Ampul",
+"price": 55000.0,
+"expired_at": null
+},
+{
+"group": "HIGH ALERT",
+"name": "TRIHEXYPHENIDYL 2MG",
+"unit": "Tablet",
+"price": 297.0,
+"expired_at": "2029-01-01"
+},
+{
+"group": "HIGH ALERT",
+"name": "NACL 3% ( SALIN 3% ) HA",
+"unit": "Botol",
+"price": 39302.0,
+"expired_at": null
+},
+{
+"group": "HIGH ALERT",
+"name": "RISPERIDON 2 MG",
+"unit": "Tablet",
+"price": 1917.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "CAIRAN",
+"name": "ASERING 500ML INF",
+"unit": "Flash",
+"price": 8750.0,
+"expired_at": "2028-11-01"
+},
+{
+"group": "CAIRAN",
+"name": "DEXTROSE 10%",
+"unit": "Flash",
+"price": 14284.4,
+"expired_at": "2028-02-01"
+},
+{
+"group": "CAIRAN",
+"name": "DEXTROSE 5 % 500 ML",
+"unit": "Flash",
+"price": 7538.0,
+"expired_at": "2028-05-01"
+},
+{
+"group": "CAIRAN",
+"name": "DEXTROSE 40%",
+"unit": "Botol",
+"price": 12000.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "CAIRAN",
+"name": "GENTAMICIN SULFATE TETES MATA 0.3%",
+"unit": "Flash",
+"price": 16600.0,
+"expired_at": null
+},
+{
+"group": "CAIRAN",
+"name": "KAEN 3B / TRIDEX",
+"unit": "Flash",
+"price": 13319.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "CAIRAN",
+"name": "LEVOFLOXACIN DRIP",
+"unit": "Flash",
+"price": 25002.0,
+"expired_at": "2031-02-01"
+},
+{
+"group": "CAIRAN",
+"name": "MAGANOL INFUS-MPI",
+"unit": "Flash",
+"price": 59440.5,
+"expired_at": null
+},
+{
+"group": "CAIRAN",
+"name": "MANITOL 20%",
+"unit": "Flash",
+"price": 39650.3,
+"expired_at": "2027-11-01"
+},
+{
+"group": "CAIRAN",
+"name": "METRONIDAZOLE DRIP",
+"unit": "Flash",
+"price": 15002.0,
+"expired_at": "2031-04-01"
+},
+{
+"group": "CAIRAN",
+"name": "NaCl 0,9% 100 mL",
+"unit": "Flash",
+"price": 7125.09,
+"expired_at": "2027-01-01"
+},
+{
+"group": "CAIRAN",
+"name": "NACL 0,9% 500 ML",
+"unit": "Botol",
+"price": 7673.0,
+"expired_at": "2028-05-01"
+},
+{
+"group": "CAIRAN",
+"name": "NULAGYL DRIP",
+"unit": "Flash",
+"price": 75480.0,
+"expired_at": null
+},
+{
+"group": "CAIRAN",
+"name": "PARACETAMOL infus",
+"unit": "Flash",
+"price": 12500.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "CAIRAN",
+"name": "RINGER LACTAT",
+"unit": "Flash",
+"price": 8497.64,
+"expired_at": "2028-05-01"
+},
+{
+"group": "CAIRAN",
+"name": "SANBE HEST 500 ML",
+"unit": "Flash",
+"price": 91012.0,
+"expired_at": "2027-06-01"
+},
+{
+"group": "CAIRAN",
+"name": "STERIL WATER 1L",
+"unit": "Flash",
+"price": 15900.0,
+"expired_at": "2027-11-01"
+},
+{
+"group": "CAIRAN",
+"name": "WIDA D5 1/2 - 0.45 %",
+"unit": "Flash",
+"price": 10268.42,
+"expired_at": "2027-01-01"
+},
+{
+"group": "CAIRAN",
+"name": "WIDA D5 1/4 - 0.225 %",
+"unit": "Flash",
+"price": 10268.42,
+"expired_at": "2028-01-01"
+},
+{
+"group": "CAIRAN",
+"name": "CIPROFLOXACIN INF - AAA",
+"unit": "Flash",
+"price": 12615.0,
+"expired_at": null
+},
+{
+"group": "CAIRAN",
+"name": "OFLOXACIN TETES TELINGA 5ML",
+"unit": "Flash",
+"price": 27380.37,
+"expired_at": null
+},
+{
+"group": "SUSU",
+"name": "GOLDSURE VANILLA 380G",
+"unit": "Botol",
+"price": 147139.0,
+"expired_at": "2027-01-01"
+},
+{
+"group": "SUSU",
+"name": "PEDIACOMPLATE VAN 380G",
+"unit": "Botol",
+"price": 181246.0,
+"expired_at": "2027-01-01"
+}
+]

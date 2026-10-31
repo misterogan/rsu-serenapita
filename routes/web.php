@@ -2,8 +2,8 @@
 
 use App\Admin\Resources;
 use App\Http\Controllers\Admin;
-use App\Http\Controllers\Site;
 use App\Http\Controllers\SimrsWebhookController;
+use App\Http\Controllers\Site;
 use Illuminate\Support\Facades\Route;
 
 /* ---------------- Public website ---------------- */
@@ -75,6 +75,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
         });
 
         Route::get('/schedule', Admin\ScheduleController::class)->middleware('module:schedule')->name('schedule');
+
+        Route::middleware('module:stock')->group(function () {
+            Route::get('/stock', [Admin\StockController::class, 'index'])->name('stock');
+            Route::post('/stock', [Admin\StockController::class, 'save'])->name('stock.save');
+        });
+        Route::middleware('module:stock-report')->group(function () {
+            Route::get('/stock-report', [Admin\StockController::class, 'report'])->name('stock.report');
+            Route::get('/stock-report/export', [Admin\StockController::class, 'export'])->name('stock.export');
+            Route::get('/stock-report/{medicine}', [Admin\StockController::class, 'card'])->name('stock.card');
+        });
 
         Route::middleware('module:info')->group(function () {
             Route::get('/info', [Admin\ContentController::class, 'info'])->name('info');

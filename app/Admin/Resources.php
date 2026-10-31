@@ -4,12 +4,14 @@ namespace App\Admin;
 
 use App\Models\Appointment;
 use App\Models\Doctor;
+use App\Models\DoctorLeave;
 use App\Models\Faq;
 use App\Models\Feedback;
 use App\Models\GalleryItem;
 use App\Models\Guide;
 use App\Models\JobApplication;
 use App\Models\JobOpening;
+use App\Models\Medicine;
 use App\Models\News;
 use App\Models\NewsCategory;
 use App\Models\Poli;
@@ -17,7 +19,11 @@ use App\Models\Role;
 use App\Models\Service;
 use App\Models\Slide;
 use App\Models\User;
+use App\Support\DataSource;
+use App\Support\Fmt;
+use App\Support\Rich;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Definisi resource CRUD generik backoffice.
@@ -26,6 +32,7 @@ use Illuminate\Support\Str;
 class Resources
 {
     public const ILLUSTRATIONS = ['heart', 'child', 'drop', 'phone', 'sun', 'cup', 'cross'];
+
     public const ICONS = [
         'cross' => 'M10 4h4v6h6v4h-6v6h-4v-6H4v-4h6z', 'bed' => 'M3 18V8m0 6h18v4M7 11h4',
         'lab' => 'M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3', 'scan' => 'M4 4h16v16H4zM9 9h6v6H9z',
@@ -33,7 +40,9 @@ class Resources
         'knife' => 'M4 20l9-9m2-2 5-5m-6 0 6 6', 'amb' => 'M3 16V8h11l4 4h3v4M7 18a2 2 0 1 0 0-.01M17 18a2 2 0 1 0 0-.01',
         'eye' => 'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z',
     ];
+
     public const COLORS = ['#1F6FB2', '#35A3D8', '#1C3B70', '#2E8B6A', '#C8332E', '#7A4FA8', '#B05C8E', '#D08A2E', '#3D7F8F', '#5B6878', '#8A6D3B', '#4E9A5A'];
+
     public const LINKS = ['home' => 'Beranda', 'news' => 'Berita', 'doctors' => 'Dokter', 'schedule' => 'Jadwal', 'services' => 'Layanan', 'appointment' => 'Buat Janji', 'contact' => 'Kontak'];
 
     public static function badge(string $text): string
@@ -64,7 +73,7 @@ class Resources
             }
             $ok = preg_match('/^\d{2}\.\d{2}$/', $start) && preg_match('/^\d{2}\.\d{2}$/', $end) && ctype_digit((string) $day) && (int) $day <= 6;
             if (! $ok || $start >= $end) {
-                throw \Illuminate\Validation\ValidationException::withMessages(['schedule' => 'Jadwal baris '.($i + 1).' belum benar. Pilih hari, lalu isi jam mulai yang lebih awal dari jam selesai.']);
+                throw ValidationException::withMessages(['schedule' => 'Jadwal baris '.($i + 1).' belum benar. Pilih hari, lalu isi jam mulai yang lebih awal dari jam selesai.']);
             }
             $out[] = [(int) $day, $start, $end];
         }
@@ -80,7 +89,8 @@ class Resources
 
     public static function all(): array
     {
-        $manual = \App\Support\DataSource::manual();
+        $manual = DataSource::manual();
+
         return [
             'news' => [
                 'model' => News::class, 'one' => 'berita', 'title' => 'Berita',
@@ -162,7 +172,7 @@ class Resources
                 'desc' => 'Daftar layanan penunjang di halaman Layanan.',
                 'order' => ['sort', 'asc'], 'search' => ['name', 'description'],
                 'columns' => [
-                    'Layanan' => fn ($r) => '<div class="cellrow"><svg class="i" style="color:var(--blue)" viewBox="0 0 24 24"><path d="'.(self::ICONS[$r->icon] ?? self::ICONS['cross']).'"/></svg><div><span class="main">'.e($r->name).'</span><span class="sub">'.e(\App\Support\Rich::plain($r->description, 90)).'</span></div></div>',
+                    'Layanan' => fn ($r) => '<div class="cellrow"><svg class="i" style="color:var(--blue)" viewBox="0 0 24 24"><path d="'.(self::ICONS[$r->icon] ?? self::ICONS['cross']).'"/></svg><div><span class="main">'.e($r->name).'</span><span class="sub">'.e(Rich::plain($r->description, 90)).'</span></div></div>',
                     'Tampil' => fn ($r) => self::toggle('services', $r, 'show'),
                 ],
                 'fields' => [
@@ -261,7 +271,7 @@ class Resources
             ],
 
             'leaves' => [
-                'model' => \App\Models\DoctorLeave::class, 'one' => 'cuti dokter', 'title' => 'Cuti dokter', 'simrs' => ! $manual,
+                'model' => DoctorLeave::class, 'one' => 'cuti dokter', 'title' => 'Cuti dokter', 'simrs' => ! $manual,
                 'noCreate' => ! $manual, 'noDelete' => ! $manual, 'noEdit' => ! $manual,
                 'desc' => $manual ? 'Catat cuti atau libur dokter. Selama cuti, dokter tidak bisa dipilih di formulir janji temu dan jadwalnya bertanda Cuti.' : 'Cuti dokter diambil dari SIMRS.',
                 'with' => ['doctor.poli'], 'order' => ['date_from', 'desc'],
@@ -419,7 +429,7 @@ class Resources
                 ],
                 'before' => function ($model, array &$data, bool $isNew) {
                     if (($data['type'] ?? '') === 'video' && ! GalleryItem::youtubeId($data['video_url'] ?? '')) {
-                        throw \Illuminate\Validation\ValidationException::withMessages(['video_url' => 'Tautan YouTube tidak dikenali. Salin tautan dari tombol Bagikan di YouTube.']);
+                        throw ValidationException::withMessages(['video_url' => 'Tautan YouTube tidak dikenali. Salin tautan dari tombol Bagikan di YouTube.']);
                     }
                     if (($data['type'] ?? '') === 'photo') {
                         $data['video_url'] = null;
@@ -434,7 +444,7 @@ class Resources
                 'order' => ['sort', 'asc'], 'search' => ['title', 'content'],
                 'filters' => ['category' => ['label' => 'Semua kategori', 'options' => fn () => array_combine(Guide::CATEGORIES, Guide::CATEGORIES)]],
                 'columns' => [
-                    'Panduan' => fn ($r) => '<span class="main">'.e($r->title).'</span><span class="sub">'.e(\App\Support\Rich::plain($r->content, 90)).'</span>',
+                    'Panduan' => fn ($r) => '<span class="main">'.e($r->title).'</span><span class="sub">'.e(Rich::plain($r->content, 90)).'</span>',
                     'Kategori' => fn ($r) => e($r->category),
                     'Tampil' => fn ($r) => self::toggle('guides', $r, 'show'),
                 ],
@@ -453,7 +463,7 @@ class Resources
                 'order' => ['sort', 'asc'], 'search' => ['question', 'answer'],
                 'filters' => ['category' => ['label' => 'Semua kategori', 'options' => fn () => Faq::distinct()->orderBy('category')->pluck('category', 'category')->all()]],
                 'columns' => [
-                    'Pertanyaan' => fn ($r) => '<span class="main">'.e($r->question).'</span><span class="sub">'.e(\App\Support\Rich::plain($r->answer, 100)).'</span>',
+                    'Pertanyaan' => fn ($r) => '<span class="main">'.e($r->question).'</span><span class="sub">'.e(Rich::plain($r->answer, 100)).'</span>',
                     'Kategori' => fn ($r) => e($r->category),
                     'Tampil' => fn ($r) => self::toggle('faqs', $r, 'show'),
                 ],
@@ -498,6 +508,37 @@ class Resources
                     }
                 },
                 'label' => fn ($r) => $r->code,
+            ],
+
+            'medicines' => [
+                'model' => Medicine::class, 'one' => 'obat', 'title' => 'Data obat',
+                'desc' => 'Daftar obat dan alkes yang dicatat di Input stok harian. Obat yang dinonaktifkan tidak muncul di lembar isian, tetapi riwayatnya tetap tersimpan.',
+                'order' => ['name', 'asc'], 'search' => ['name'],
+                'filters' => [
+                    'group' => ['label' => 'Semua golongan', 'options' => fn () => array_combine(Medicine::GROUPS, Medicine::GROUPS)],
+                    'is_active' => ['label' => 'Semua status', 'options' => fn () => ['1' => 'Aktif', '0' => 'Nonaktif']],
+                ],
+                'columns' => [
+                    'Nama obat' => fn ($r) => '<span class="main">'.e($r->name).'</span><span class="sub">'.e($r->group).'</span>',
+                    'Satuan' => fn ($r) => e($r->unit),
+                    'Harga satuan' => fn ($r) => $r->price ? 'Rp '.Fmt::n($r->price, fmod($r->price, 1) ? 2 : 0) : '<span class="badge b-amber">Belum diisi</span>',
+                    'Tanggal ED' => fn ($r) => $r->expired_at
+                        ? '<span class="badge b-'.match ($r->expiryState()) {
+                            'expired' => 'red', 'soon' => 'amber', default => 'grey'
+                        }.'">'.$r->expired_at->translatedFormat('M Y').'</span>'
+                        : '—',
+                    'Aktif' => fn ($r) => self::toggle('medicines', $r, 'is_active'),
+                ],
+                'fields' => [
+                    ['name' => 'name', 'label' => 'Nama obat', 'type' => 'text', 'rules' => fn ($m) => 'required|string|max:150|unique:medicines,name,'.($m->id ?? 'NULL'), 'hint' => 'Tulis lengkap dengan kekuatan dan bentuk sediaan, contoh: AMOXICILLIN 500 MG TABLET.'],
+                    ['name' => 'group', 'label' => 'Golongan', 'type' => 'select', 'half' => true, 'rules' => 'required|in:'.implode(',', Medicine::GROUPS), 'options' => fn () => array_combine(Medicine::GROUPS, Medicine::GROUPS)],
+                    ['name' => 'unit', 'label' => 'Satuan terkecil', 'type' => 'select', 'half' => true, 'rules' => 'required|in:'.implode(',', Medicine::UNITS), 'options' => fn () => array_combine(Medicine::UNITS, Medicine::UNITS)],
+                    ['name' => 'price', 'label' => 'Harga per satuan terkecil (termasuk PPN)', 'type' => 'money', 'half' => true, 'rules' => 'nullable|numeric|min:0|max:999999999', 'hint' => 'Dipakai untuk menghitung nilai stok di Rekap persediaan.'],
+                    ['name' => 'expired_at', 'label' => 'Tanggal kedaluwarsa (ED) terdekat', 'type' => 'date', 'half' => true, 'rules' => 'nullable|date', 'hint' => 'Bisa juga diperbarui saat Stock opname.'],
+                    ['name' => 'is_active', 'label' => 'Obat aktif', 'type' => 'toggle', 'default' => true, 'desc' => 'Muncul di lembar Input stok harian.'],
+                ],
+                'canDelete' => fn ($r) => $r->entries()->exists() ? 'Obat ini sudah punya riwayat stok. Nonaktifkan saja agar riwayatnya tetap ada.' : null,
+                'label' => fn ($r) => $r->name,
             ],
 
             'users' => [

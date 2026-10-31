@@ -47,4 +47,5 @@
   </table></div>
   {{ $rows->links('partials.pagination') }}
 </div>
+@includeIf('admin.tours.'.$resource)
 @endsection

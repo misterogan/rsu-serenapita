@@ -459,3 +459,78 @@ svg.i{width:18px;height:18px;flex:0 0 18px;fill:none;stroke:currentColor;stroke-
 .rte-area h3{font-size:16px;margin:12px 0 6px}.rte-area h4{font-size:15px;margin:10px 0 6px}
 .rte-area a{color:var(--blue);text-decoration:underline}
 .rte-area blockquote{border-left:3px solid var(--line);margin:0 0 10px;padding-left:12px;color:var(--muted)}
+
+/* Farmasi: input stok harian & rekap persediaan */
+.stk-bar{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;padding:12px 16px;margin-bottom:14px}
+.seg{display:inline-flex;gap:2px;padding:3px;background:var(--soft);border:1px solid var(--line);border-radius:6px}
+.seg a{padding:7px 14px;border-radius:4px;color:var(--muted);font-weight:600;font-size:13px;text-decoration:none;white-space:nowrap}
+.seg a:hover{color:var(--blue)}
+.seg a.on{background:var(--surface);color:var(--blue);box-shadow:0 1px 3px rgba(20,40,74,.12)}
+.stk-date{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.stk-date input{padding:7px 10px;border:1px solid var(--line);border-radius:5px;background:var(--surface)}
+.stk-day{color:var(--muted);font-weight:600;font-size:13px;margin-left:4px}
+.stk-note{background:var(--soft);border:1px solid var(--line);border-radius:6px;padding:10px 14px;margin-bottom:14px;font-size:13px}
+.stk-note kbd{font:inherit;font-size:11px;font-weight:700;padding:1px 6px;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;background:var(--surface)}
+.fill-demo{color:var(--blue);font-weight:600}
+.chk{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);cursor:pointer;white-space:nowrap}
+.stk-scroll{max-height:calc(100vh - 250px);overflow:auto}
+.tbl.stk th{position:sticky;top:0;z-index:2;background:var(--surface)}
+.tbl.stk td{padding:6px 12px}
+.tbl.stk th.n,.tbl.stk td.n{text-align:right;white-space:nowrap}
+.tbl.stk td.nm{min-width:250px}
+.tbl.stk td.nm .main{line-height:1.35}
+.tbl.stk a.main{color:inherit;text-decoration:none}
+.tbl.stk a.main:hover{color:var(--blue);text-decoration:underline}
+.stk-grp td{background:var(--soft);color:var(--blue);font-weight:700;font-size:12px;letter-spacing:.04em;padding:7px 12px!important}
+.stk .q{width:86px;padding:6px 8px;text-align:right;border:1px solid var(--line);border-radius:4px;background:var(--surface);font-variant-numeric:tabular-nums}
+.stk .q:not(:placeholder-shown){font-weight:700}
+.stk .nt{width:100%;min-width:150px;padding:6px 8px;border:1px solid transparent;border-radius:4px;background:transparent;font-size:13px}
+.stk .nt:hover,.stk .nt:focus{border-color:var(--line);background:var(--surface)}
+.stk .dt{padding:5px 6px;border:1px solid var(--line);border-radius:4px;background:var(--surface);font-size:13px}
+.stk .q:focus,.stk .nt:focus,.stk .dt:focus{outline:none;border-color:var(--sky);box-shadow:0 0 0 3px rgba(53,163,216,.2)}
+.stk tr.dirty td{background:rgba(53,163,216,.07)}
+.stk tr.dirty td:first-child{box-shadow:inset 3px 0 0 var(--sky)}
+.stk .end{font-variant-numeric:tabular-nums}
+.stk .neg,.stk .end.neg,.stk .end.zero{color:var(--red)}
+.stk .end.low{color:var(--amber)}
+.stk .diff{font-weight:700}.stk .diff.ok{color:var(--green)}.stk .diff.off{color:var(--amber)}
+.stk .fill{display:block;margin:3px 0 0 auto;padding:0;border:0;background:none;color:var(--blue);font-size:11px;font-weight:600;cursor:pointer;text-decoration:underline dotted}
+.ed-soon{color:var(--amber);font-weight:600}.ed-expired{color:var(--red);font-weight:600}
+.stk-save{position:sticky;bottom:0;z-index:5;display:flex;justify-content:flex-end;align-items:center;gap:10px;margin-top:14px;padding:12px 16px;background:var(--surface);border:1px solid var(--line);border-radius:6px;box-shadow:0 -6px 20px rgba(20,40,74,.06)}
+.stk-save #stkDirty{margin-right:auto;color:var(--muted);font-size:13px}
+.stk-save.on{border-color:var(--sky)}
+.stk-save.on #stkDirty{color:var(--blue);font-weight:700}
+.btn:disabled{opacity:.5;pointer-events:none}
+button.stat{border:0;font:inherit;text-align:left;cursor:pointer;width:100%}
+button.stat:hover{filter:brightness(1.06)}
+@media (max-width:980px){.app>div{min-width:0}}
+@media (max-width:700px){.stk-bar{flex-direction:column;align-items:stretch}.seg{display:flex}.seg a{flex:1;text-align:center}.stk-scroll{max-height:none}.tbl.stk th{position:static}}
+
+/* Tur panduan interaktif */
+html.tour-lock{overflow:hidden}
+.tour{position:fixed;inset:0;z-index:300;display:none}
+.tour.on{display:block}
+.tour [hidden]{display:none!important}
+.tour-hole{position:fixed;border-radius:8px;box-shadow:0 0 0 9999px rgba(8,18,36,.62);outline:3px solid var(--sky);outline-offset:0;pointer-events:none;transition:left .35s var(--ease),top .35s var(--ease),width .35s var(--ease),height .35s var(--ease)}
+.tour-tip{position:fixed;width:350px;max-width:calc(100vw - 24px);background:var(--surface);color:var(--ink);border-radius:10px;padding:16px 18px 14px;box-shadow:0 18px 50px rgba(0,0,0,.35);transition:left .3s var(--ease),top .3s var(--ease);outline:none;animation:tourIn .25s ease}
+@keyframes tourIn{from{opacity:0}to{opacity:1}}
+.tour-tip.center{left:50%;top:50%;transform:translate(-50%,-50%);width:430px}
+.tour-tip.dock{left:12px;right:12px;bottom:12px;top:auto;width:auto;max-width:none}
+.tour-tip::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:10px 0 0 10px;background:var(--sky)}
+.tour-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:600;color:var(--sky)}
+.tour-x{background:none;border:0;font-size:22px;line-height:1;color:var(--muted);cursor:pointer;padding:0 4px;border-radius:4px}
+.tour-x:hover{color:var(--ink);background:var(--soft)}
+.tour-tip h3{margin:4px 0 6px;font-size:16px;letter-spacing:-.01em}
+.tour-text{font-size:14px;line-height:1.6}
+.tour-text ul{margin:6px 0 0;padding-left:18px}.tour-text li{margin-bottom:2px}
+.tour-text .k{display:inline-block;font-size:12px;font-weight:700;padding:0 6px;border-radius:4px;margin-right:2px}
+.tour-dots{display:flex;gap:5px;margin:14px 0 12px;flex-wrap:wrap}
+.tour-dots i{width:6px;height:6px;border-radius:3px;background:var(--line);transition:width .25s,background-color .25s}
+.tour-dots i.on{width:18px;background:var(--blue)}
+.tour-acts{display:flex;gap:8px;justify-content:flex-end}
+.tour-acts .tour-skip{margin-right:auto}
+
+/* Kolom uang dengan awalan Rp */
+.rp-in{position:relative}
+.rp-in::before{content:"Rp";position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600;font-size:13px;pointer-events:none}
+.fld .rp-in input{padding-left:38px!important;font-variant-numeric:tabular-nums}

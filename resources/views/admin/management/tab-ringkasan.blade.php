@@ -94,7 +94,7 @@
   <details class="mg-target-form"><summary>Ubah target bulanan</summary>
     <form method="post" action="{{ route('admin.management.targets') }}" class="mg-custom" style="margin-top:10px">@csrf
       <label>Kunjungan per bulan <input type="number" name="kunjungan" min="0" value="{{ $tg['kunjungan'] ?: '' }}"></label>
-      <label>Pendapatan per bulan (Rp) <input type="number" name="pendapatan" min="0" value="{{ $tg['pendapatan'] ?: '' }}"></label>
+      <label>Pendapatan per bulan (Rp) <input type="text" name="pendapatan" value="{{ $tg['pendapatan'] ?: '' }}" inputmode="numeric" autocomplete="off" data-rupiah="int"></label>
       <label>BOR (%) <input type="number" name="bor" min="0" max="100" step="0.1" value="{{ $tg['bor'] ?: '' }}"></label>
       <button class="btn sm pri">Simpan target</button>
     </form>

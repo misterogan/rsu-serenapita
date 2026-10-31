@@ -81,6 +81,9 @@
         })();
         </script>
         @break
+      @case('money')
+        <label for="f_{{ $name }}">{{ $f['label'] }}</label><div class="rp-in"><input id="f_{{ $name }}" type="text" name="{{ $name }}" value="{{ $val }}" inputmode="decimal" autocomplete="off" data-rupiah></div>
+        @break
       @case('password')
         <label for="f_{{ $name }}">{{ $f['label'] }}</label><input id="f_{{ $name }}" type="password" name="{{ $name }}" autocomplete="new-password">
         @break
@@ -95,4 +98,5 @@
   </div>
   <div class="save-bar"><a class="btn" href="{{ route('admin.crud.index', $resource) }}">Batal</a><button class="btn pri" type="submit">Simpan</button></div>
 </form>
+@includeIf('admin.tours.'.$resource.'-form')
 @endsection
