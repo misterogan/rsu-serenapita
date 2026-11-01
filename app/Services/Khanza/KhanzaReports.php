@@ -48,7 +48,9 @@ class KhanzaReports
     /** Uji koneksi: mengembalikan versi server database. */
     public static function ping(): string
     {
-        return (string) (DB::connection('khanza')->selectOne('SELECT VERSION() AS v')->v ?? '');
+        $db = DB::connection('khanza');
+
+        return (string) ($db->selectOne($db->getDriverName() === 'sqlite' ? 'SELECT sqlite_version() AS v' : 'SELECT VERSION() AS v')->v ?? '');
     }
 
     protected function igd(): string

@@ -76,6 +76,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('/schedule', Admin\ScheduleController::class)->middleware('module:schedule')->name('schedule');
 
+        Route::middleware('module:patients')->prefix('patients')->name('patients')->group(function () {
+            Route::get('/', [Admin\PatientController::class, 'index']);
+            Route::get('/{rm}', [Admin\PatientController::class, 'show'])->name('.show');
+            Route::get('/{rm}/kunjungan', [Admin\PatientController::class, 'visit'])->name('.visit');
+        });
         Route::middleware('module:stock')->group(function () {
             Route::get('/stock', [Admin\StockController::class, 'index'])->name('stock');
             Route::post('/stock', [Admin\StockController::class, 'save'])->name('stock.save');

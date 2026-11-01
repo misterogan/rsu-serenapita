@@ -10,6 +10,7 @@ class Modules
         'Konten situs' => ['news' => 'Berita', 'categories' => 'Kategori berita', 'slides' => 'Slider beranda', 'info' => 'Kotak info & jam', 'services' => 'Layanan & fasilitas'],
         'Pelayanan medis' => ['doctors' => 'Profil dokter', 'clinics' => 'Poliklinik', 'schedule' => 'Jadwal dokter', 'leaves' => 'Cuti dokter'],
         'Pendaftaran' => ['appointments' => 'Janji temu', 'appointment-form' => 'Formulir janji temu'],
+        'Rekam medis' => ['patients' => 'Data pasien'],
         'Farmasi' => ['stock' => 'Input stok harian', 'stock-report' => 'Rekap persediaan', 'stock-compare' => 'Cocokkan SIMRS', 'medicines' => 'Data obat', 'bmhp' => 'Data BMHP'],
         'Karier' => ['jobs' => 'Lowongan kerja', 'applications' => 'Pelamar'],
         'Informasi situs' => ['about' => 'Tentang kami', 'gallery' => 'Galeri', 'guides' => 'Panduan pasien', 'faqs' => 'FAQ'],
@@ -50,6 +51,7 @@ class Modules
         'stock-report' => 'M5 4h14v16H5zM9 16v-3M12 16V9M15 16v-5',
         'medicines' => 'M10.5 20.5a5 5 0 0 1-7-7l7-7a5 5 0 0 1 7 7zM7 10l7 7',
         'bmhp' => 'M4 8l8-4 8 4-8 4zM4 8v8l8 4 8-4V8M12 12v8',
+        'patients' => 'M9 7a3 3 0 1 0 6 0 3 3 0 0 0-6 0M4 21v-1a5 5 0 0 1 5-5h2M16 14v6M13 17h6',
         'stock-compare' => 'M7 4v13M3 13l4 4 4-4M17 20V7M13 11l4-4 4 4',
     ];
 

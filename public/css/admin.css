@@ -536,3 +536,37 @@ html.tour-lock{overflow:hidden}
 .fld .rp-in input{padding-left:38px!important;font-variant-numeric:tabular-nums}
 .stk tr.off td{background:repeating-linear-gradient(135deg,transparent 0 8px,rgba(91,104,120,.05) 8px 16px)}
 .stk .off-tag{color:var(--amber);font-weight:600}
+
+/* Data pasien (SIMRS Khanza) */
+.pt-search{display:flex;align-items:center;gap:10px;padding:10px 12px 10px 16px;margin-bottom:20px}
+.pt-search svg{color:var(--muted)}
+.pt-search input{flex:1;border:0;background:transparent;font-size:16px;padding:8px 4px;outline:none}
+.pt-link{cursor:pointer}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px 20px}
+.kv small{display:block;color:var(--muted);font-size:12px;margin-bottom:2px}
+.kv b{font-weight:600;word-break:break-word}
+.kv .wide{grid-column:1/-1}
+.kv .sub{display:block;color:var(--muted);font-size:12px}
+.pt-alergi{font-size:15px}
+.pt-nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;position:sticky;top:64px;z-index:10;background:var(--bg);padding:6px 0}
+.pt-nav a{padding:6px 12px;border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--ink);text-decoration:none;font-size:13px;font-weight:600}
+.pt-nav a span{color:var(--muted);font-weight:500;margin-left:2px}
+.pt-nav a.dim{opacity:.55}
+.pt-nav a:hover{border-color:var(--sky);color:var(--blue)}
+.pt-sec{margin-bottom:16px;scroll-margin-top:120px}
+.pt-soap{border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin-bottom:12px}
+.pt-soap header{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.pt-soap header span{color:var(--muted);font-size:13px}
+.pt-vital{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.pt-vital span{background:var(--soft);border-radius:5px;padding:4px 9px;font-weight:600;font-size:13px}
+.pt-vital small{color:var(--muted);font-weight:500;margin-right:5px}
+.pt-soap dl,.pt-dl{display:grid;grid-template-columns:140px 1fr;gap:6px 14px;margin:0}
+.pt-soap dt,.pt-dl dt{color:var(--muted);font-size:13px;font-weight:600}
+.pt-soap dd,.pt-dl dd{margin:0}
+.pt-text{border-left:3px solid var(--line);padding:4px 0 4px 12px;margin-bottom:12px}
+.pt-text>small{display:block;color:var(--muted);font-weight:600;margin-bottom:6px}
+.pt-flag{color:var(--red)}
+@media (max-width:640px){.pt-soap dl,.pt-dl{grid-template-columns:1fr}.pt-nav{top:56px}}
+@media print{.side,.top,.pt-nav,.vh-act,.pt-search,.list-tools,#loader,.toasts{display:none!important}.app{display:block}.content{padding:0;max-width:none}.card{break-inside:avoid;border-color:#ccc}body{background:#fff;color:#000}}
+.kv.sm{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}
+.pt-sec .empty{padding:14px 0;text-align:left}.pt-sec>.card-b>.empty{padding:4px 0}
