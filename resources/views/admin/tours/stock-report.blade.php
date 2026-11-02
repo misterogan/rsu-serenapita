@@ -10,6 +10,7 @@
     ['el' => '#rpTbl thead', 'title' => 'Arti kolom', 'text' => '<ul><li><b>Selisih SO</b>: hasil hitung fisik dikurangi stok sistem.</li><li><b>Pakai/hari</b>: total keluar dibagi jumlah hari.</li><li><b>Safety</b>: pakai/hari × '.\App\Support\StockLedger::SAFETY_DAYS.' hari.</li><li><b>ROP</b>: pakai/hari × '.\App\Support\StockLedger::ROP_DAYS.' hari. Bila stok akhir ≤ ROP, status menjadi <b>Perlu pesan</b>.</li></ul>Arahkan kursor ke judul kolom untuk melihat keterangannya lagi.'],
     ['el' => '.rp-row a.main', 'title' => 'Kartu stok', 'text' => 'Klik nama obat untuk membuka kartu stoknya: riwayat masuk, keluar, dan stock opname per hari, lengkap dengan nama petugas yang mengisi.'],
     ['el' => '#tExport', 'title' => 'Unduh untuk Excel', 'text' => 'Mengunduh rekap bulan ini sebagai file Excel (.xlsx): judul kolom terkunci saat digulir dan setiap kolom bisa disaring, misalnya untuk dicocokkan dengan laporan stok SIMRS selama masa pengisian paralel.'],
+    ['el' => '#tSimrs', 'title' => 'Unduh format SIMRS', 'text' => 'Stok akhir unit ini dalam <b>format yang sama dengan file SO SIMRS</b> (obatalkes_kode, obatalkes_nama, satuankecil, stok_saatini, tanggal kadaluarsa). Obat dan BMHP digabung. Pakai untuk menginput atau mengimpor stok ke SIMRS. Unduh setelah semua transaksi hari itu selesai diisi.'],
   ];
 @endphp
 @push('tour')<script>window.TOUR = @json(['key' => 'stock-report', 'guide' => route('admin.help').'#stock-3', 'steps' => $steps]);</script>@endpush

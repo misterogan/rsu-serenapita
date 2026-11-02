@@ -205,6 +205,28 @@ class StockController extends Controller
         return response()->download($file, 'persediaan-'.$kind.'-'.$loc.'-'.$from->format('Y-m').'.xlsx', ['Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])->deleteFileAfterSend();
     }
 
+    /**
+     * Stok akhir satu unit dalam format file SO SIMRS (obatalkes_kode, obatalkes_nama, satuankecil, stok_saatini,
+     * tanggal kadaluarsa), untuk diinput atau diimpor ke SIMRS. Obat dan BMHP digabung karena SIMRS tidak memisahkannya.
+     * Barang yang pernah tercatat di unit ini ditulis walau stoknya 0; yang belum pernah ada di unit ini dikosongkan.
+     */
+    public function simrs(Request $request)
+    {
+        $loc = $this->location($request);
+        $from = $this->month($request->query('month'));
+        $date = $from->copy()->endOfMonth()->startOfDay()->min(today());
+        $summary = StockLedger::summary($loc, $date, $date);
+        $rows = Medicine::whereNotNull('code')->orderBy('name')->get()
+            ->map(fn ($m) => [$m->code, $m->name, mb_strtoupper($m->unit), isset($summary[$m->id]) ? $summary[$m->id]['end'] : null, $m->expired_at]);
+        ActivityLog::record('Mengunduh stok format SIMRS '.StockEntry::LOCATIONS[$loc].' per '.$date->format('d/m/Y'));
+        $X = XlsxWriter::class;
+        $file = XlsxWriter::build(StockEntry::LOCATIONS[$loc], [], [
+            ['obatalkes_kode', $X::TEXT, 16], ['obatalkes_nama', $X::TEXT, 45], ['satuankecil', $X::TEXT, 12], ['stok_saatini', $X::INT, 12], ['tanggal kadaluarsa', $X::DATE, 18],
+        ], $rows);
+
+        return response()->download($file, 'stok-simrs-'.$loc.'-'.$date->format('Y-m-d').'.xlsx', ['Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])->deleteFileAfterSend();
+    }
+
     /** Kartu stok: riwayat harian satu obat dalam satu bulan. */
     public function card(Request $request, Medicine $medicine)
     {

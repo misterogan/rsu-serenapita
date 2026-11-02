@@ -99,6 +99,11 @@ Selama masa peralihan, transaksi obat dicatat di **SIMRS dan di menu Farmasi ini
 
 - Klik kartu **Perlu dipesan**, **Habis / minus**, atau **ED ≤ 90 hari** di bagian atas untuk menyaring daftar.
 - Klik **Unduh Excel** untuk membuka rekap di Excel.
+- Klik **Unduh format SIMRS** untuk mendapat stok akhir unit ini dalam **format yang sama dengan file SO SIMRS** (`obatalkes_kode`, `obatalkes_nama`, `satuankecil`, `stok_saatini`, `tanggal kadaluarsa`), siap diinput atau diimpor ke SIMRS. Isinya:
+  - obat **dan** BMHP dalam satu file, satu file per unit (unduh sekali untuk Gudang, sekali untuk Farmasi Sentral);
+  - `stok_saatini` = **stok akhir** per tanggal terakhir periode rekap (untuk bulan berjalan: sampai hari ini, termasuk transaksi hari ini yang sudah diisi), jadi unduh setelah semua transaksi hari itu selesai diinput;
+  - barang yang pernah tercatat di unit itu tetap ditulis walau stoknya **0**, sedangkan barang yang belum pernah ada di unit itu dikosongkan;
+  - barang tanpa kode SIMRS tidak ikut. Perbaiki dulu baris berstatus **Minus** sebelum menginput ke SIMRS.
 - Klik nama obat untuk membuka **kartu stok**: riwayat harian obat itu lengkap dengan nama petugas dan jam pengisian. Klik tanggal di kartu stok untuk membuka lembar isian hari itu.
 
 <a id="stock-4" class="anchor"></a>
@@ -135,6 +140,8 @@ Selama masa pengisian paralel, gunakan menu **Farmasi → Cocokkan SIMRS** untuk
 1. Di SIMRS, unduh laporan stok per unit (format sama dengan file SO: *obatalkes_kode, obatalkes_nama, satuankecil, stok_saatini*), dalam bentuk .xlsx atau .csv.
 2. Buka **Cocokkan SIMRS**, pilih file, pilih **unit** (Gudang Farmasi atau Farmasi Sentral) dan **tanggal** file itu diunduh.
 3. Klik **Unggah dan cocokkan**. Tabel langsung menampilkan baris yang **berbeda** saja.
+
+Bila nama sheet atau nama file menunjukkan unit lain dari yang dipilih (misalnya sheet berjudul *Gudang farmasi* tetapi unit yang dipilih Farmasi Sentral), muncul peringatan merah **Periksa unit**. Unggah ulang dengan unit yang benar; abaikan bila nama sheet di SIMRS memang keliru.
 
 | Status | Arti dan tindak lanjut |
 |---|---|

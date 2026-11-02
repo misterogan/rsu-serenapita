@@ -96,6 +96,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::middleware('module:stock-report')->group(function () {
             Route::get('/stock-report', [Admin\StockController::class, 'report'])->name('stock.report');
             Route::get('/stock-report/export', [Admin\StockController::class, 'export'])->name('stock.export');
+            Route::get('/stock-report/simrs', [Admin\StockController::class, 'simrs'])->name('stock.simrs');
             Route::get('/stock-report/{medicine}', [Admin\StockController::class, 'card'])->name('stock.card');
         });
 

@@ -60,6 +60,7 @@ class StockCompareController extends Controller
         Cache::put($this->key(), [
             'unit' => $v['unit'], 'date' => $v['date'], 'file' => $request->file('file')->getClientOriginalName(),
             'sheet' => $read['sheet'], 'sheets' => $read['sheets'], 'rows' => $read['rows'], 'at' => now()->format('d/m/Y H.i'),
+            'hint' => StockCompare::unitHint($read['sheet'], $request->file('file')->getClientOriginalName()),
         ], now()->addHours(4));
         ActivityLog::record('Mencocokkan stok '.StockEntry::LOCATIONS[$v['unit']].' dengan SIMRS ('.$request->file('file')->getClientOriginalName().')');
 

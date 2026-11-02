@@ -60,6 +60,27 @@ class StockCompare
         return $out;
     }
 
+    /**
+     * Unit yang tersirat dari nama sheet atau nama file ("gudang" atau "sentral"), untuk memperingatkan salah pilih unit.
+     * Nama sheet diutamakan karena lebih spesifik daripada nama file. Null bila tidak ada petunjuk.
+     *
+     * @return array{unit: string, from: string}|null
+     */
+    public static function unitHint(string $sheet, string $file): ?array
+    {
+        foreach (['sheet "'.$sheet.'"' => $sheet, 'file "'.$file.'"' => pathinfo($file, PATHINFO_FILENAME)] as $from => $text) {
+            $t = mb_strtolower($text);
+            if (str_contains($t, 'gudang')) {
+                return ['unit' => 'gudang', 'from' => $from];
+            }
+            if (preg_match('/farmasi|central|sentral/', $t)) {
+                return ['unit' => 'sentral', 'from' => $from];
+            }
+        }
+
+        return null;
+    }
+
     /** Kode baru dari SIMRS yang layak ditambahkan (bukan data percobaan "DUMMY"). */
     public static function addable(object $row): bool
     {

@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Models\StockEntry;
 use App\Models\User;
 use App\Support\SimrsStockFile;
+use App\Support\StockCompare;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
@@ -84,5 +85,46 @@ class FarmasiCompareTest extends TestCase
             'location' => 'sentral', 'date' => today()->toDateString(), 'rows' => [$empty->id => ['in' => '50']],
         ])->assertSessionHasNoErrors();
         $this->assertTrue($empty->fresh()->is_active);
+    }
+
+    public function test_simrs_format_download_round_trips_through_the_compare_page(): void
+    {
+        Medicine::create(['code' => 'N1', 'name' => 'BELUM PERNAH ADA', 'group' => 'TABLET', 'unit' => 'Tablet', 'is_active' => false]);
+        Medicine::where('code', 'P1')->update(['expired_at' => '2029-02-01']);
+
+        $res = $this->actingAs($this->user)->get(route('admin.stock.simrs', ['unit' => 'sentral']))->assertOk()
+            ->assertDownload('stok-simrs-sentral-'.today()->toDateString().'.xlsx');
+        $rows = $this->xlsxRows($res);
+        $this->assertSame(['obatalkes_kode', 'obatalkes_nama', 'satuankecil', 'stok_saatini', 'tanggal kadaluarsa'], $rows[0]);
+        $this->assertContains(['P1', 'PARACETAMOL 500 MG TAB', 'TABLET', '100', '47150'], $rows);   // 47150 = 01/02/2029 di Excel
+        $this->assertContains(['N1', 'BELUM PERNAH ADA', 'TABLET'], $rows, 'Barang yang belum pernah ada di unit ini: stok kosong');
+
+        $copy = tempnam(sys_get_temp_dir(), 'so').'.xlsx';
+        copy($res->baseResponse->getFile()->getPathname(), $copy);
+        $this->actingAs($this->user)->post(route('admin.stock.compare.upload'), [
+            'file' => new UploadedFile($copy, 'stok-simrs.xlsx', null, null, true), 'unit' => 'sentral', 'date' => today()->toDateString(),
+        ])->assertRedirect();
+        $page = $this->actingAs($this->user)->get(route('admin.stock.compare'))->assertOk()->getContent();
+        $this->assertStringNotContainsString('class="cmp-row" data-status="selisih"', $page);
+        $this->assertStringNotContainsString('class="cmp-row" data-status="hilang"', $page);
+        $this->assertSame(4, substr_count($page, 'class="cmp-row" data-status="cocok"'));
+        @unlink($copy);
+    }
+
+    public function test_warns_when_sheet_or_file_name_points_to_the_other_unit(): void
+    {
+        $this->assertSame(['unit' => 'sentral', 'from' => 'sheet "farmasi central"'], StockCompare::unitHint('farmasi central', '5_6275888066401935783.xlsx'));
+        $this->assertSame('sentral', StockCompare::unitHint('PINAL UNIT FARMASI', 'ORIGINAL ENIGMA SO SIMRS.xlsx')['unit']);
+        $this->assertSame('gudang', StockCompare::unitHint('Gudang farmasi', 'x.xlsx')['unit']);
+        $this->assertSame(['unit' => 'gudang', 'from' => 'file "stok-simrs-gudang-2026-11-02.xlsx"'], StockCompare::unitHint('Sheet1', 'stok-simrs-gudang-2026-11-02.xlsx'));
+        $this->assertNull(StockCompare::unitHint('Sheet1', 'so.xlsx'));
+
+        $upload = fn (string $unit) => $this->actingAs($this->user)->post(route('admin.stock.compare.upload'), [
+            'file' => new UploadedFile(base_path('tests/fixtures/simrs-stok.xlsx'), 'simrs-stok.xlsx', null, null, true), 'unit' => $unit, 'date' => today()->toDateString(),
+        ]);
+        $upload('gudang');
+        $this->actingAs($this->user)->get(route('admin.stock.compare'))->assertSee('Periksa unit.')->assertSee('sheet "farmasi central"');
+        $upload('sentral');
+        $this->actingAs($this->user)->get(route('admin.stock.compare'))->assertDontSee('Periksa unit.');
     }
 }

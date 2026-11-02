@@ -32,6 +32,10 @@
 </form>
 
 @if($data)
+  @if(($data['hint'] ?? null) && $data['hint']['unit'] !== $data['unit'])
+    <div class="flash err" role="alert" id="tUnitWarn"><b>Periksa unit.</b> Nama {{ $data['hint']['from'] }} menunjukkan <b>{{ StockEntry::LOCATIONS[$data['hint']['unit']] }}</b>,
+      tetapi dibandingkan dengan stok <b>{{ StockEntry::LOCATIONS[$data['unit']] }}</b>. Bila salah pilih, unggah ulang dengan unit yang benar. Bila memang benar (misalnya nama sheet di SIMRS keliru), abaikan peringatan ini.</div>
+  @endif
   <div class="stk-note" id="tInfo">
     <b>{{ $data['file'] }}</b> (sheet <i>{{ $data['sheet'] }}</i>@if(count($data['sheets']) > 1), sheet lain: {{ implode(', ', array_diff($data['sheets'], [$data['sheet']])) }}@endif)
     dibandingkan dengan stok <b>{{ StockEntry::LOCATIONS[$data['unit']] }}</b> di sistem per <b>{{ Carbon\Carbon::parse($data['date'])->translatedFormat('d F Y') }}</b>. Diunggah {{ $data['at'] }}.
