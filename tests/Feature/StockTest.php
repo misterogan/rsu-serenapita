@@ -128,9 +128,12 @@ class StockTest extends TestCase
 
         $this->actingAs($user)->get(route('admin.stock.report', ['unit' => 'gudang']))->assertOk()->assertSee($med->name);
         $this->actingAs($user)->get(route('admin.stock.card', [$med, 'unit' => 'gudang']))->assertOk()->assertSee('ke farmasi');
-        $csv = $this->actingAs($user)->get(route('admin.stock.export', ['unit' => 'gudang']))->assertOk()->streamedContent();
-        $this->assertStringContainsString('"PARACETAMOL 500 MG TABLET";Tablet;0;100;40;0;60;4,00;28;40;Aman;200;12000', $csv);
-        $this->assertLessThan(strpos($csv, 'TABLET;'), strpos($csv, 'INJEKSI;'));
+        $res = $this->actingAs($user)->get(route('admin.stock.export', ['unit' => 'gudang']))->assertOk()->assertDownload('persediaan-obat-gudang-'.today()->format('Y-m').'.xlsx');
+        $rows = $this->xlsxRows($res);
+        $para = collect($rows)->first(fn ($r) => in_array('PARACETAMOL 500 MG TABLET', $r, true));
+        $this->assertSame(['TABLET', 'PARACETAMOL 500 MG TABLET', 'Tablet', '0', '100', '40', '0', '60', '4', '28', '40', 'Aman', '200', '12000'], $para);
+        $groups = array_column(array_slice($rows, 3), 0);
+        $this->assertLessThan(array_search('TABLET', $groups), array_search('INJEKSI', $groups), 'Urutan golongan seperti Excel');
         Carbon::setTestNow();
     }
 

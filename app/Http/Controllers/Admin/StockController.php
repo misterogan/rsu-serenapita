@@ -7,6 +7,7 @@ use App\Models\ActivityLog;
 use App\Models\Medicine;
 use App\Models\StockEntry;
 use App\Support\StockLedger;
+use App\Support\XlsxWriter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -192,18 +193,16 @@ class StockController extends Controller
         $title = 'Persediaan '.($kind === 'bmhp' ? 'BMHP' : 'obat').' '.StockEntry::LOCATIONS[$loc].' '.$from->translatedFormat('F Y');
         ActivityLog::record('Mengunduh rekap '.$title);
 
-        return response()->streamDownload(function () use ($rows, $title, $from, $to) {
-            $out = fopen('php://output', 'w');
-            fwrite($out, "\xEF\xBB\xBF");
-            fputcsv($out, [$title.' · '.$from->format('d/m/Y').' s/d '.$to->format('d/m/Y')], ';');
-            fputcsv($out, ['Kode SIMRS', 'Golongan', 'Nama obat', 'Satuan', 'Stok awal', 'Masuk', 'Keluar', 'Selisih SO', 'Stok akhir', 'Rata-rata pemakaian/hari', 'Safety stock', 'ROP', 'Status', 'Harga satuan', 'Nilai stok akhir', 'Tanggal ED', 'SO terakhir'], ';');
-            foreach ($rows as $r) {
-                fputcsv($out, [$r->m->code, $r->m->group, $r->m->name, $r->m->unit, $r->start, $r->in, $r->out, $r->adjust, $r->end,
-                    number_format($r->avg, 2, ',', ''), $r->safety, $r->rop, $r->status[0], $r->m->price, $r->value,
-                    $r->m->expired_at?->format('d/m/Y'), $r->counted_at?->format('d/m/Y')], ';');
-            }
-            fclose($out);
-        }, 'persediaan-'.$kind.'-'.$loc.'-'.$from->format('Y-m').'.csv', ['Content-Type' => 'text/csv; charset=UTF-8']);
+        $X = XlsxWriter::class;
+        $file = XlsxWriter::build(($kind === 'bmhp' ? 'BMHP ' : 'Obat ').StockEntry::LOCATIONS[$loc], [$title, 'Periode '.$from->format('d/m/Y').' s/d '.$to->format('d/m/Y').' · diunduh '.now()->format('d/m/Y H.i')], [
+            ['Kode SIMRS', $X::TEXT, 15], ['Golongan', $X::TEXT, 12], [$kind === 'bmhp' ? 'Nama barang' : 'Nama obat', $X::TEXT, 42], ['Satuan', $X::TEXT, 10],
+            ['Stok awal', $X::INT, 10], ['Masuk', $X::INT, 9], ['Keluar', $X::INT, 9], ['Selisih SO', $X::INT, 10], ['Stok akhir', $X::INT, 10],
+            ['Pakai/hari', $X::DEC, 10], ['Safety stock', $X::INT, 10], ['ROP', $X::INT, 8], ['Status', $X::TEXT, 12],
+            ['Harga satuan', $X::DEC, 13], ['Nilai stok akhir', $X::DEC, 15], ['Tanggal ED', $X::TEXT, 11], ['SO terakhir', $X::TEXT, 11],
+        ], $rows->map(fn ($r) => [$r->m->code, $r->m->group, $r->m->name, $r->m->unit, $r->start, $r->in, $r->out, $r->adjust, $r->end,
+            round($r->avg, 2), $r->safety, $r->rop, $r->status[0], $r->m->price, $r->value, $r->m->expired_at?->format('d/m/Y'), $r->counted_at?->format('d/m/Y')]));
+
+        return response()->download($file, 'persediaan-'.$kind.'-'.$loc.'-'.$from->format('Y-m').'.xlsx', ['Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])->deleteFileAfterSend();
     }
 
     /** Kartu stok: riwayat harian satu obat dalam satu bulan. */

@@ -79,7 +79,7 @@
 
 <div class="modal" id="modal" role="alertdialog" aria-modal="true" aria-labelledby="mdTitle"><div class="box"><h3 id="mdTitle">Yakin?</h3><p id="mdText"></p><div class="acts"><button class="btn" id="mdNo" type="button">Batal</button><button class="btn danger" id="mdYes" type="button">Ya, lanjutkan</button></div></div></div>
 <div class="toasts" id="toasts" aria-live="polite"></div>
-<script src="{{ asset('js/admin.js') }}?v=10"></script>
+<script src="{{ asset('js/admin.js') }}?v=11"></script>
 @stack('tour')
 <script src="{{ asset('js/tour.js') }}?v=2"></script>
 @stack('scripts')

@@ -12,7 +12,7 @@
   $item = $kind === 'bmhp' ? 'barang' : 'obat';
 @endphp
 <x-admin-head module="stock-report" :desc="'Ringkasan stok '.($kind === 'bmhp' ? 'BMHP ' : 'obat ').StockEntry::LOCATIONS[$loc].' periode '.$from->translatedFormat('d M').' – '.$to->translatedFormat('d M Y').'. Dihitung otomatis dari Input stok harian, tidak perlu rumus Excel lagi.'">
-  <a class="btn" id="tExport" href="{{ route('admin.stock.export', ['unit' => $loc, 'month' => $month]) }}" data-noload><svg class="i" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Unduh Excel (CSV)</a>
+  <a class="btn" id="tExport" href="{{ route('admin.stock.export', ['unit' => $loc, 'month' => $month]) }}" data-noload><svg class="i" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Unduh Excel</a>
   @if(auth()->user()->canModule('stock'))<a class="btn pri" href="{{ route('admin.stock', ['unit' => $loc]) }}">Isi stok hari ini</a>@endif
 </x-admin-head>
 

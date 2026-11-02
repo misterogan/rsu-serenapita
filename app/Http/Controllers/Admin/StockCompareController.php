@@ -9,6 +9,7 @@ use App\Models\Medicine;
 use App\Models\StockEntry;
 use App\Support\SimrsStockFile;
 use App\Support\StockCompare;
+use App\Support\XlsxWriter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
@@ -69,18 +70,17 @@ class StockCompareController extends Controller
     {
         [$data, $rows] = $this->result();
         abort_unless($data, 404);
-        $name = 'cocok-simrs-'.$data['unit'].'-'.$data['date'].'.csv';
+        $X = XlsxWriter::class;
+        $file = XlsxWriter::build('Cocokkan SIMRS', [
+            'Cocokkan stok '.StockEntry::LOCATIONS[$data['unit']].' dengan SIMRS',
+            'Stok sistem per '.Carbon::parse($data['date'])->format('d/m/Y').' · file '.$data['file'].' (sheet '.$data['sheet'].') · diunduh '.now()->format('d/m/Y H.i'),
+        ], [
+            ['Kode SIMRS', $X::TEXT, 15], ['Nama di SIMRS', $X::TEXT, 42], ['Nama di sistem', $X::TEXT, 42], ['Jenis', $X::TEXT, 8],
+            ['Stok SIMRS', $X::INT, 11], ['Stok sistem', $X::INT, 11], ['Selisih (sistem - SIMRS)', $X::INT, 13], ['Status', $X::TEXT, 20],
+        ], collect($rows)->map(fn ($r) => [$r->code, $r->simrsName, $r->med?->name, $r->med ? Medicine::KINDS[$r->med->kind] : null,
+            $r->simrs, $r->system, $r->diff, StockCompare::STATUS[$r->status][0]]));
 
-        return response()->streamDownload(function () use ($data, $rows) {
-            $out = fopen('php://output', 'w');
-            fwrite($out, "\xEF\xBB\xBF");
-            fputcsv($out, ['Cocokkan SIMRS · '.StockEntry::LOCATIONS[$data['unit']].' · stok sistem per '.$data['date'].' · '.$data['file'].' ('.$data['sheet'].')'], ';');
-            fputcsv($out, ['Kode SIMRS', 'Nama di SIMRS', 'Nama di sistem', 'Jenis', 'Stok SIMRS', 'Stok sistem', 'Selisih (sistem - SIMRS)', 'Status'], ';');
-            foreach ($rows as $r) {
-                fputcsv($out, [$r->code, $r->simrsName, $r->med?->name, $r->med ? Medicine::KINDS[$r->med->kind] : '', $r->simrs, $r->system, $r->diff, StockCompare::STATUS[$r->status][0]], ';');
-            }
-            fclose($out);
-        }, $name, ['Content-Type' => 'text/csv; charset=UTF-8']);
+        return response()->download($file, 'cocok-simrs-'.$data['unit'].'-'.$data['date'].'.xlsx', ['Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])->deleteFileAfterSend();
     }
 
     /** Samakan nama barang di sistem dengan nama di SIMRS (dicocokkan lewat kode). */

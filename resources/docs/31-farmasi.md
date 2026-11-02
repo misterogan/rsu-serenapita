@@ -75,7 +75,7 @@ Hasil hitung menjadi stok awal hari itu. Masuk dan keluar pada hari yang sama te
 Selama masa peralihan, transaksi obat dicatat di **SIMRS dan di menu Farmasi ini**, untuk memastikan data keduanya sama.
 
 1. Isi transaksi di SIMRS seperti biasa, lalu isi angka yang sama di **Input stok harian** pada hari yang sama.
-2. Setiap akhir hari atau minggu, buka **Rekap persediaan**, pilih unit dan bulan, lalu klik **Unduh Excel (CSV)**.
+2. Setiap akhir hari atau minggu, buka **Rekap persediaan**, pilih unit dan bulan, lalu klik **Unduh Excel**.
 3. Bandingkan kolom **Stok akhir** dengan laporan stok di SIMRS untuk unit yang sama.
 4. Bila ada selisih, buka **kartu stok** obat tersebut (klik namanya di rekap) dan cocokkan per tanggal dengan riwayat di SIMRS untuk menemukan transaksi yang terlewat atau salah ketik.
 5. Perbaiki di tempat yang salah. Bila keduanya ternyata berbeda dengan fisik, lakukan stock opname.
@@ -98,7 +98,7 @@ Selama masa peralihan, transaksi obat dicatat di **SIMRS dan di menu Farmasi ini
 | Nilai stok | Stok akhir × harga satuan |
 
 - Klik kartu **Perlu dipesan**, **Habis / minus**, atau **ED ≤ 90 hari** di bagian atas untuk menyaring daftar.
-- Klik **Unduh Excel (CSV)** untuk membuka rekap di Excel.
+- Klik **Unduh Excel** untuk membuka rekap di Excel.
 - Klik nama obat untuk membuka **kartu stok**: riwayat harian obat itu lengkap dengan nama petugas dan jam pengisian. Klik tanggal di kartu stok untuk membuka lembar isian hari itu.
 
 <a id="stock-4" class="anchor"></a>

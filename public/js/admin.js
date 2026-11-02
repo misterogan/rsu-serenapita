@@ -6,7 +6,8 @@
   if (loader && !reduce) {
     document.addEventListener("click", e => {
       const a = e.target.closest("a[href]");
-      if (!a || a.target === "_blank" || e.ctrlKey || e.metaKey || a.getAttribute("href").startsWith("#")) return;
+      // Tautan unduhan (data-noload / download) tidak membuka halaman baru, jadi layar "Memuat…" jangan ditampilkan
+      if (!a || a.target === "_blank" || e.ctrlKey || e.metaKey || a.getAttribute("href").startsWith("#") || a.matches("[data-noload], [download]")) return;
       const url = new URL(a.href, location.href);
       if (url.origin !== location.origin || url.href === location.href) return;
       $("#ldText").textContent = a.dataset.label ? "Membuka " + a.dataset.label.toLowerCase() + "…" : "Memuat…";

@@ -9,7 +9,7 @@
 @endphp
 <x-admin-head module="stock-compare" desc="Unggah file ekspor stok dari SIMRS, lalu sistem membandingkannya per kode obat dengan stok di sini. Dipakai selama masa pengisian paralel untuk memastikan kedua data sama.">
   @if($data)
-    <a class="btn" id="tCsv" href="{{ route('admin.stock.compare.export') }}" data-noload><svg class="i" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Unduh hasil (CSV)</a>
+    <a class="btn" id="tCsv" href="{{ route('admin.stock.compare.export') }}" data-noload><svg class="i" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Unduh hasil (Excel)</a>
   @endif
 </x-admin-head>
 

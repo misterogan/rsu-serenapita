@@ -7,7 +7,7 @@
     ['el' => '#tStats', 'title' => 'Ringkasan', 'text' => '<ul><li><b>Selisih</b>: angka stok berbeda. Buka kartu stok obatnya untuk mencari tanggal yang salah isi.</li><li><b>Cocok</b>: angka sama.</li><li><b>Beda daftar</b>: kode ada di SIMRS tapi belum ada di sistem, atau sebaliknya.</li><li><b>Nama berubah</b>: kode sama, nama di SIMRS sudah diganti.</li></ul>Klik kartu untuk menyaring tabel.'],
     ['el' => '#tActs', 'title' => 'Samakan daftar', 'text' => '<b>Samakan nama</b> mengganti nama di sistem sesuai SIMRS. <b>Tambahkan kode baru</b> memasukkan kode SIMRS yang belum ada (stok 0, tersembunyi sampai diisi). Keduanya tidak mengubah angka stok.'],
     ['el' => '#cmpTbl thead', 'title' => 'Tabel perbandingan', 'text' => '<b>Selisih</b> = stok sistem dikurangi stok SIMRS. Angka minus berarti sistem lebih sedikit dari SIMRS. Klik nama obat untuk membuka kartu stoknya.'],
-    ['el' => '#tCsv', 'title' => 'Unduh hasil', 'text' => 'Unduh hasil perbandingan untuk dilaporkan atau ditindaklanjuti di Excel.'],
+    ['el' => '#tCsv', 'title' => 'Unduh hasil', 'text' => 'Unduh hasil perbandingan sebagai file Excel untuk dilaporkan atau ditindaklanjuti di Excel.'],
   ];
 @endphp
 @push('tour')<script>window.TOUR = @json(['key' => 'stock-compare', 'guide' => route('admin.help').'#stock-compare', 'steps' => $steps]);</script>@endpush

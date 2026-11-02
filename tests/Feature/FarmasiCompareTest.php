@@ -51,8 +51,8 @@ class FarmasiCompareTest extends TestCase
             ->assertSee('data-status="baru"', false)->assertSee('data-status="hilang"', false)   // P3 baru, P9 tidak ada di SIMRS
             ->assertSee('di sistem: AMOXICILLIN 500 MG');
 
-        $csv = $this->actingAs($this->user)->get(route('admin.stock.compare.export'))->assertOk()->streamedContent();
-        $this->assertStringContainsString('P2;"AMOXICILLIN 500 MG (NAMA BARU)";"AMOXICILLIN 500 MG";Obat;40;35;-5;Selisih', $csv);
+        $rows = $this->xlsxRows($this->actingAs($this->user)->get(route('admin.stock.compare.export'))->assertOk());
+        $this->assertContains(['P2', 'AMOXICILLIN 500 MG (NAMA BARU)', 'AMOXICILLIN 500 MG', 'Obat', '40', '35', '-5', 'Selisih'], $rows);
 
         $this->actingAs($this->user)->post(route('admin.stock.compare.rename'))->assertSessionHas('ok');
         $this->assertSame('AMOXICILLIN 500 MG (NAMA BARU)', Medicine::where('code', 'P2')->value('name'));

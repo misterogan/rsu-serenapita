@@ -9,7 +9,7 @@
     ['el' => '#rpQ', 'title' => 'Cari dan saring', 'text' => 'Cari nama obat, pilih golongan, atau saring status. Pilihan <b>Ada transaksi bulan ini</b> berguna untuk pemeriksaan cepat.'],
     ['el' => '#rpTbl thead', 'title' => 'Arti kolom', 'text' => '<ul><li><b>Selisih SO</b>: hasil hitung fisik dikurangi stok sistem.</li><li><b>Pakai/hari</b>: total keluar dibagi jumlah hari.</li><li><b>Safety</b>: pakai/hari × '.\App\Support\StockLedger::SAFETY_DAYS.' hari.</li><li><b>ROP</b>: pakai/hari × '.\App\Support\StockLedger::ROP_DAYS.' hari. Bila stok akhir ≤ ROP, status menjadi <b>Perlu pesan</b>.</li></ul>Arahkan kursor ke judul kolom untuk melihat keterangannya lagi.'],
     ['el' => '.rp-row a.main', 'title' => 'Kartu stok', 'text' => 'Klik nama obat untuk membuka kartu stoknya: riwayat masuk, keluar, dan stock opname per hari, lengkap dengan nama petugas yang mengisi.'],
-    ['el' => '#tExport', 'title' => 'Unduh untuk Excel', 'text' => 'Mengunduh rekap bulan ini dalam bentuk CSV yang bisa dibuka di Excel, misalnya untuk dicocokkan dengan laporan stok SIMRS selama masa pengisian paralel.'],
+    ['el' => '#tExport', 'title' => 'Unduh untuk Excel', 'text' => 'Mengunduh rekap bulan ini sebagai file Excel (.xlsx): judul kolom terkunci saat digulir dan setiap kolom bisa disaring, misalnya untuk dicocokkan dengan laporan stok SIMRS selama masa pengisian paralel.'],
   ];
 @endphp
 @push('tour')<script>window.TOUR = @json(['key' => 'stock-report', 'guide' => route('admin.help').'#stock-3', 'steps' => $steps]);</script>@endpush
