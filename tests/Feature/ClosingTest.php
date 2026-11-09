@@ -131,7 +131,10 @@ class ClosingTest extends TestCase
         $this->actingAs($komisaris)->get(route('admin.closing'))->assertOk()->assertSee('Hanya lihat');
         $this->actingAs($komisaris)->post(route('admin.closing.snapshot'))->assertForbidden();
         $this->actingAs(User::where('email', 'datapasien@rsuserenapita.id')->first())->get(route('admin.closing'))->assertForbidden();
-        $this->actingAs($this->akunting)->get(route('admin.management'))->assertOk()->assertSee('Closing akuntansi');
+        $this->actingAs($this->akunting)->get(route('admin.management'))->assertOk()->assertSee('Closing akuntansi')->assertSee('Panduan akunting');
+        $this->actingAs($this->akunting)->get(route('admin.closing.guide'))->assertOk()->assertSee('Bab 14. Pertanyaan dan masalah umum')->assertSee('Bab 10. Ranap lanjutan');
+        $this->actingAs($komisaris)->get(route('admin.closing.guide'))->assertOk();
+        $this->actingAs(User::where('email', 'direktur@rsuserenapita.id')->first())->get(route('admin.closing.guide'))->assertForbidden();
     }
 
     public function test_snapshot_mapping_and_trial_balance(): void

@@ -63,6 +63,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             // Closing akuntansi: data Khanza sampai cut off → COA baru → saldo awal SIMRS baru
             Route::prefix('closing')->name('closing')->controller(Admin\ClosingController::class)->group(function () {
                 Route::get('/', 'index');
+                Route::get('/panduan', 'guide')->name('.guide');
                 Route::post('/settings', 'settings')->name('.settings');
                 Route::post('/snapshot', 'snapshot')->name('.snapshot');
                 Route::post('/lock', 'lock')->name('.lock');

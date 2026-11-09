@@ -35,6 +35,7 @@
         <a href="{{ route('admin.management') }}" data-label="Dasbor manajemen" class="{{ $current === 'management' ? 'active' : '' }}"><svg class="i" viewBox="0 0 24 24"><path d="{{ $icons['management'] }}"/></svg>Dasbor manajemen</a>
         @if($me->role->canSee('finance'))
         <a href="{{ route('admin.closing') }}" data-label="Closing akuntansi" class="{{ $current === 'closing' ? 'active' : '' }}" @if($current === 'closing') aria-current="page" @endif><svg class="i" viewBox="0 0 24 24"><path d="{{ $icons['closing'] }}"/></svg>Closing akuntansi</a>
+        <a href="{{ route('admin.closing.guide') }}" data-label="Panduan akunting" class="{{ $current === 'closing-guide' ? 'active' : '' }}" @if($current === 'closing-guide') aria-current="page" @endif><svg class="i" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 21V5M9 7h6M9 11h6"/></svg>Panduan akunting</a>
         @endif
       @endif
       @foreach($modules as $group => $items)

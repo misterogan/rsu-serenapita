@@ -59,6 +59,17 @@ class ClosingController extends Controller
         return view('admin.closing.'.$name, $data + ['book' => $book, 'canEdit' => $this->canEdit($request), 'section' => $name, 'sections' => self::SECTIONS]);
     }
 
+    /** Menu Panduan akunting: cara memakai modul closing (resources/docs/akunting). */
+    public function guide(Request $request)
+    {
+        $this->book($request);
+
+        return view('admin.help', HelpController::load(resource_path('docs/akunting')) + [
+            'current' => 'closing-guide', 'heading' => 'Panduan akunting', 'crumb' => 'Manajemen / Panduan akunting',
+            'intro' => 'Cara memakai menu <b>Closing akuntansi</b> dari awal sampai saldo awal SIMRS baru siap diunggah. Ketik kata kunci untuk mencari, misalnya <i>pemetaan</i>, <i>ranap lanjutan</i>, atau <i>tidak seimbang</i>.',
+        ]);
+    }
+
     /* ---------------- Ringkasan ---------------- */
 
     public function index(Request $request)

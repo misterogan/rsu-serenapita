@@ -15,16 +15,26 @@ class HelpController extends Controller
 {
     public function __invoke()
     {
+        return view('admin.help', self::load(resource_path('docs')));
+    }
+
+    /**
+     * Baca bab panduan dari satu folder (urutan sesuai index.json di folder itu).
+     *
+     * @return array{chapters: array, updated: ?int}
+     */
+    public static function load(string $dir): array
+    {
         // Bab yang tampil ditentukan index.json, supaya file lama yang tertinggal tidak ikut tampil
-        $index = resource_path('docs/index.json');
+        $index = $dir.'/index.json';
         $list = is_file($index) ? json_decode((string) file_get_contents($index), true) : null;
         $files = is_array($list)
-            ? array_values(array_filter(array_map(fn ($f) => resource_path('docs/'.basename((string) $f)), $list), 'is_file'))
-            : (glob(resource_path('docs/*.md')) ?: []);
+            ? array_values(array_filter(array_map(fn ($f) => $dir.'/'.basename((string) $f), $list), 'is_file'))
+            : (glob($dir.'/*.md') ?: []);
         if (! is_array($list)) {
             sort($files);
         }
-        $sig = md5(collect($files)->map(fn ($f) => basename($f).filemtime($f))->implode('|'));
+        $sig = md5($dir.'|'.collect($files)->map(fn ($f) => basename($f).filemtime($f))->implode('|'));
 
         $chapters = Cache::rememberForever('help.chapters.'.$sig, function () use ($files) {
             return collect($files)->map(function ($file) {
@@ -40,6 +50,6 @@ class HelpController extends Controller
             })->values()->all();
         });
 
-        return view('admin.help', ['chapters' => $chapters, 'updated' => $files ? max(array_map('filemtime', $files)) : null]);
+        return ['chapters' => $chapters, 'updated' => $files ? max(array_map('filemtime', $files)) : null];
     }
 }

@@ -1,11 +1,11 @@
-@extends('layouts.admin', ['current' => 'help'])
-@section('title', 'Panduan')
+@extends('layouts.admin', ['current' => $current ?? 'help'])
+@section('title', $heading ?? 'Panduan')
 @section('content')
 <div class="vh">
   <div>
-    <div class="crumb">Bantuan / Panduan</div>
-    <h1>Panduan backoffice</h1>
-    <p>Cara memakai setiap menu, langkah demi langkah. Ketik kata kunci untuk mencari, misalnya <i>foto dokter</i>, <i>sembunyikan menu</i>, atau <i>kata sandi</i>.</p>
+    <div class="crumb">{{ $crumb ?? 'Bantuan / Panduan' }}</div>
+    <h1>{{ $heading ?? 'Panduan backoffice' }}</h1>
+    <p>{!! $intro ?? 'Cara memakai setiap menu, langkah demi langkah. Ketik kata kunci untuk mencari, misalnya <i>foto dokter</i>, <i>sembunyikan menu</i>, atau <i>kata sandi</i>.' !!}</p>
   </div>
   <div class="vh-act"><button class="btn sm" type="button" onclick="window.print()">Cetak / simpan PDF</button></div>
 </div>

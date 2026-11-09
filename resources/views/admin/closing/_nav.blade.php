@@ -17,6 +17,7 @@
   @endif
   @if($book->locked())<span class="badge b-green">Dikunci</span>@endif
   @unless($canEdit)<span class="badge b-grey">Hanya lihat</span>@endunless
+  <a href="{{ route('admin.closing.guide') }}#{{ ['index' => 'cl-ringkasan', 'coa' => 'cl-coa', 'mapping' => 'cl-pemetaan', 'trial' => 'cl-neraca-saldo', 'statements' => 'cl-laporan', 'reconcile' => 'cl-rekonsiliasi', 'carryover' => 'cl-ranap', 'adjustments' => 'cl-penyesuaian'][$active] ?? 'cl-pengenalan' }}" style="margin-left:auto;font-weight:700">Panduan halaman ini</a>
 </div>
 <nav class="cl-tabs" aria-label="Bagian closing">
   @foreach($sections as $k => $label)<a href="{{ route($routes[$k]) }}" class="{{ $active === $k ? 'on' : '' }}" @if($active === $k) aria-current="page" @endif>{{ $label }}</a>@endforeach
