@@ -34,6 +34,7 @@ class Modules
         'menu' => 'M4 6h16M4 12h16M4 18h10',
         'jobs' => 'M4 8h16v11H4zM9 8V5h6v3M4 13h16',
         'management' => 'M4 20V10M10 20V4M16 20v-7M22 20H2',
+        'closing' => 'M5 3h14v18H5zM8 7h8M8 11h3M13 11h3M8 15h3M13 15h3M8 18h8',
         'about' => 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 11v6M12 7.5h.01',
         'gallery' => 'M4 5h16v14H4zM4 15l4-4 4 4 3-3 5 5M15.5 9.5h.01',
         'guides' => 'M5 4h11l3 3v13H5zM9 9h6M9 13h6M9 17h4',
@@ -73,9 +74,9 @@ class Modules
             }
         }
 
-        return $key === 'management' ? 'Manajemen' : '';
+        return isset(self::EXTRA[$key]) ? 'Manajemen' : '';
     }
 
     /** Menu di luar daftar hak akses biasa. */
-    public const EXTRA = ['management' => 'Dasbor manajemen'];
+    public const EXTRA = ['management' => 'Dasbor manajemen', 'closing' => 'Closing akuntansi'];
 }

@@ -13,6 +13,9 @@ class Role extends Model
     public const MG_OPS = 'management:ops';
     public const MG_FINANCE = 'management:finance';
 
+    /** Hak mengubah modul Closing akuntansi (pemetaan akun, jurnal penyesuaian, kunci). Melihat cukup MG_FINANCE. */
+    public const MG_CLOSING = 'management:closing';
+
     protected $fillable = ['name', 'permissions'];
     protected $casts = ['permissions' => 'array'];
 
@@ -36,13 +39,18 @@ class Role extends Model
     /** Peran manajemen (Komisaris, Direktur, Akunting): hanya Dasbor manajemen, tidak terlihat oleh pengelola konten. */
     public function isExecutive(): bool
     {
-        return (bool) array_intersect([self::MG_OPS, self::MG_FINANCE], $this->permissions ?? []);
+        return (bool) array_intersect([self::MG_OPS, self::MG_FINANCE, self::MG_CLOSING], $this->permissions ?? []);
     }
 
     /** Bagian dasbor yang boleh dilihat: "ops" (operasional) atau "finance" (keuangan). */
     public function canSee(string $scope): bool
     {
         return in_array($scope === 'finance' ? self::MG_FINANCE : self::MG_OPS, $this->permissions ?? [], true);
+    }
+
+    public function canEditClosing(): bool
+    {
+        return in_array(self::MG_CLOSING, $this->permissions ?? [], true);
     }
 
     /** @return int[] */

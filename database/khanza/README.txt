@@ -48,6 +48,8 @@ ISI DASBOR (per tab, dimuat saat tab dibuka)
 Hak akses: Komisaris semua tab dan bisa mengisi target bulanan; Direktur tab Ringkasan,
 Pelayanan, Rawat inap, Penunjang (tanpa rupiah); Akunting tab Ringkasan, Keuangan, Klaim BPJS.
 
+Modul closing akuntansi: lihat CLOSING.txt di folder ini.
+
 Semua query ada di laporan-manajemen.sql (folder ini) dan di
 app/Services/Khanza/KhanzaReports.php. Bila ada laporan yang tidak bisa dibaca
 karena versi Khanza berbeda, dasbor menampilkan pesan errornya.

@@ -1,0 +1,38 @@
+CLOSING AKUNTANSI (DATA SIMRS KHANZA) - CATATAN UNTUK TIM IT DAN AKUNTING
+=========================================================================
+
+Menu "Closing akuntansi" muncul di bawah Dasbor manajemen untuk akun Akunting (bisa mengubah)
+dan Komisaris (hanya melihat). Direktur dan pengelola konten tidak bisa membukanya.
+
+TANGGAL
+  SIMRS baru go-live 2 November 2026, jadi cut off bawaan = 1 November 2026 (hari terakhir Khanza
+  dipakai penuh). Saldo awal SIMRS baru per 2 November 2026. Bisa diubah di halaman Ringkasan.
+  Pasien yang dirawat saat cut off tetap dilayani di Khanza sampai pulang ("ranap lanjutan").
+  Jurnalnya setelah cut off TIDAK masuk saldo awal; diunduh terpisah per bulan per akun COA untuk
+  dicatat sebagai jurnal memorial di SIMRS baru.
+
+PEMASANGAN
+  1. Salin file paket ke proyek (timpa file yang sama).
+  2. php artisan migrate
+     - membuat tabel closing_*, mengisi COA dari database/data/coa-serenavita.json,
+       dan menambah hak management:closing ke peran Akunting.
+  3. php artisan view:clear && php artisan route:clear
+  Koneksi Khanza memakai pengaturan yang sama dengan Dasbor manajemen (KHANZA_DB_* di .env, lihat README.txt).
+  Opsional di .env: CLOSING_CUTOFF=2026-11-01, CLOSING_YEAR_START=2026-01-01,
+  CLOSING_QUERY_TIMEOUT=180 (detik per query saat mengambil data).
+
+DATA YANG DIBACA DARI KHANZA (hanya SELECT, lalu disalin ke database website)
+  Buku besar     : rekening, rekeningtahun, jurnal, detailjurnal
+  Piutang        : piutang_pasien, bayar_piutang (pelunasan setelah cut off tidak mengurangi)
+  Hutang         : pemesanan + bayar_pemesanan (medis), ipsrspemesanan + bayar_pemesanan_non_medis (non medis)
+  Persediaan     : riwayat_barang_medis (stok terakhir pada/sebelum cut off) x databarang.h_beli
+  Pasien         : reg_periksa, nota_jalan, nota_inap, kamar_inap
+  Ranap lanjutan : jurnal setelah cut off; dikenali dari no. bukti / keterangan yang memuat no. rawat
+                   pasien yang dirawat saat cut off. Jurnal lain setelah cut off ditandai "Lainnya".
+  Bila satu tabel berbeda di versi Khanza Anda, hanya bagian itu yang gagal dan pesan errornya
+  tampil di halaman Ringkasan. Setelah data diambil, server Khanza boleh dimatikan.
+
+HASIL (Excel)
+  Paket closing berisi: saldo awal SIMRS baru, neraca saldo, neraca, laba rugi, laba rugi per bulan,
+  pemetaan akun, jurnal penyesuaian, rincian piutang, hutang, persediaan, pasien belum ditagih,
+  ranap lanjutan (ringkas dan rinci), jurnal tidak seimbang, dan COA.

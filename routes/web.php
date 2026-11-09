@@ -59,6 +59,30 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/management/tab/{tab}', [Admin\ManagementController::class, 'section'])->name('management.tab');
             Route::get('/management/poli/{kd}', [Admin\ManagementController::class, 'clinic'])->name('management.clinic');
             Route::post('/management/targets', [Admin\ManagementController::class, 'targets'])->name('management.targets');
+
+            // Closing akuntansi: data Khanza sampai cut off → COA baru → saldo awal SIMRS baru
+            Route::prefix('closing')->name('closing')->controller(Admin\ClosingController::class)->group(function () {
+                Route::get('/', 'index');
+                Route::post('/settings', 'settings')->name('.settings');
+                Route::post('/snapshot', 'snapshot')->name('.snapshot');
+                Route::post('/lock', 'lock')->name('.lock');
+                Route::get('/coa', 'coa')->name('.coa');
+                Route::post('/coa', 'importCoa')->name('.coa.import');
+                Route::get('/mapping', 'mapping')->name('.mapping');
+                Route::post('/mapping', 'saveMapping')->name('.mapping.save');
+                Route::post('/mapping/suggest', 'applySuggestions')->name('.mapping.suggest');
+                Route::get('/trial', 'trial')->name('.trial');
+                Route::get('/statements', 'statements')->name('.statements');
+                Route::get('/reconcile', 'reconcile')->name('.reconcile');
+                Route::get('/carryover', 'carryover')->name('.carryover');
+                Route::get('/adjustments', 'adjustments')->name('.adjustments');
+                Route::get('/adjustments/create', 'createAdjustment')->name('.adjustments.create');
+                Route::post('/adjustments', 'storeAdjustment')->name('.adjustments.store');
+                Route::get('/adjustments/{adjustment}/edit', 'editAdjustment')->name('.adjustments.edit');
+                Route::put('/adjustments/{adjustment}', 'updateAdjustment')->name('.adjustments.update');
+                Route::delete('/adjustments/{adjustment}', 'destroyAdjustment')->name('.adjustments.destroy');
+                Route::get('/export/{sheet}', 'export')->where('sheet', '[a-z\-]+')->name('.export');
+            });
         });
         Route::get('/dashboard', Admin\DashboardController::class)->middleware('module:dashboard')->name('dashboard');
 

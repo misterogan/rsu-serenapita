@@ -1,0 +1,826 @@
+[
+ {
+  "code": "1000",
+  "name": "ASSET",
+  "company": "SERENAVITA",
+  "parent": null,
+  "type": "header",
+  "category": "Aset"
+ },
+ {
+  "code": "1100",
+  "name": "Aset Lancar",
+  "company": "SERENAVITA",
+  "parent": "1000",
+  "type": "sub",
+  "category": "Aset"
+ },
+ {
+  "code": "1101",
+  "name": "Kas Kecil",
+  "company": "SERENAVITA",
+  "parent": "1100",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1102",
+  "name": "Kas di Bank – Operasional",
+  "company": "SERENAVITA",
+  "parent": "1100",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1103",
+  "name": "Kas di Bank – BPJS",
+  "company": "SERENAVITA",
+  "parent": "1100",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1104",
+  "name": "Kas di Bank – Yayasan/Pemilik",
+  "company": "SERENAVITA",
+  "parent": "1100",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1110",
+  "name": "Piutang Usaha – Pasien Umum",
+  "company": "SERENAVITA",
+  "parent": "1100",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1111",
+  "name": "Piutang Usaha – BPJS",
+  "company": "SERENAVITA",
+  "parent": "1100",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1112",
+  "name": "Piutang Usaha – Asuransi Swasta",
+  "company": "SERENAVITA",
+  "parent": "1100",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1113",
+  "name": "Piutang Karyawan",
+  "company": "SERENAVITA",
+  "parent": "1100",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1120",
+  "name": "Persediaan Obat",
+  "company": "SERENAVITA",
+  "parent": "1100",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1121",
+  "name": "Persediaan Alat Medis Habis Pakai",
+  "company": "SERENAVITA",
+  "parent": "1100",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1122",
+  "name": "Persediaan Bahan Makanan",
+  "company": "SERENAVITA",
+  "parent": "1100",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1123",
+  "name": "Persediaan Bahan Umum (ATK, linen, dll)",
+  "company": "SERENAVITA",
+  "parent": "1100",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1130",
+  "name": "Biaya Dibayar Dimuka",
+  "company": "SERENAVITA",
+  "parent": "1100",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1140",
+  "name": "Uang Muka Pembelian",
+  "company": "SERENAVITA",
+  "parent": "1100",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1200",
+  "name": "Aset Tetap",
+  "company": "SERENAVITA",
+  "parent": "1000",
+  "type": "sub",
+  "category": "Aset"
+ },
+ {
+  "code": "1201",
+  "name": "Tanah",
+  "company": "SERENAVITA",
+  "parent": "1200",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1202",
+  "name": "Gedung & Bangunan",
+  "company": "SERENAVITA",
+  "parent": "1200",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1203",
+  "name": "Renovasi Bangunan",
+  "company": "SERENAVITA",
+  "parent": "1200",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1204",
+  "name": "Peralatan Medis",
+  "company": "SERENAVITA",
+  "parent": "1200",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1205",
+  "name": "Peralatan Laboratorium",
+  "company": "SERENAVITA",
+  "parent": "1200",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1206",
+  "name": "Peralatan Non Medis",
+  "company": "SERENAVITA",
+  "parent": "1200",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1207",
+  "name": "Kendaraan Operasional/Ambulans",
+  "company": "SERENAVITA",
+  "parent": "1200",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1208",
+  "name": "Akumulasi Penyusutan Gedung",
+  "company": "SERENAVITA",
+  "parent": "1200",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1209",
+  "name": "Akumulasi Penyusutan Peralatan Medis",
+  "company": "SERENAVITA",
+  "parent": "1200",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1210",
+  "name": "Akumulasi Penyusutan Peralatan Non Medis",
+  "company": "SERENAVITA",
+  "parent": "1200",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1300",
+  "name": "Aset Lain-lain",
+  "company": "SERENAVITA",
+  "parent": "1000",
+  "type": "sub",
+  "category": "Aset"
+ },
+ {
+  "code": "1301",
+  "name": "Deposito Jaminan",
+  "company": "SERENAVITA",
+  "parent": "1300",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1302",
+  "name": "Investasi Jangka Panjang",
+  "company": "SERENAVITA",
+  "parent": "1300",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "1303",
+  "name": "Aset Tak Berwujud (Sistem IT, Software)",
+  "company": "SERENAVITA",
+  "parent": "1300",
+  "type": "detail",
+  "category": "Aset"
+ },
+ {
+  "code": "2000",
+  "name": "LIABILITY",
+  "company": "SERENAVITA",
+  "parent": null,
+  "type": "header",
+  "category": "Kewajiban"
+ },
+ {
+  "code": "2100",
+  "name": "Kewajiban Lancar",
+  "company": "SERENAVITA",
+  "parent": "2000",
+  "type": "sub",
+  "category": "Kewajiban"
+ },
+ {
+  "code": "2101",
+  "name": "Hutang Usaha – Supplier Obat",
+  "company": "SERENAVITA",
+  "parent": "2100",
+  "type": "detail",
+  "category": "Kewajiban"
+ },
+ {
+  "code": "2102",
+  "name": "Hutang Usaha – Supplier Alat Medis",
+  "company": "SERENAVITA",
+  "parent": "2100",
+  "type": "detail",
+  "category": "Kewajiban"
+ },
+ {
+  "code": "2103",
+  "name": "Hutang Usaha – Jasa Pihak Ketiga",
+  "company": "SERENAVITA",
+  "parent": "2100",
+  "type": "detail",
+  "category": "Kewajiban"
+ },
+ {
+  "code": "2110",
+  "name": "Hutang Gaji & THR",
+  "company": "SERENAVITA",
+  "parent": "2100",
+  "type": "detail",
+  "category": "Kewajiban"
+ },
+ {
+  "code": "2111",
+  "name": "Hutang Dokter (Jasa Medis Belum Dibayar)",
+  "company": "SERENAVITA",
+  "parent": "2100",
+  "type": "detail",
+  "category": "Kewajiban"
+ },
+ {
+  "code": "2112",
+  "name": "Hutang Tenaga Medis Lainnya",
+  "company": "SERENAVITA",
+  "parent": "2100",
+  "type": "detail",
+  "category": "Kewajiban"
+ },
+ {
+  "code": "2120",
+  "name": "Hutang Pajak PPh 21",
+  "company": "SERENAVITA",
+  "parent": "2100",
+  "type": "detail",
+  "category": "Kewajiban"
+ },
+ {
+  "code": "2121",
+  "name": "Hutang Pajak PPh 23",
+  "company": "SERENAVITA",
+  "parent": "2100",
+  "type": "detail",
+  "category": "Kewajiban"
+ },
+ {
+  "code": "2122",
+  "name": "Hutang PPN",
+  "company": "SERENAVITA",
+  "parent": "2100",
+  "type": "detail",
+  "category": "Kewajiban"
+ },
+ {
+  "code": "2130",
+  "name": "Pendapatan Diterima Dimuka (Uang Muka Pasien)",
+  "company": "SERENAVITA",
+  "parent": "2100",
+  "type": "detail",
+  "category": "Kewajiban"
+ },
+ {
+  "code": "2200",
+  "name": "Kewajiban Jangka Panjang",
+  "company": "SERENAVITA",
+  "parent": "2000",
+  "type": "sub",
+  "category": "Kewajiban"
+ },
+ {
+  "code": "2201",
+  "name": "Hutang Bank",
+  "company": "SERENAVITA",
+  "parent": "2200",
+  "type": "detail",
+  "category": "Kewajiban"
+ },
+ {
+  "code": "2202",
+  "name": "Hutang Leasing",
+  "company": "SERENAVITA",
+  "parent": "2200",
+  "type": "detail",
+  "category": "Kewajiban"
+ },
+ {
+  "code": "2203",
+  "name": "Hutang Yayasan/Pemilik",
+  "company": "SERENAVITA",
+  "parent": "2200",
+  "type": "detail",
+  "category": "Kewajiban"
+ },
+ {
+  "code": "3000",
+  "name": "EQUITY",
+  "company": "SERENAVITA",
+  "parent": null,
+  "type": "header",
+  "category": "Ekuitas"
+ },
+ {
+  "code": "3100",
+  "name": "Ekuitas",
+  "company": "SERENAVITA",
+  "parent": "3000",
+  "type": "sub",
+  "category": "Ekuitas"
+ },
+ {
+  "code": "3101",
+  "name": "Modal Pemilik/Yayasan",
+  "company": "SERENAVITA",
+  "parent": "3100",
+  "type": "detail",
+  "category": "Ekuitas"
+ },
+ {
+  "code": "3102",
+  "name": "Tambahan Modal Disetor",
+  "company": "SERENAVITA",
+  "parent": "3100",
+  "type": "detail",
+  "category": "Ekuitas"
+ },
+ {
+  "code": "3201",
+  "name": "Saldo Laba Ditahan",
+  "company": "SERENAVITA",
+  "parent": "3100",
+  "type": "detail",
+  "category": "Ekuitas"
+ },
+ {
+  "code": "3202",
+  "name": "Laba Tahun Berjalan",
+  "company": "SERENAVITA",
+  "parent": "3100",
+  "type": "detail",
+  "category": "Ekuitas"
+ },
+ {
+  "code": "4000",
+  "name": "PENDAPATAN",
+  "company": "SERENAVITA",
+  "parent": null,
+  "type": "header",
+  "category": "Pendapatan"
+ },
+ {
+  "code": "4100",
+  "name": "Pendapatan Operasional",
+  "company": "SERENAVITA",
+  "parent": "4000",
+  "type": "sub",
+  "category": "Pendapatan"
+ },
+ {
+  "code": "4101",
+  "name": "Pendapatan Rawat Inap",
+  "company": "SERENAVITA",
+  "parent": "4100",
+  "type": "detail",
+  "category": "Pendapatan"
+ },
+ {
+  "code": "4102",
+  "name": "Pendapatan Rawat Jalan",
+  "company": "SERENAVITA",
+  "parent": "4100",
+  "type": "detail",
+  "category": "Pendapatan"
+ },
+ {
+  "code": "4103",
+  "name": "Pendapatan IGD",
+  "company": "SERENAVITA",
+  "parent": "4100",
+  "type": "detail",
+  "category": "Pendapatan"
+ },
+ {
+  "code": "4104",
+  "name": "Pendapatan Tindakan Medis",
+  "company": "SERENAVITA",
+  "parent": "4100",
+  "type": "detail",
+  "category": "Pendapatan"
+ },
+ {
+  "code": "4105",
+  "name": "Pendapatan Laboratorium",
+  "company": "SERENAVITA",
+  "parent": "4100",
+  "type": "detail",
+  "category": "Pendapatan"
+ },
+ {
+  "code": "4106",
+  "name": "Pendapatan Radiologi",
+  "company": "SERENAVITA",
+  "parent": "4100",
+  "type": "detail",
+  "category": "Pendapatan"
+ },
+ {
+  "code": "4107",
+  "name": "Pendapatan Farmasi",
+  "company": "SERENAVITA",
+  "parent": "4100",
+  "type": "detail",
+  "category": "Pendapatan"
+ },
+ {
+  "code": "4108",
+  "name": "Pendapatan Penunjang Medis",
+  "company": "SERENAVITA",
+  "parent": "4100",
+  "type": "detail",
+  "category": "Pendapatan"
+ },
+ {
+  "code": "4109",
+  "name": "Pendapatan Administrasi Pasien",
+  "company": "SERENAVITA",
+  "parent": "4100",
+  "type": "detail",
+  "category": "Pendapatan"
+ },
+ {
+  "code": "4200",
+  "name": "Pendapatan Non Operasional",
+  "company": "SERENAVITA",
+  "parent": "4000",
+  "type": "sub",
+  "category": "Pendapatan"
+ },
+ {
+  "code": "4201",
+  "name": "Pendapatan Bunga Bank",
+  "company": "SERENAVITA",
+  "parent": "4200",
+  "type": "detail",
+  "category": "Pendapatan"
+ },
+ {
+  "code": "4202",
+  "name": "Pendapatan Lain-lain",
+  "company": "SERENAVITA",
+  "parent": "4200",
+  "type": "detail",
+  "category": "Pendapatan"
+ },
+ {
+  "code": "5000",
+  "name": "BEBAN",
+  "company": "SERENAVITA",
+  "parent": null,
+  "type": "header",
+  "category": "Beban"
+ },
+ {
+  "code": "5100",
+  "name": "Biaya Medis",
+  "company": "SERENAVITA",
+  "parent": "5000",
+  "type": "sub",
+  "category": "Beban"
+ },
+ {
+  "code": "5101",
+  "name": "Biaya Obat Rawat Inap",
+  "company": "SERENAVITA",
+  "parent": "5100",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "5102",
+  "name": "Biaya Obat Rawat Jalan",
+  "company": "SERENAVITA",
+  "parent": "5100",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "5103",
+  "name": "Biaya Bahan Medis Habis Pakai",
+  "company": "SERENAVITA",
+  "parent": "5100",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "5104",
+  "name": "Biaya Laboratorium",
+  "company": "SERENAVITA",
+  "parent": "5100",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "5105",
+  "name": "Biaya Radiologi",
+  "company": "SERENAVITA",
+  "parent": "5100",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "5106",
+  "name": "Biaya Jasa Dokter",
+  "company": "SERENAVITA",
+  "parent": "5100",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "5107",
+  "name": "Biaya Jasa Tenaga Medis Lainnya",
+  "company": "SERENAVITA",
+  "parent": "5100",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "5108",
+  "name": "Biaya Ambulans & IGD",
+  "company": "SERENAVITA",
+  "parent": "5100",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "5200",
+  "name": "Biaya Penunjang",
+  "company": "SERENAVITA",
+  "parent": "5000",
+  "type": "sub",
+  "category": "Beban"
+ },
+ {
+  "code": "5201",
+  "name": "Biaya Linen & Laundry",
+  "company": "SERENAVITA",
+  "parent": "5200",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "5202",
+  "name": "Biaya Gizi (Bahan Makanan Pasien)",
+  "company": "SERENAVITA",
+  "parent": "5200",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "5203",
+  "name": "Biaya Pemeliharaan Gedung & Peralatan Medis",
+  "company": "SERENAVITA",
+  "parent": "5200",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "5204",
+  "name": "Biaya ATK & Umum",
+  "company": "SERENAVITA",
+  "parent": "5200",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "5205",
+  "name": "Biaya Utilitas (Listrik, Air, Gas Medis)",
+  "company": "SERENAVITA",
+  "parent": "5200",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "5206",
+  "name": "Biaya Komunikasi & Internet",
+  "company": "SERENAVITA",
+  "parent": "5200",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "5207",
+  "name": "Biaya IT/Software Rumah Sakit",
+  "company": "SERENAVITA",
+  "parent": "5200",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "5300",
+  "name": "Biaya Pegawai",
+  "company": "SERENAVITA",
+  "parent": "5000",
+  "type": "sub",
+  "category": "Beban"
+ },
+ {
+  "code": "5301",
+  "name": "Gaji Perawat & Bidan",
+  "company": "SERENAVITA",
+  "parent": "5300",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "5302",
+  "name": "Gaji Tenaga Non Medis",
+  "company": "SERENAVITA",
+  "parent": "5300",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "5303",
+  "name": "THR & Bonus Pegawai",
+  "company": "SERENAVITA",
+  "parent": "5300",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "5304",
+  "name": "Tunjangan Kesehatan & BPJS Ketenagakerjaan",
+  "company": "SERENAVITA",
+  "parent": "5300",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "5400",
+  "name": "Biaya Administrasi & Umum",
+  "company": "SERENAVITA",
+  "parent": "5000",
+  "type": "sub",
+  "category": "Beban"
+ },
+ {
+  "code": "5401",
+  "name": "Biaya Sewa",
+  "company": "SERENAVITA",
+  "parent": "5400",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "5402",
+  "name": "Biaya Asuransi",
+  "company": "SERENAVITA",
+  "parent": "5400",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "5403",
+  "name": "Biaya Penyusutan Gedung",
+  "company": "SERENAVITA",
+  "parent": "5400",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "5404",
+  "name": "Biaya Penyusutan Peralatan Medis",
+  "company": "SERENAVITA",
+  "parent": "5400",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "5405",
+  "name": "Biaya Penyusutan Peralatan Non Medis",
+  "company": "SERENAVITA",
+  "parent": "5400",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "5406",
+  "name": "Biaya Pajak",
+  "company": "SERENAVITA",
+  "parent": "5400",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "5407",
+  "name": "Biaya Perizinan & Akreditasi RS",
+  "company": "SERENAVITA",
+  "parent": "5400",
+  "type": "detail",
+  "category": "Beban"
+ },
+ {
+  "code": "6000",
+  "name": "LAIN-LAIN",
+  "company": "SERENAVITA",
+  "parent": null,
+  "type": "header",
+  "category": "Lain-lain"
+ },
+ {
+  "code": "6100",
+  "name": "Lain-lain",
+  "company": "SERENAVITA",
+  "parent": "6000",
+  "type": "sub",
+  "category": "Lain-lain"
+ },
+ {
+  "code": "6101",
+  "name": "Kerugian Selisih Kurs",
+  "company": "SERENAVITA",
+  "parent": "6100",
+  "type": "detail",
+  "category": "Lain-lain"
+ },
+ {
+  "code": "6102",
+  "name": "Kerugian Piutang Tak Tertagih",
+  "company": "SERENAVITA",
+  "parent": "6100",
+  "type": "detail",
+  "category": "Lain-lain"
+ },
+ {
+  "code": "6201",
+  "name": "Pendapatan/Beban Lainnya",
+  "company": "SERENAVITA",
+  "parent": "6100",
+  "type": "detail",
+  "category": "Lain-lain"
+ }
+]

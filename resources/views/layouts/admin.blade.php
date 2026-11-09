@@ -14,7 +14,7 @@
 <title>@yield('title', 'Backoffice') · {{ $brand['profile']['name'] }}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('css/admin.css') }}?v=16">
+<link rel="stylesheet" href="{{ asset('css/admin.css') }}?v=17">
 </head>
 <body data-lc-count="{{ $me->canModule('livechat') ? route('admin.livechat.count', [], false) : '' }}">
 <div id="loader" role="status" aria-hidden="true"><div class="ld-card">
@@ -33,6 +33,9 @@
       @if($me->isExecutive())
         <div class="grp">Manajemen</div>
         <a href="{{ route('admin.management') }}" data-label="Dasbor manajemen" class="{{ $current === 'management' ? 'active' : '' }}"><svg class="i" viewBox="0 0 24 24"><path d="{{ $icons['management'] }}"/></svg>Dasbor manajemen</a>
+        @if($me->role->canSee('finance'))
+        <a href="{{ route('admin.closing') }}" data-label="Closing akuntansi" class="{{ $current === 'closing' ? 'active' : '' }}" @if($current === 'closing') aria-current="page" @endif><svg class="i" viewBox="0 0 24 24"><path d="{{ $icons['closing'] }}"/></svg>Closing akuntansi</a>
+        @endif
       @endif
       @foreach($modules as $group => $items)
         @php $visible = collect($items)->filter(fn ($n, $k) => $me->canModule($k)); @endphp
